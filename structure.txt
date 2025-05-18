@@ -1,0 +1,36 @@
+.
+├── analysis_options.yaml
+├── assets
+│   └── images
+│       └── twitter_logo.png
+├── lib
+│   ├── main.dart
+│   ├── models
+│   ├── pages
+│   │   ├── home
+│   │   │   ├── home_binding.dart
+│   │   │   ├── home_controller.dart
+│   │   │   └── home_page.dart
+│   │   ├── log_in
+│   │   │   ├── log_in_binding.dart
+│   │   │   ├── log_in_controller.dart
+│   │   │   └── log_in_page.dart
+│   │   ├── sign_up
+│   │   │   ├── sign_up_binding.dart
+│   │   │   ├── sign_up_controller.dart
+│   │   │   └── sign_up_page.dart
+│   │   └── welcome
+│   │       ├── welcome_binding.dart
+│   │       ├── welcome_controller.dart
+│   │       └── welcome_page.dart
+│   ├── routes.dart
+│   ├── services
+│   ├── utils.dart
+│   └── widgets
+├── pubspec.lock
+├── pubspec.yaml
+├── README.md
+├── structure.txt
+└── we563_final_instagram_clone.iml
+
+12 directories, 22 files
