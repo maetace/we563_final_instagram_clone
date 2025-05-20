@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../routes.dart';
+
 class LogInController extends GetxController {
   // Form Keys
   final logInFormKey = GlobalKey<FormState>();
@@ -15,13 +17,44 @@ class LogInController extends GetxController {
   var isPasswordVisible = false.obs;
   var isLoading = false.obs;
 
-  // Navigation
+  // Navigation Back
   void onBackPressed() {
     Get.back();
   }
 
+  // Sign Up Button
+  void onSignUpPressed() {
+    Get.toNamed(AppRoutes.signup);
+  }
+
+  // Forgot Password Button
+  void onForgotPassword() {
+    Get.toNamed(AppRoutes.forgot);
+  }
+
+  // Log In Button
   void onLogInPressed() async {
     if (!logInFormKey.currentState!.validate()) return;
+
+    void showError(String title, String message) {
+      final colorScheme = Theme.of(Get.context!).colorScheme;
+      Get.snackbar(
+        title,
+        message,
+        colorText: colorScheme.onError,
+        backgroundColor: colorScheme.error,
+      );
+    }
+
+    void showSuccess(String title, String message) {
+      final colorScheme = Theme.of(Get.context!).colorScheme;
+      Get.snackbar(
+        title,
+        message,
+        colorText: colorScheme.onPrimary,
+        backgroundColor: colorScheme.primary,
+      );
+    }
 
     isLoading.value = true;
 
@@ -30,35 +63,26 @@ class LogInController extends GetxController {
     final username = usernameController.text;
     final password = passwordController.text;
 
-    if (username != '@userdemo') {
+    if (username != 'we563dpu') {
       isLoading.value = false;
-      Get.snackbar(
+      showError(
         'Login Failed',
         'The username you entered does not exist. Please check and try again.',
-        colorText: Colors.white,
-        backgroundColor: Colors.red.shade400,
       );
       return;
     }
 
-    if (password != '1q2w3e4r') {
+    if (password != 'Qweqwe!2') {
       isLoading.value = false;
-      Get.snackbar(
+      showError(
         'Login Failed',
         'Incorrect username or password. Please try again.',
-        colorText: Colors.white,
-        backgroundColor: Colors.red.shade400,
       );
       return;
     }
 
     isLoading.value = false;
-    Get.snackbar(
-      'Log In Successful',
-      'Welcome back, Demo User! 👋',
-      colorText: Colors.white,
-      backgroundColor: Colors.green.shade400,
-    );
+    showSuccess('Log In Successful', 'Welcome back, Demo User! 👋');
     Get.offAllNamed('/home');
   }
 
@@ -67,16 +91,14 @@ class LogInController extends GetxController {
     usernameKey.currentState?.validate();
   }
 
-  String? usernameVlaidator(String? value) {
+  String? usernameValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter your username';
     }
     if (value.length < 3) {
       return 'Username must be at least 3 characters long';
     }
-    if (!value.startsWith('@')) {
-      return 'Username must start with @';
-    }
+
     return null;
   }
 

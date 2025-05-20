@@ -15,12 +15,8 @@ class WelcomePage extends GetView<WelcomeController> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              'assets/images/twitter_logo.png',
-              width: 48,
-              height: 48,
-              color: Colors.white,
-            ),
+            // Instagram Logo
+            Image.asset('assets/images/instagram_icon.png', height: 72),
             const SizedBox(height: 48),
             Text(
               'Welcome to Twitter',

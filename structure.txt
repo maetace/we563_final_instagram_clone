@@ -2,7 +2,9 @@
 ├── analysis_options.yaml
 ├── assets
 │   └── images
-│       └── twitter_logo.png
+│       └── instagram_icon.png
+├── codemagic.yaml
+├── firebase.json
 ├── lib
 │   ├── main.dart
 │   ├── models
@@ -25,6 +27,12 @@
 │   │       └── welcome_page.dart
 │   ├── routes.dart
 │   ├── services
+│   ├── theme
+│   │   ├── app_theme.dart
+│   │   ├── button_theme.dart
+│   │   ├── color_schemes.dart
+│   │   ├── input_theme.dart
+│   │   └── text_theme.dart
 │   ├── utils.dart
 │   └── widgets
 ├── pubspec.lock
@@ -33,4 +41,4 @@
 ├── structure.txt
 └── we563_final_instagram_clone.iml
 
-12 directories, 22 files
+13 directories, 29 files

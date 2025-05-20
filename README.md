@@ -23,7 +23,9 @@ This project follows a clean MVC architecture using GetX for state and route man
 ├── analysis_options.yaml
 ├── assets
 │   └── images
-│       └── twitter_logo.png
+│       └── instagram_icon.png
+├── codemagic.yaml
+├── firebase.json
 ├── lib
 │   ├── main.dart
 │   ├── models
@@ -46,6 +48,12 @@ This project follows a clean MVC architecture using GetX for state and route man
 │   │       └── welcome_page.dart
 │   ├── routes.dart
 │   ├── services
+│   ├── theme
+│   │   ├── app_theme.dart
+│   │   ├── button_theme.dart
+│   │   ├── color_schemes.dart
+│   │   ├── input_theme.dart
+│   │   └── text_theme.dart
 │   ├── utils.dart
 │   └── widgets
 ├── pubspec.lock
@@ -53,6 +61,8 @@ This project follows a clean MVC architecture using GetX for state and route man
 ├── README.md
 ├── structure.txt
 └── we563_final_instagram_clone.iml
+
+13 directories, 29 files
 ```
 
 ---
@@ -60,7 +70,7 @@ This project follows a clean MVC architecture using GetX for state and route man
 ## 📦 pubspec.yaml
 
 ```plaintext
-# name: we563_final_instagram_clone
+name: we563_final_instagram_clone
 description: "WE563 Final Project - Instagram Clone"
 publish_to: "none"
 version: 0.1.0
@@ -102,6 +112,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'routes.dart';
+import 'theme/app_theme.dart';
 
 void main() {
   runApp(
@@ -111,11 +122,15 @@ void main() {
           (context) => GetMaterialApp(
             useInheritedMediaQuery: true,
             title: 'Instagram Clone',
-            initialRoute: AppRoutes.welcome,
+            initialRoute: AppRoutes.login,
             getPages: AppRoutes.routes,
             debugShowCheckedModeBanner: false,
             locale: DevicePreview.locale(context),
             builder: DevicePreview.appBuilder,
+
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: ThemeMode.system,
           ),
     ),
   );
@@ -159,3 +174,113 @@ class AppRoutes {
 
 ---
 
+## 📄 app_theme.dart
+
+```plaintext
+import 'package:flutter/material.dart';
+import 'color_schemes.dart';
+import 'text_theme.dart';
+import 'input_theme.dart';
+import 'button_theme.dart';
+
+final ThemeData lightTheme = ThemeData(
+  useMaterial3: true,
+  colorScheme: lightColorScheme,
+  textTheme: appTextTheme,
+  inputDecorationTheme: inputTheme(lightColorScheme),
+  elevatedButtonTheme: elevatedButtonTheme(lightColorScheme),
+);
+
+final ThemeData darkTheme = ThemeData(
+  useMaterial3: true,
+  colorScheme: darkColorScheme,
+  textTheme: appTextTheme,
+  inputDecorationTheme: inputTheme(darkColorScheme),
+  elevatedButtonTheme: elevatedButtonTheme(darkColorScheme),
+);
+```
+
+---
+
+## 📄 color_schemes.dart
+
+```plaintext
+import 'package:flutter/material.dart';
+
+final lightColorScheme = ColorScheme.fromSeed(
+  seedColor: const Color(0xFF0064E0), // Instagram blue
+  brightness: Brightness.light,
+);
+
+final darkColorScheme = ColorScheme.fromSeed(
+  seedColor: const Color(0xFF0064E0),
+  brightness: Brightness.dark,
+);
+```
+
+---
+
+## 📄 text_theme.dart
+
+```plaintext
+import 'package:flutter/material.dart';
+
+const String fontFamily = 'Inter';
+
+final TextTheme appTextTheme = TextTheme(
+  bodyLarge: TextStyle(fontSize: 16, fontFamily: fontFamily),
+  bodyMedium: TextStyle(fontSize: 14, fontFamily: fontFamily),
+  labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: fontFamily,),
+);
+```
+
+---
+
+## 📄 input_theme.dart
+
+```plaintext
+import 'package:flutter/material.dart';
+
+InputDecorationTheme inputTheme(ColorScheme colorScheme) {
+  return InputDecorationTheme(
+    filled: true,
+    fillColor: colorScheme.surface,
+    hintStyle: TextStyle(
+      color: colorScheme.onSurface.withAlpha(0.6 as int),
+      fontSize: 14,
+    ),
+    contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: colorScheme.outlineVariant),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: colorScheme.outlineVariant),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: colorScheme.primary, width: 1.5),
+    ),
+  );
+}
+```
+
+---
+
+## 📄 button_theme.dart
+
+```plaintext
+import 'package:flutter/material.dart';
+
+ElevatedButtonThemeData elevatedButtonTheme(ColorScheme colorScheme) =>
+    ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      ),
+    );
+```
+
+---

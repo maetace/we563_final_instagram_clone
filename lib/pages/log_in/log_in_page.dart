@@ -9,132 +9,119 @@ class LogInPage extends GetView<LogInController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
-      body: Form(
-        key: controller.logInFormKey,
-        child: Padding(
-          padding: const EdgeInsets.all(48.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/twitter_logo.png',
-                width: 48,
-                height: 48,
-                color: Colors.white,
-              ),
-              const SizedBox(height: 48),
+      appBar: AppBar(
+        // leading: const BackButton(),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+      ),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Column(
+              children: [
+                // Scrollable content
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Form(
+                        key: controller.logInFormKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 80),
+                            Image.asset(
+                              'assets/images/instagram_icon.png',
+                              height: 72,
+                            ),
+                            const SizedBox(height: 96),
 
-              // Username
-              TextFormField(
-                key: controller.usernameKey,
-                validator: controller.usernameVlaidator,
-                onChanged: controller.onUsernameChanged,
-                controller: controller.usernameController,
-                decoration: const InputDecoration(
-                  labelText: 'Username',
-                  labelStyle: TextStyle(color: Colors.white),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  errorBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  focusedErrorBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                ),
-                style: const TextStyle(color: Colors.white),
-              ),
-              const SizedBox(height: 24),
+                            // Username
+                            TextFormField(
+                              key: controller.usernameKey,
+                              controller: controller.usernameController,
+                              onChanged: controller.onUsernameChanged,
+                              validator: controller.usernameValidator,
+                              textInputAction: TextInputAction.next,
+                              decoration: const InputDecoration(
+                                labelText: 'Username, email or mobile number',
+                              ),
+                            ),
+                            const SizedBox(height: 16),
 
-              // Password
-              Obx(
-                () => TextFormField(
-                  key: controller.passwordKey,
-                  validator: controller.passwordValidator,
-                  onChanged: controller.onPasswordChanged,
-                  controller: controller.passwordController,
-                  obscureText: !controller.isPasswordVisible.value,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    labelStyle: const TextStyle(color: Colors.white),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    errorBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    focusedErrorBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        controller.isPasswordVisible.value
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: Colors.white,
-                      ),
-                      onPressed: controller.togglePasswordVisibility,
-                    ),
-                  ),
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-              const SizedBox(height: 48),
-
-              // Login Button
-              Obx(
-                () => Row(
-                  children: [
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed:
-                            controller.isLoading.value
-                                ? null
-                                : controller.onLogInPressed,
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.blue,
-                          elevation: 0,
-                          side: BorderSide(color: Colors.blue.shade200),
-                        ),
-                        child:
-                            controller.isLoading.value
-                                ? const SizedBox(
-                                  width: 16,
-                                  height: 16,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.blue,
+                            // Password
+                            Obx(
+                              () => TextFormField(
+                                key: controller.passwordKey,
+                                controller: controller.passwordController,
+                                onChanged: controller.onPasswordChanged,
+                                validator: controller.passwordValidator,
+                                obscureText:
+                                    !controller.isPasswordVisible.value,
+                                enableSuggestions: false,
+                                autocorrect: false,
+                                textInputAction: TextInputAction.done,
+                                onFieldSubmitted:
+                                    (_) => controller.onLogInPressed(),
+                                decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      controller.isPasswordVisible.value
+                                          ? Icons.visibility_outlined
+                                          : Icons.visibility_off_outlined,
+                                    ),
+                                    onPressed:
+                                        controller.togglePasswordVisibility,
                                   ),
-                                )
-                                : const Text('Log In'),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Log In Button
+                            ElevatedButton(
+                              onPressed: controller.onLogInPressed,
+                              child: const Center(child: Text('Log In')),
+                            ),
+                            const SizedBox(height: 8),
+
+                            // Forgot Password Button
+                            TextButton(
+                              onPressed: controller.onForgotPassword,
+                              child: const Text('Forgot password?'),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+
+                // Bottom fixed section
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 24,
+                  ),
+                  child: Column(
+                    children: [
+                      OutlinedButton(
+                        onPressed: controller.onSignUpPressed,
+                        child: const Center(child: Text('Create new account')),
+                      ),
+                      const SizedBox(height: 24),
+                      Image.asset(
+                        'assets/images/meta_logo_mono.png',
+                        height: 16,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
-      floatingActionButton: IconButton(
-        onPressed: controller.onBackPressed,
-        icon: const Icon(Icons.arrow_back),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }
