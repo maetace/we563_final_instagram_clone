@@ -9,146 +9,134 @@ class SignUpPage extends GetView<SignUpController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
-      body: Form(
-        key: controller.signUpFormKey,
-        child: Padding(
-          padding: const EdgeInsets.all(48.0),
-          child: SingleChildScrollView(
-            // รองรับ scroll
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+      appBar: AppBar(leading: const BackButton(), backgroundColor: Theme.of(context).colorScheme.surface),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Column(
               children: [
-                Image.asset(
-                  'assets/images/twitter_logo.png',
-                  width: 48,
-                  height: 48,
-                  color: Colors.white,
-                ),
-                const SizedBox(height: 48),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Form(
+                        key: controller.formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 80),
 
-                // Full Name
-                TextFormField(
-                  key: controller.fullNameKey,
-                  validator: controller.fullNameValidator,
-                  controller: controller.fullNameController,
-                  onChanged: controller.onFullNameChanged,
-                  decoration: _inputDecoration('Full Name'),
-                  style: const TextStyle(color: Colors.white),
-                ),
-                const SizedBox(height: 24),
+                            Image.asset('assets/images/instagram_icon.png', height: 72),
 
-                // Email
-                TextFormField(
-                  key: controller.emailKey,
-                  validator: controller.emailValidator,
-                  controller: controller.emailController,
-                  onChanged: controller.onEmailChanged,
-                  decoration: _inputDecoration('Email'),
-                  style: const TextStyle(color: Colors.white),
-                ),
-                const SizedBox(height: 24),
+                            const SizedBox(height: 96),
 
-                // Username
-                TextFormField(
-                  key: controller.usernameKey,
-                  validator: controller.usernameValidator,
-                  controller: controller.usernameController,
-                  onChanged: controller.onUsernameChanged,
-                  decoration: _inputDecoration('Username'),
-                  style: const TextStyle(color: Colors.white),
-                ),
-                const SizedBox(height: 24),
+                            // Username
+                            Obx(
+                              () => TextFormField(
+                                key: controller.usernameKey,
+                                controller: controller.usernameController,
+                                focusNode: controller.usernameFocusNode,
+                                onChanged: controller.onUsernameChanged,
+                                validator: controller.usernameValidator,
+                                enabled: !controller.isLoading,
+                                decoration: InputDecoration(
+                                  labelText: 'Username',
+                                  suffixIcon:
+                                      (controller.isUsernameFocused.value && controller.usernameText.value.isNotEmpty)
+                                          ? IconButton(
+                                            icon: const Icon(Icons.clear),
+                                            onPressed: () {
+                                              controller.usernameController.clear();
+                                              controller.usernameText.value = '';
+                                            },
+                                          )
+                                          : null,
+                                ),
+                              ),
+                            ),
 
-                // Password
-                Obx(
-                  () => TextFormField(
-                    key: controller.passwordKey,
-                    validator: controller.passwordValidator,
-                    onChanged: controller.onPasswordChanged,
-                    controller: controller.passwordController,
-                    decoration: _inputDecoration('Password').copyWith(
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          controller.isPasswordVisible.value
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Colors.white,
+                            const SizedBox(height: 16),
+
+                            // Password
+                            Obx(
+                              () => TextFormField(
+                                key: controller.passwordKey,
+                                controller: controller.passwordController,
+                                focusNode: controller.passwordFocusNode,
+                                onChanged: controller.onPasswordChanged,
+                                validator: controller.passwordValidator,
+                                obscureText: !controller.isPasswordVisible.value,
+                                enabled: !controller.isLoading,
+                                decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  suffixIcon:
+                                      (controller.isPasswordFocused.value ||
+                                              controller.passwordController.text.length > 1)
+                                          ? IconButton(
+                                            icon: Icon(
+                                              controller.isPasswordVisible.value
+                                                  ? Icons.visibility_outlined
+                                                  : Icons.visibility_off_outlined,
+                                            ),
+                                            onPressed: controller.togglePasswordVisibility,
+                                          )
+                                          : null,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            // Sign Up Button
+                            Obx(
+                              () => Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: controller.isLoading ? null : controller.onSignUpPressed,
+                                    child: const Center(child: Text('Sign Up')),
+                                  ),
+                                  if (controller.isLoading)
+                                    const Positioned.fill(
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: SizedBox(
+                                          height: 32,
+                                          width: 32,
+                                          child: CircularProgressIndicator(strokeWidth: 2),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        onPressed: controller.togglePasswordVisibility,
                       ),
                     ),
-                    style: const TextStyle(color: Colors.white),
-                    obscureText: !controller.isPasswordVisible.value,
                   ),
                 ),
-                const SizedBox(height: 48),
 
-                // Sign Up Button
-                Obx(
-                  () => Row(
+                // Bottom fixed section
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
+                  child: Column(
                     children: [
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed:
-                              controller.isLoading.value
-                                  ? null
-                                  : controller.onSignUpPressed,
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.blue,
-                            elevation: 0,
-                            side: BorderSide(color: Colors.blue.shade200),
-                          ),
-                          child:
-                              controller.isLoading.value
-                                  ? const SizedBox(
-                                    width: 16,
-                                    height: 16,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.blue,
-                                    ),
-                                  )
-                                  : const Text('Sign Up'),
+                      Obx(
+                        () => OutlinedButton(
+                          onPressed: controller.isLoading ? null : controller.onLogInPressed,
+                          child: const Center(child: Text('Login with account')),
                         ),
                       ),
+                      const SizedBox(height: 24),
+                      Image.asset('assets/images/meta_logo_mono.png', height: 16),
                     ],
                   ),
                 ),
               ],
-            ),
-          ),
+            );
+          },
         ),
-      ),
-      floatingActionButton: IconButton(
-        onPressed: controller.onBackPressed,
-        icon: const Icon(Icons.arrow_back),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-    );
-  }
-
-  InputDecoration _inputDecoration(String label) {
-    return InputDecoration(
-      labelText: label,
-      labelStyle: const TextStyle(color: Colors.white),
-      focusedBorder: const UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.white),
-      ),
-      enabledBorder: const UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.white),
-      ),
-      errorBorder: const UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.white),
-      ),
-      focusedErrorBorder: const UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.white),
       ),
     );
   }

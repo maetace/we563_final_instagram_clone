@@ -9,43 +9,52 @@ class LogInPage extends GetView<LogInController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // leading: const BackButton(),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-      ),
+      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surface),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
             return Column(
               children: [
-                // Scrollable content
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: Form(
-                        key: controller.logInFormKey,
+                        key: controller.formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             const SizedBox(height: 80),
-                            Image.asset(
-                              'assets/images/instagram_icon.png',
-                              height: 72,
-                            ),
+
+                            Image.asset('assets/images/instagram_icon.png', height: 72),
+
                             const SizedBox(height: 96),
 
                             // Username
-                            TextFormField(
-                              key: controller.usernameKey,
-                              controller: controller.usernameController,
-                              onChanged: controller.onUsernameChanged,
-                              validator: controller.usernameValidator,
-                              textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
-                                labelText: 'Username, email or mobile number',
+                            Obx(
+                              () => TextFormField(
+                                key: controller.usernameKey,
+                                controller: controller.usernameController,
+                                focusNode: controller.usernameFocusNode,
+                                onChanged: controller.onUsernameChanged,
+                                validator: controller.usernameValidator,
+                                enabled: !controller.isLoading,
+                                decoration: InputDecoration(
+                                  labelText: 'Username, email or mobile number',
+                                  suffixIcon:
+                                      (controller.isUsernameFocused.value && controller.usernameText.value.isNotEmpty)
+                                          ? IconButton(
+                                            icon: const Icon(Icons.clear),
+                                            onPressed: () {
+                                              controller.usernameController.clear();
+                                              controller.usernameText.value = '';
+                                            },
+                                          )
+                                          : null,
+                                ),
                               ),
                             ),
+
                             const SizedBox(height: 16),
 
                             // Password
@@ -53,43 +62,59 @@ class LogInPage extends GetView<LogInController> {
                               () => TextFormField(
                                 key: controller.passwordKey,
                                 controller: controller.passwordController,
+                                focusNode: controller.passwordFocusNode,
                                 onChanged: controller.onPasswordChanged,
                                 validator: controller.passwordValidator,
-                                obscureText:
-                                    !controller.isPasswordVisible.value,
-                                enableSuggestions: false,
-                                autocorrect: false,
-                                textInputAction: TextInputAction.done,
-                                onFieldSubmitted:
-                                    (_) => controller.onLogInPressed(),
+                                obscureText: !controller.isPasswordVisible.value,
+                                enabled: !controller.isLoading,
                                 decoration: InputDecoration(
                                   labelText: 'Password',
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      controller.isPasswordVisible.value
-                                          ? Icons.visibility_outlined
-                                          : Icons.visibility_off_outlined,
-                                    ),
-                                    onPressed:
-                                        controller.togglePasswordVisibility,
-                                  ),
+                                  suffixIcon:
+                                      (controller.isPasswordFocused.value ||
+                                              controller.passwordController.text.length > 1)
+                                          ? IconButton(
+                                            icon: Icon(
+                                              controller.isPasswordVisible.value
+                                                  ? Icons.visibility_outlined
+                                                  : Icons.visibility_off_outlined,
+                                            ),
+                                            onPressed: controller.togglePasswordVisibility,
+                                          )
+                                          : null,
                                 ),
                               ),
                             ),
+
                             const SizedBox(height: 16),
 
                             // Log In Button
-                            ElevatedButton(
-                              onPressed: controller.onLogInPressed,
-                              child: const Center(child: Text('Log In')),
+                            Obx(
+                              () => Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: controller.isLoading ? null : controller.onLogInPressed,
+                                    child: const Center(child: Text('Log In')),
+                                  ),
+                                  if (controller.isLoading)
+                                    const Positioned.fill(
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: SizedBox(
+                                          height: 32,
+                                          width: 32,
+                                          child: CircularProgressIndicator(strokeWidth: 2),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
+
                             const SizedBox(height: 8),
 
                             // Forgot Password Button
-                            TextButton(
-                              onPressed: controller.onForgotPassword,
-                              child: const Text('Forgot password?'),
-                            ),
+                            TextButton(onPressed: controller.onForgotPassword, child: const Text('Forgot password?')),
                           ],
                         ),
                       ),
@@ -99,21 +124,17 @@ class LogInPage extends GetView<LogInController> {
 
                 // Bottom fixed section
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 18,
-                    vertical: 24,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
                   child: Column(
                     children: [
-                      OutlinedButton(
-                        onPressed: controller.onSignUpPressed,
-                        child: const Center(child: Text('Create new account')),
+                      Obx(
+                        () => OutlinedButton(
+                          onPressed: controller.isLoading ? null : controller.onSignUpPressed,
+                          child: const Center(child: Text('Create new account')),
+                        ),
                       ),
                       const SizedBox(height: 24),
-                      Image.asset(
-                        'assets/images/meta_logo_mono.png',
-                        height: 16,
-                      ),
+                      Image.asset('assets/images/meta_logo_mono.png', height: 16),
                     ],
                   ),
                 ),
