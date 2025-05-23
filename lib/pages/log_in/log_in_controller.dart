@@ -9,15 +9,23 @@ class LogInController extends GetxController {
 
   // Form Key
   final formKey = GlobalKey<FormState>();
-
-  // Username key
   final usernameKey = GlobalKey<FormFieldState>();
-  final usernameController = TextEditingController();
-  final usernameFocusNode = FocusNode();
-  final isUsernameFocused = false.obs;
-  final usernameText = ''.obs;
+  final passwordKey = GlobalKey<FormFieldState>();
 
-  // Username Validator
+  // Controllers
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  // Focus Nodes
+  final usernameFocusNode = FocusNode();
+  final passwordFocusNode = FocusNode();
+
+  // Focused
+  final isUsernameFocused = false.obs;
+  final isPasswordFocused = false.obs;
+
+  // onChange callback
+  final usernameText = ''.obs;
   void onUsernameChanged(String value) {
     usernameText.value = value;
     // usernameKey.currentState?.validate();
@@ -28,23 +36,16 @@ class LogInController extends GetxController {
     if (value == null || value.isEmpty) {
       return 'Please enter your username';
     }
-
     final errorMessage = <String>[];
     final hasLength = 3;
-
     if (value.length < hasLength) {
       errorMessage.add('Username must be at least $hasLength characters long.');
     }
     return errorMessage.isEmpty ? null : errorMessage.join('\n');
   }
 
-  // Password Key
-  final passwordKey = GlobalKey<FormFieldState>();
-  final passwordController = TextEditingController();
-  final passwordFocusNode = FocusNode();
-  final isPasswordFocused = false.obs;
+  // Visibility
   final isPasswordVisible = false.obs;
-
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
@@ -59,10 +60,8 @@ class LogInController extends GetxController {
     if (value == null || value.isEmpty) {
       return 'Please enter your password';
     }
-
     final errorMessage = <String>[];
     final hasLength = 6;
-
     if (value.length < hasLength) {
       errorMessage.add('Password must be at least $hasLength characters long.');
     }
@@ -80,21 +79,25 @@ class LogInController extends GetxController {
   }
 
   // Sign Up Button
-  void onSignUpPressed() {
+  final _isSignUpLoading = false.obs;
+  bool get isSignUpLoading => _isSignUpLoading.value;
+  Future<void> onSignUpPressed() async {
+    _isSignUpLoading.value = true;
+    await 3.delay();
+    _isSignUpLoading.value = false;
     Get.toNamed(AppRoutes.signup);
   }
 
   // Log In Button
-  final _isLoading = false.obs;
-  bool get isLoading => _isLoading.value;
+  final _isLogInLoading = false.obs;
+  bool get isLogInLoading => _isLogInLoading.value;
   Future<void> onLogInPressed() async {
     if (!formKey.currentState!.validate()) return;
-    if (_isLoading.value) return;
-
+    if (_isLogInLoading.value) return;
     try {
-      _isLoading.value = true;
+      _isLogInLoading.value = true;
       await _accountService.logIn(usernameController.text, passwordController.text);
-      _isLoading.value = false;
+      _isLogInLoading.value = false;
       Get.snackbar(
         'Log In Successful',
         'Welcome back, Demo User! 👋',
@@ -112,7 +115,7 @@ class LogInController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     } finally {
-      _isLoading.value = false;
+      _isLogInLoading.value = false;
     }
   }
 

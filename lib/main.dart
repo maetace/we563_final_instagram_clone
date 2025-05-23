@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:we563_final_instagram_clone/services/account_service.dart';
 import 'package:we563_final_instagram_clone/services/account_service_mock.dart';
+import 'package:we563_final_instagram_clone/widgets/loading_overlay/loading_overlay_controller.dart';
 
 import 'routes.dart';
 import 'theme/app_theme.dart';
@@ -19,7 +20,7 @@ void main() {
           (context) => GetMaterialApp(
             useInheritedMediaQuery: true,
             title: 'Instagram Clone',
-            initialRoute: AppRoutes.login,
+            initialRoute: AppRoutes.welcome,
             getPages: AppRoutes.routes,
             debugShowCheckedModeBanner: false,
             locale: DevicePreview.locale(context),
@@ -37,4 +38,5 @@ void _init() {
   // Initialize secure storage
   Get.put(FlutterSecureStorage(), permanent: true); // Register secure storage
   Get.put<AccountService>(AccountServiceMock(), permanent: true); // Register the mock account service
+  Get.put(LoadingOverlayController(), permanent: true); // Register the loading overlay controller
 }

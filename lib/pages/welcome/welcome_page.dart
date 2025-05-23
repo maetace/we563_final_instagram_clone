@@ -20,17 +20,14 @@ class WelcomePage extends GetView<WelcomeController> {
             const SizedBox(height: 48),
             Text(
               'Welcome to Twitter',
-              style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.displayMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),
             Text(
               'See what\'s happening in the world right now',
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(color: Colors.white),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
             ),
             const SizedBox(height: 48),
             Row(
@@ -39,9 +36,7 @@ class WelcomePage extends GetView<WelcomeController> {
                   child: ElevatedButton(
                     onPressed: controller.onSignUpPressed,
                     style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.blue,
                       elevation: 0,
@@ -55,9 +50,7 @@ class WelcomePage extends GetView<WelcomeController> {
                   child: ElevatedButton(
                     onPressed: controller.onLogInPressed,
                     style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                       backgroundColor: Colors.blue,
                       foregroundColor: Colors.white,
                       elevation: 0,

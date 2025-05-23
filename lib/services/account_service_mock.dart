@@ -20,7 +20,7 @@ class AccountServiceMock extends GetxService implements AccountService {
     if (username != 'demo' || password != 'Qweqwe!2') {
       throw 'Incorrect username or password';
     }
-    await _secureStorage.write(key: _accessTokenKey, value: 'demo_access_oken'); // write token to secure storage
+    await _secureStorage.write(key: _accessTokenKey, value: 'demo_access_token'); // write token to secure storage
   }
 
   @override
@@ -41,7 +41,7 @@ class AccountServiceMock extends GetxService implements AccountService {
     if (password != 'Qweqwe!2') {
       throw 'Invalid password';
     }
-    await _secureStorage.write(key: _accessTokenKey, value: 'demo_access_oken'); // write token to secure storage
+    await _secureStorage.write(key: _accessTokenKey, value: 'demo_access_token'); // write token to secure storage
   }
 
   @override
