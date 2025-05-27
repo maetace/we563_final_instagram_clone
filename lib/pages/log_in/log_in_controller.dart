@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../routes.dart';
-import '../../services/account_service.dart';
+import '/routes.dart';
+import '/config/app_config.dart';
+import '/account_mock.dart';
 
 class LogInController extends GetxController {
   final colorScheme = Theme.of(Get.context!).colorScheme;
 
-  // Form Key
+  // Form Keys
   final formKey = GlobalKey<FormState>();
   final usernameKey = GlobalKey<FormFieldState>();
   final passwordKey = GlobalKey<FormFieldState>();
@@ -24,92 +25,99 @@ class LogInController extends GetxController {
   final isUsernameFocused = false.obs;
   final isPasswordFocused = false.obs;
 
-  // onChange callback
+  // Text Observables
   final usernameText = ''.obs;
-  void onUsernameChanged(String value) {
-    usernameText.value = value;
-    // usernameKey.currentState?.validate();
-  }
+  final passwordText = ''.obs;
 
-  // Username Validator
-  String? usernameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your username';
-    }
-    final errorMessage = <String>[];
-    final hasLength = 3;
-    if (value.length < hasLength) {
-      errorMessage.add('Username must be at least $hasLength characters long.');
-    }
-    return errorMessage.isEmpty ? null : errorMessage.join('\n');
-  }
+  void onUsernameChanged(String value) => usernameText.value = value;
+  void onPasswordChanged(String value) => passwordText.value = value;
 
-  // Visibility
+  // Visibility Toggle
   final isPasswordVisible = false.obs;
-  void togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value;
+  void togglePasswordVisibility() => isPasswordVisible.value = !isPasswordVisible.value;
+
+  // Validators
+  String? usernameValidator(String? value) {
+    if (value == null || value.isEmpty) return 'Please enter your username';
+    if (value.length < 3) return 'Username must be at least 3 characters long.';
+    return null;
   }
 
-  // onChange callback
-  void onPasswordChanged(String value) {
-    // passwordKey.currentState?.validate();
-  }
-
-  // Password Validator
   String? passwordValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your password';
+    if (value == null || value.isEmpty) return 'Please enter your password';
+    if (value.length < 8) return 'Password must be at least 8 characters long.';
+    return null;
+  }
+
+  // Navigation
+  void onBackPressed() => Get.back();
+
+  // Forgot Password
+  final _isForgotPasswordLoading = false.obs;
+  bool get isForgotPasswordLoading => _isForgotPasswordLoading.value;
+
+  Future<void> onForgotPassword() async {
+    if (_isForgotPasswordLoading.value) return;
+    try {
+      _isForgotPasswordLoading.value = true;
+      if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
+      Get.toNamed(AppRoutes.forgot);
+    } finally {
+      _isForgotPasswordLoading.value = false;
     }
-    final errorMessage = <String>[];
-    final hasLength = 6;
-    if (value.length < hasLength) {
-      errorMessage.add('Password must be at least $hasLength characters long.');
-    }
-    return errorMessage.isEmpty ? null : errorMessage.join('\n');
   }
 
-  // Navigation Back
-  void onBackPressed() {
-    Get.back();
-  }
-
-  // Forgot Password Button
-  void onForgotPassword() {
-    Get.toNamed(AppRoutes.forgot);
-  }
-
-  // Sign Up Button
+  // Sign Up
   final _isSignUpLoading = false.obs;
   bool get isSignUpLoading => _isSignUpLoading.value;
+
   Future<void> onSignUpPressed() async {
-    _isSignUpLoading.value = true;
-    await 3.delay();
-    _isSignUpLoading.value = false;
-    Get.toNamed(AppRoutes.signup);
+    if (_isSignUpLoading.value) return;
+    try {
+      _isSignUpLoading.value = true;
+      if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
+      Get.toNamed(AppRoutes.signup);
+    } finally {
+      _isSignUpLoading.value = false;
+    }
   }
 
-  // Log In Button
+  // Log In
   final _isLogInLoading = false.obs;
   bool get isLogInLoading => _isLogInLoading.value;
+
+  late final AccountService _account;
+
   Future<void> onLogInPressed() async {
-    if (!formKey.currentState!.validate()) return;
-    if (_isLogInLoading.value) return;
+    if (!formKey.currentState!.validate() || _isLogInLoading.value) return;
+
     try {
       _isLogInLoading.value = true;
-      await _accountService.logIn(usernameController.text, passwordController.text);
-      _isLogInLoading.value = false;
-      Get.snackbar(
-        'Log In Successful',
-        'Welcome back, Demo User! 👋',
-        colorText: colorScheme.onPrimary,
-        backgroundColor: colorScheme.primary,
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      Get.offAllNamed('/home');
+
+      if (AppConfig.useMockDelay) {
+        await Future.delayed(AppConfig.mockDelay);
+      }
+
+      await _account.logIn(usernameController.text.trim(), passwordController.text);
+
+      final user = await _account.getCurrentUser();
+
+      if (user != null) {
+        Get.snackbar(
+          'Log In Successful',
+          'Welcome back, ${user.fullname}! 👋',
+          colorText: colorScheme.onPrimary,
+          backgroundColor: colorScheme.primary,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        Get.offAllNamed(AppRoutes.home);
+      } else {
+        throw 'User not found after login';
+      }
     } catch (e) {
       Get.snackbar(
         'Log In Failed',
-        '$e',
+        e.toString(),
         colorText: colorScheme.onError,
         backgroundColor: colorScheme.error,
         snackPosition: SnackPosition.BOTTOM,
@@ -119,12 +127,13 @@ class LogInController extends GetxController {
     }
   }
 
-  // Initialize
-  late AccountService _accountService;
+  bool get isLoading => isLogInLoading || isSignUpLoading || isForgotPasswordLoading;
+
   @override
   void onInit() {
-    _accountService = Get.find<AccountService>();
     super.onInit();
+    _account = Get.find();
+
     usernameFocusNode.addListener(() {
       isUsernameFocused.value = usernameFocusNode.hasFocus;
     });
@@ -133,7 +142,6 @@ class LogInController extends GetxController {
     });
   }
 
-  // Dispose
   @override
   void onClose() {
     usernameController.dispose();

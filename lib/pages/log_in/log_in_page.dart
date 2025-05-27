@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'log_in_controller.dart';
+import '../../widgets/loading_button_widget.dart';
 
 class LogInPage extends GetView<LogInController> {
   const LogInPage({super.key});
@@ -12,7 +13,7 @@ class LogInPage extends GetView<LogInController> {
       () => Stack(
         children: [
           AbsorbPointer(
-            absorbing: controller.isLogInLoading || controller.isSignUpLoading,
+            absorbing: controller.isLoading,
             child: Scaffold(
               appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surface),
               body: SafeArea(
@@ -29,7 +30,7 @@ class LogInPage extends GetView<LogInController> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const SizedBox(height: 80),
+                                    const SizedBox(height: 48),
                                     Image.asset('assets/images/instagram_icon.png', height: 72),
                                     const SizedBox(height: 96),
 
@@ -39,10 +40,14 @@ class LogInPage extends GetView<LogInController> {
                                         key: controller.usernameKey,
                                         controller: controller.usernameController,
                                         focusNode: controller.usernameFocusNode,
+                                        textInputAction: TextInputAction.next,
+                                        onFieldSubmitted: (_) {
+                                          controller.passwordFocusNode.requestFocus();
+                                        },
                                         onChanged: controller.onUsernameChanged,
                                         validator: controller.usernameValidator,
                                         decoration: InputDecoration(
-                                          labelText: 'Username, email or mobile number',
+                                          labelText: 'Username',
                                           suffixIcon:
                                               (controller.isUsernameFocused.value &&
                                                       controller.usernameText.value.isNotEmpty)
@@ -66,6 +71,10 @@ class LogInPage extends GetView<LogInController> {
                                         key: controller.passwordKey,
                                         controller: controller.passwordController,
                                         focusNode: controller.passwordFocusNode,
+                                        textInputAction: TextInputAction.done,
+                                        onFieldSubmitted: (_) {
+                                          controller.onLogInPressed();
+                                        },
                                         onChanged: controller.onPasswordChanged,
                                         validator: controller.passwordValidator,
                                         obscureText: !controller.isPasswordVisible.value,
@@ -73,7 +82,7 @@ class LogInPage extends GetView<LogInController> {
                                           labelText: 'Password',
                                           suffixIcon:
                                               (controller.isPasswordFocused.value ||
-                                                      controller.passwordController.text.length > 1)
+                                                      controller.passwordText.value.isNotEmpty)
                                                   ? IconButton(
                                                     icon: Icon(
                                                       controller.isPasswordVisible.value
@@ -90,25 +99,23 @@ class LogInPage extends GetView<LogInController> {
                                     const SizedBox(height: 16),
 
                                     // Log In Button
-                                    ElevatedButton(
+                                    LoadingButton(
                                       onPressed: controller.onLogInPressed,
-                                      style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 48)),
-                                      child:
-                                          controller.isLogInLoading
-                                              ? const SizedBox(
-                                                height: 24,
-                                                width: 24,
-                                                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                                              )
-                                              : const Text('Log In'),
+                                      isLoading: controller.isLogInLoading,
+                                      label: 'Log In',
+                                      type: ButtonType.elevated,
                                     ),
 
                                     const SizedBox(height: 8),
 
-                                    // Forgot Password
-                                    TextButton(
-                                      onPressed: controller.onForgotPassword,
-                                      child: const Text('Forgot password?'),
+                                    // Forgot Password Button
+                                    Obx(
+                                      () => LoadingButton(
+                                        onPressed: controller.onForgotPassword,
+                                        isLoading: controller.isForgotPasswordLoading,
+                                        label: 'Forgot password?',
+                                        type: ButtonType.text,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -123,17 +130,11 @@ class LogInPage extends GetView<LogInController> {
                           child: Column(
                             children: [
                               Obx(
-                                () => OutlinedButton(
+                                () => LoadingButton(
                                   onPressed: controller.onSignUpPressed,
-                                  style: OutlinedButton.styleFrom(minimumSize: const Size(double.infinity, 48)),
-                                  child:
-                                      controller.isSignUpLoading
-                                          ? const SizedBox(
-                                            height: 24,
-                                            width: 24,
-                                            child: CircularProgressIndicator(strokeWidth: 2),
-                                          )
-                                          : const Text('Create new account'),
+                                  isLoading: controller.isSignUpLoading,
+                                  label: 'Create new account',
+                                  type: ButtonType.outlined,
                                 ),
                               ),
                               const SizedBox(height: 24),

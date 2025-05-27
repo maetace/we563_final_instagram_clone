@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'home_controller.dart';
+import '../../widgets/loading_button_widget.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -9,48 +10,68 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
       body: Padding(
         padding: const EdgeInsets.all(48.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Welcome back! 🎉', style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white)),
-            const SizedBox(height: 48),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: controller.onWelcomePressed,
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.blue,
-                      elevation: 0,
-                      side: BorderSide(color: Colors.blue.shade200),
+        child: Obx(() {
+          final user = controller.userRxn.value;
+
+          if (user == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final avatar = controller.userRxn.value?.avatar ?? '';
+          final hasAvatar = avatar.isNotEmpty;
+
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 24),
+              CircleAvatar(
+                radius: 92,
+                foregroundImage: hasAvatar ? (AssetImage(avatar) as ImageProvider) : null,
+                child: hasAvatar ? null : const Icon(Icons.person_2_outlined, size: 184),
+              ),
+              const SizedBox(height: 12),
+
+              // Fullname
+              Text(avatar, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+
+              // Welcome message
+              Text(
+                'Welcome back, ${user.fullname}! 🎉',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 48),
+
+              // Buttons
+              Row(
+                children: [
+                  Expanded(
+                    child: LoadingButton(
+                      onPressed: controller.onWelcomePressed,
+                      isLoading: controller.isLogOutLoading,
+                      label: 'Welcome',
+                      type: ButtonType.elevated,
                     ),
-                    child: const Text('Welcome'),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: controller.onLogoutPressed,
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.blue,
-                      elevation: 0,
-                      side: BorderSide(color: Colors.blue.shade200),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: LoadingButton(
+                      onPressed: controller.onLogOutPressed,
+                      isLoading: controller.isLogOutLoading,
+                      label: 'Log Out',
+                      type: ButtonType.elevated,
                     ),
-                    child: const Text('Log Out'),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
+                ],
+              ),
+            ],
+          );
+        }),
       ),
     );
   }

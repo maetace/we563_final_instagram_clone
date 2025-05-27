@@ -1,68 +1,88 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:we563_final_instagram_clone/widgets/loading_overlay/loading_overlay_controller.dart';
+import 'package:logger/logger.dart';
 
-import '../../routes.dart';
-import '../../services/account_service.dart';
+import '/routes.dart';
+import '/config/app_config.dart';
+
+import '/account_mock.dart';
 
 class WelcomeController extends GetxController {
-  void onSignUpPressed() {
-    Get.toNamed(AppRoutes.signup);
-  }
+  final colorScheme = Theme.of(Get.context!).colorScheme;
+  final Logger _logger = Logger();
 
-  void onLogInPressed() {
-    Get.toNamed(AppRoutes.login);
-  }
+  // User data
+  final userRxn = Rxn<CurrentUser>();
 
-  // Initialize
-  late LoadingOverlayController _loadingOverlayController;
-  late AccountService _accountService;
+  // Loading states
+  final _isLogInLoading = false.obs;
+  final _isSignUpLoading = false.obs;
+  final _isSwitchAccountLoading = false.obs;
+
+  bool get isLogInLoading => _isLogInLoading.value;
+  bool get isSignUpLoading => _isSignUpLoading.value;
+  bool get isSwitchAccountLoading => _isSwitchAccountLoading.value;
+  bool get isLoading => isLogInLoading || isSignUpLoading || isSwitchAccountLoading;
+
+  late final AccountService _account;
+
   @override
   void onInit() {
-    _loadingOverlayController = Get.find();
-    _accountService = Get.find();
     super.onInit();
+    _account = Get.find();
+    loadCurrentUser();
   }
 
-  @override
-  Future<void> onReady() async {
+  Future<void> loadCurrentUser() async {
+    final currentUser = await _account.getCurrentUser();
+
+    if (currentUser != null) {
+      userRxn.value = currentUser;
+      _logger.i('👤 Found current user: ${currentUser.username}');
+    } else {
+      _logger.w('⚠️ No user in session. Redirecting to Login...');
+      Get.offAllNamed(AppRoutes.login);
+    }
+  }
+
+  Future<void> onLogInPressed() async {
+    if (_isLogInLoading.value) return;
     try {
-      final isLoggedIn = await _accountService.isLoggedIn();
-      _loadingOverlayController.show();
-      if (isLoggedIn) {
-        Get.snackbar(
-          'เข้าสู่ระบบแล้ว',
-          'มี token อยู่ในระบบแล้ว',
-          snackPosition: SnackPosition.BOTTOM,
-          colorText: Get.theme.colorScheme.onPrimary,
-          backgroundColor: Get.theme.colorScheme.primary,
-        );
-        await 3.delay();
+      _isLogInLoading.value = true;
+
+      if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
+
+      if (userRxn.value != null) {
+        _logger.i('✅ Current user exists → navigating to Home');
         Get.offAllNamed(AppRoutes.home);
       } else {
-        Get.snackbar(
-          'ยังไม่ได้เข้าสู่ระบบ',
-          'ไม่มี token ในระบบ',
-          snackPosition: SnackPosition.BOTTOM,
-          colorText: Get.theme.colorScheme.onPrimary,
-          backgroundColor: Get.theme.colorScheme.error,
-        );
+        _logger.w('❌ No user found → navigating to Login');
+        Get.offAllNamed(AppRoutes.login);
       }
-    } catch (e) {
-      Get.snackbar(
-        'ไม่สามารถเข้าสู่ระบบได้',
-        'กรุณาตรวจสอบการเชื่อมต่อระบบ',
-        snackPosition: SnackPosition.BOTTOM,
-        colorText: Get.theme.colorScheme.onPrimary,
-        backgroundColor: Get.theme.colorScheme.primary,
-      );
     } finally {
-      _loadingOverlayController.hide();
+      _isLogInLoading.value = false;
     }
-    super.onReady();
   }
 
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
+  Future<void> onSignUpPressed() async {
+    if (_isSignUpLoading.value) return;
+    try {
+      _isSignUpLoading.value = true;
+      if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
+      Get.toNamed(AppRoutes.signup);
+    } finally {
+      _isSignUpLoading.value = false;
+    }
+  }
+
+  Future<void> onSwitchAccountPressed() async {
+    if (_isSwitchAccountLoading.value) return;
+    try {
+      _isSwitchAccountLoading.value = true;
+      if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
+      Get.toNamed(AppRoutes.login);
+    } finally {
+      _isSwitchAccountLoading.value = false;
+    }
+  }
 }

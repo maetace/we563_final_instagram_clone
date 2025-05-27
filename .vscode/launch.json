@@ -1,0 +1,41 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flutter (mock)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=ENV=.env.mock"
+            ],
+            "deviceId": "chrome"
+        },
+        {
+            "name": "Flutter (dev)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=ENV=.env.dev"
+            ],
+            "deviceId": "chrome"
+        },
+        {
+            "name": "Flutter (prod)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define=ENV=.env.prod"
+            ],
+            "deviceId": "chrome"
+        },
+        {
+            "name": "Flutter (lib/services/mock_user_data.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/services/mock_user_data.dart"
+        }
+    ]
+}

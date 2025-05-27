@@ -1,17 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
-import '../../routes.dart';
-import '../../services/account_service.dart';
+import '/routes.dart';
+import '/account_mock.dart'; // ✅ ใช้ service เดียวที่รวม logic ทั้งหมด
 
 class HomeController extends GetxController {
-  final AccountService _accountService = Get.find();
+  final userRxn = Rxn<CurrentUser>();
+  final Logger _logger = Logger();
+
+  final _isLogOutLoading = false.obs;
+  bool get isLogOutLoading => _isLogOutLoading.value;
+
+  late final AccountService _account;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _account = Get.find();
+    loadCurrentUser();
+  }
+
+  Future<void> loadCurrentUser() async {
+    final currentUser = await _account.getCurrentUser();
+    if (currentUser != null) {
+      userRxn.value = currentUser;
+      _logger.i('🏠 User loaded: ${currentUser.fullname}');
+    } else {
+      _logger.w('🏠 No session. Redirect to login.');
+      Get.offAllNamed(AppRoutes.login);
+    }
+  }
 
   void onWelcomePressed() {
     Get.offAllNamed(AppRoutes.welcome);
   }
 
-  void onLogoutPressed() {
+  void onLogOutPressed() {
     if (Get.isBottomSheetOpen ?? false) return;
 
     Get.bottomSheet(
@@ -32,15 +57,15 @@ class HomeController extends GetxController {
               leading: const Icon(Icons.check),
               title: const Text('Yes'),
               onTap: () async {
-                Get.back(); // ปิด bottom sheet ก่อน
-                await _accountService.logOut();
+                Get.back();
+                await _account.logOut(); // ✅ ใช้ service โดยตรง
+                _logger.i('🔓 Logged out successfully');
                 Get.snackbar(
                   'Log Out Successful',
-                  'You\'ve been logged out. See you again soon, Demo User! 👀',
+                  'You\'ve been logged out. See you again soon! 👀',
                   colorText: Colors.white,
                   backgroundColor: Colors.green.shade400,
                 );
-                await 3.delay();
                 Get.offAllNamed(AppRoutes.welcome);
               },
             ),

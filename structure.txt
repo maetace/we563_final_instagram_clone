@@ -1,14 +1,40 @@
 .
 ├── analysis_options.yaml
 ├── assets
-│   └── images
-│       └── instagram_icon.png
+│   ├── images
+│   │   ├── avatar.jpg
+│   │   ├── instagram_icon.png
+│   │   ├── instagram_icon.svg
+│   │   ├── meta_logo_mono.png
+│   │   ├── meta_logo_mono.svg
+│   │   └── meta_logo.svg
+│   └── mock_avatars
+│       ├── baronzemo.jpg
+│       ├── buckybarnes.jpg
+│       ├── default.jpg
+│       ├── ghost.jpg
+│       ├── justbob.jpg
+│       ├── melgold.jpg
+│       ├── redgadian.jpg
+│       ├── taskmaster.jpg
+│       ├── usagent.jpg
+│       ├── valentina.jpg
+│       └── yelena.jpg
 ├── codemagic.yaml
 ├── firebase.json
 ├── lib
+│   ├── account_mock.dart
+│   ├── config
+│   │   ├── app_config.dart
+│   │   └── env_loader.dart
 │   ├── main.dart
 │   ├── models
+│   │   └── Archive.zip
 │   ├── pages
+│   │   ├── forgot_password
+│   │   │   ├── forgot_password_binding.dart
+│   │   │   ├── forgot_password_controller.dart
+│   │   │   └── forgot_password_page.dart
 │   │   ├── home
 │   │   │   ├── home_binding.dart
 │   │   │   ├── home_controller.dart
@@ -27,18 +53,17 @@
 │   │       └── welcome_page.dart
 │   ├── routes.dart
 │   ├── services
+│   │   └── Archive.zip
 │   ├── theme
-│   │   ├── app_theme.dart
-│   │   ├── button_theme.dart
-│   │   ├── color_schemes.dart
-│   │   ├── input_theme.dart
-│   │   └── text_theme.dart
+│   │   └── Archive.zip
+│   ├── theme.dart
 │   ├── utils.dart
 │   └── widgets
+│       └── loading_button_widget.dart
 ├── pubspec.lock
 ├── pubspec.yaml
 ├── README.md
 ├── structure.txt
 └── we563_final_instagram_clone.iml
 
-13 directories, 29 files
+16 directories, 51 files
