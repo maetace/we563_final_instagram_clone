@@ -23,47 +23,20 @@
 ├── codemagic.yaml
 ├── firebase.json
 ├── lib
-│   ├── account_mock.dart
-│   ├── config
-│   │   ├── app_config.dart
-│   │   └── env_loader.dart
+│   ├── configs.dart
+│   ├── data.dart
 │   ├── main.dart
-│   ├── models
-│   │   └── Archive.zip
 │   ├── pages
-│   │   ├── forgot_password
-│   │   │   ├── forgot_password_binding.dart
-│   │   │   ├── forgot_password_controller.dart
-│   │   │   └── forgot_password_page.dart
-│   │   ├── home
-│   │   │   ├── home_binding.dart
-│   │   │   ├── home_controller.dart
-│   │   │   └── home_page.dart
-│   │   ├── log_in
-│   │   │   ├── log_in_binding.dart
-│   │   │   ├── log_in_controller.dart
-│   │   │   └── log_in_page.dart
-│   │   ├── sign_up
-│   │   │   ├── sign_up_binding.dart
-│   │   │   ├── sign_up_controller.dart
-│   │   │   └── sign_up_page.dart
-│   │   └── welcome
-│   │       ├── welcome_binding.dart
-│   │       ├── welcome_controller.dart
-│   │       └── welcome_page.dart
-│   ├── routes.dart
-│   ├── services
-│   │   └── Archive.zip
-│   ├── theme
-│   │   └── Archive.zip
-│   ├── theme.dart
-│   ├── utils.dart
-│   └── widgets
-│       └── loading_button_widget.dart
+│   │   ├── forgot_password_page.dart
+│   │   ├── home_page.dart
+│   │   ├── log_in_page.dart
+│   │   ├── sign_up_page.dart
+│   │   └── welcome_page.dart
+│   └── widgets.dart
 ├── pubspec.lock
 ├── pubspec.yaml
 ├── README.md
 ├── structure.txt
 └── we563_final_instagram_clone.iml
 
-16 directories, 51 files
+6 directories, 34 files

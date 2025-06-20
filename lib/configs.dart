@@ -1,4 +1,62 @@
+// lib/configs.dart
+
+// ==== CONFIGURATION IMPORTS ====
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+// ==== ROUTES IMPORTS ====
+import 'package:get/get.dart';
+
+import 'pages/home_page.dart';
+import 'pages/login_page.dart';
+import 'pages/signup_page.dart';
+import 'pages/welcome_page.dart';
+import 'pages/forgot_password_page.dart';
+
+// ==== THEME IMPORTS ====
 import 'package:flutter/material.dart';
+
+// ==== CONFIGURATION ====
+
+Future<void> loadEnvironment() async {
+  const envFile = String.fromEnvironment('ENV', defaultValue: '.env.dev');
+  await dotenv.load(fileName: envFile);
+}
+
+class AppConfig {
+  static String get baseUrl => dotenv.env['BASE_URL'] ?? '';
+  static String get appMode => dotenv.env['APP_MODE'] ?? 'prod'; // dev, mock, prod
+
+  static bool get useMockDelay => dotenv.env['USE_MOCK_DELAY'] == 'true';
+
+  static Duration get mockDelay {
+    final ms = int.tryParse(dotenv.env['MOCK_DELAY_MS'] ?? '0') ?? 0;
+    return Duration(milliseconds: ms);
+  }
+
+  static bool get isMock => appMode == 'mock';
+  static bool get isDev => appMode == 'dev';
+  static bool get isProd => appMode == 'prod';
+}
+
+// ==== ROUTES CLASS ====
+
+class AppRoutes {
+  static const welcome = '/';
+  static const signup = '/signup';
+  static const login = '/login';
+  static const home = '/home';
+  static const forgot = '/forgot';
+
+  static final routes = [
+    GetPage(name: welcome, page: () => WelcomePage(), binding: WelcomeBinding()),
+    GetPage(name: signup, page: () => SignupPage(), binding: SignupBinding()),
+    GetPage(name: login, page: () => LoginPage(), binding: LoginBinding()),
+    GetPage(name: home, page: () => HomePage(), binding: HomeBinding()),
+    GetPage(name: forgot, page: () => const ForgotPasswordPage(), binding: ForgotPasswordBinding()),
+  ];
+}
+
+// ==== THEME ====
 
 const String fontFamily = 'roboto';
 

@@ -1,8 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// lib/pages/welcome_page.dart
 
-import 'welcome_controller.dart';
-import '../../widgets/loading_button_widget.dart';
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+import 'package:logger/logger.dart';
+
+import '/configs.dart';
+import '/data.dart';
+import '/widgets.dart';
 
 class WelcomePage extends GetView<WelcomeController> {
   const WelcomePage({super.key});
@@ -19,7 +24,7 @@ class WelcomePage extends GetView<WelcomeController> {
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: theme.colorScheme.surface,
-                actions: [IconButton(icon: const Icon(Icons.more_horiz_rounded), onPressed: () {})],
+                actions: const [LanguageSwitcher()],
                 actionsPadding: const EdgeInsets.only(right: 8),
               ),
               body: SafeArea(
@@ -72,7 +77,7 @@ class WelcomePage extends GetView<WelcomeController> {
                                           ),
                                           const SizedBox(height: 24),
                                           Text(
-                                            'Loading profile...',
+                                            'loading_profile'.tr,
                                             style: theme.textTheme.bodySmall?.copyWith(
                                               color: theme.colorScheme.onSurfaceVariant,
                                             ),
@@ -100,7 +105,7 @@ class WelcomePage extends GetView<WelcomeController> {
                                             Icon(Icons.circle, size: 8, color: theme.colorScheme.error),
                                             const SizedBox(width: 4),
                                             Text(
-                                              'New notifications',
+                                              'new_notifications'.tr,
                                               style: theme.textTheme.bodySmall?.copyWith(
                                                 color: theme.colorScheme.onSurfaceVariant,
                                               ),
@@ -117,7 +122,7 @@ class WelcomePage extends GetView<WelcomeController> {
                                   LoadingButton(
                                     onPressed: controller.onLogInPressed,
                                     isLoading: controller.isLogInLoading,
-                                    label: 'Continue',
+                                    label: 'continue'.tr,
                                     type: ButtonType.elevated,
                                   ),
 
@@ -127,7 +132,7 @@ class WelcomePage extends GetView<WelcomeController> {
                                   LoadingButton(
                                     onPressed: controller.onSwitchAccountPressed,
                                     isLoading: controller.isSwitchAccountLoading,
-                                    label: 'Use another profile',
+                                    label: 'use_another_profile'.tr,
                                     type: ButtonType.text,
                                   ),
                                 ],
@@ -145,7 +150,7 @@ class WelcomePage extends GetView<WelcomeController> {
                                 () => LoadingButton(
                                   onPressed: controller.onSignUpPressed,
                                   isLoading: controller.isSignUpLoading,
-                                  label: 'Create new account',
+                                  label: 'create_new_account'.tr,
                                   type: ButtonType.outlined,
                                 ),
                               ),
@@ -164,5 +169,94 @@ class WelcomePage extends GetView<WelcomeController> {
         ],
       ),
     );
+  }
+}
+
+// ==== CONTROLLER ====
+class WelcomeController extends GetxController {
+  final colorScheme = Theme.of(Get.context!).colorScheme;
+  final Logger _logger = Logger();
+
+  // User data
+  final userRxn = Rxn<CurrentUser>();
+
+  // Loading states
+  final _isLogInLoading = false.obs;
+  final _isSignUpLoading = false.obs;
+  final _isSwitchAccountLoading = false.obs;
+
+  bool get isLogInLoading => _isLogInLoading.value;
+  bool get isSignUpLoading => _isSignUpLoading.value;
+  bool get isSwitchAccountLoading => _isSwitchAccountLoading.value;
+  bool get isLoading => isLogInLoading || isSignUpLoading || isSwitchAccountLoading;
+
+  late final AccountService _account;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _account = Get.find();
+    loadCurrentUser();
+  }
+
+  Future<void> loadCurrentUser() async {
+    final currentUser = await _account.getCurrentUser();
+
+    if (currentUser != null) {
+      userRxn.value = currentUser;
+      _logger.i('👤 Found current user: ${currentUser.username}');
+    } else {
+      _logger.w('⚠️ No user in session. Redirecting to Login...');
+      Get.offAllNamed(AppRoutes.login);
+    }
+  }
+
+  Future<void> onLogInPressed() async {
+    if (_isLogInLoading.value) return;
+    try {
+      _isLogInLoading.value = true;
+
+      if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
+
+      if (userRxn.value != null) {
+        _logger.i('✅ Current user exists → navigating to Home');
+        Get.offAllNamed(AppRoutes.home);
+      } else {
+        _logger.w('❌ No user found → navigating to Login');
+        Get.offAllNamed(AppRoutes.login);
+      }
+    } finally {
+      _isLogInLoading.value = false;
+    }
+  }
+
+  Future<void> onSignUpPressed() async {
+    if (_isSignUpLoading.value) return;
+    try {
+      _isSignUpLoading.value = true;
+      if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
+      Get.toNamed(AppRoutes.signup);
+    } finally {
+      _isSignUpLoading.value = false;
+    }
+  }
+
+  Future<void> onSwitchAccountPressed() async {
+    if (_isSwitchAccountLoading.value) return;
+    try {
+      _isSwitchAccountLoading.value = true;
+      if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
+      Get.toNamed(AppRoutes.login);
+    } finally {
+      _isSwitchAccountLoading.value = false;
+    }
+  }
+}
+
+// ==== BINDING ====
+class WelcomeBinding implements Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => WelcomeController());
   }
 }
