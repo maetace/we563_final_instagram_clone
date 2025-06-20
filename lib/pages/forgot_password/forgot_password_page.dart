@@ -1,9 +1,11 @@
+// lib/pages/forgot_password/forgot_password_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/configs.dart';
-import '/data.dart';
 import '/widgets.dart';
+
+import 'forgot_password_controller.dart';
 
 class ForgotPasswordPage extends GetView<ForgotPasswordController> {
   const ForgotPasswordPage({super.key});
@@ -23,12 +25,11 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
                   onPressed: controller.onBackPressed,
                 ),
                 title: Text('forgot_password'.tr),
-                actions: const [LanguageSwitcher()],
+                actions: const [LanguageSwitcher(), ThemeSwitcher()],
                 actionsPadding: const EdgeInsets.only(right: 8),
               ),
               body: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: AppPageContainer(
                   child: Form(
                     key: controller.formKey,
                     child: Column(
@@ -86,102 +87,5 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
         ],
       ),
     );
-  }
-}
-
-// ==== CONTROLLER ====
-class ForgotPasswordController extends GetxController {
-  final colorScheme = Theme.of(Get.context!).colorScheme;
-
-  // Form Keys
-  final formKey = GlobalKey<FormState>();
-  final usernameKey = GlobalKey<FormFieldState>();
-  final usernameController = TextEditingController();
-  final usernameFocusNode = FocusNode();
-  final isUsernameFocused = false.obs;
-  final usernameText = ''.obs;
-
-  final _isForgotPasswordLoading = false.obs;
-  bool get isForgotPasswordLoading => _isForgotPasswordLoading.value;
-  bool get isLoading => isForgotPasswordLoading;
-
-  // Service
-  late final AccountService _account;
-
-  @override
-  void onInit() {
-    super.onInit();
-    _account = Get.find<AccountService>();
-
-    usernameFocusNode.addListener(() {
-      isUsernameFocused.value = usernameFocusNode.hasFocus;
-    });
-  }
-
-  @override
-  void onClose() {
-    usernameController.dispose();
-    usernameFocusNode.dispose();
-    super.onClose();
-  }
-
-  // Input Callback
-  void onUsernameChanged(String value) {
-    usernameText.value = value;
-  }
-
-  // Validator
-  String? usernameValidator(String? value) {
-    if (value == null || value.isEmpty) return 'please_enter_username'.tr;
-    if (value.length < 3) return 'username_min'.tr;
-    return null;
-  }
-
-  // Navigation
-  void onBackPressed() => Get.back();
-
-  // Action
-  Future<void> onForgotPasswordPressed() async {
-    if (!formKey.currentState!.validate() || isForgotPasswordLoading) return;
-
-    try {
-      _isForgotPasswordLoading.value = true;
-
-      if (AppConfig.useMockDelay) {
-        await Future.delayed(AppConfig.mockDelay);
-      }
-
-      final user = await _account.findUserByUsername(usernameController.text.trim());
-
-      if (user != null) {
-        Get.snackbar(
-          'reset_password_sent'.tr,
-          'reset_password_sent_desc'.tr,
-          colorText: colorScheme.onPrimary,
-          backgroundColor: colorScheme.primary,
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      } else {
-        throw 'user_not_found'.tr;
-      }
-    } catch (e) {
-      Get.snackbar(
-        'error'.tr,
-        e.toString(),
-        colorText: colorScheme.onError,
-        backgroundColor: colorScheme.error,
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } finally {
-      _isForgotPasswordLoading.value = false;
-    }
-  }
-}
-
-// ==== BINDING ====
-class ForgotPasswordBinding extends Bindings {
-  @override
-  void dependencies() {
-    Get.lazyPut(() => ForgotPasswordController());
   }
 }

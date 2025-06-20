@@ -1,27 +1,53 @@
 // lib/main.dart
 
+// ===============================
+//      MAIN ENTRY POINT
+// ===============================
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'configs.dart';
+import 'routes.dart';
+import 'theme.dart';
 import 'locales.dart';
 import 'data.dart';
 
+// ===============================
+//       MAIN()
+// ===============================
+
 Future<void> main() async {
+  // ==== 1. Flutter Init ====
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ==== 2. Lock to Portrait Mode ====
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  // ==== 3. Load .env (ENVIRONMENT) ====
   await dotenv.load(fileName: ".env.mock");
 
+  // ==== 4.  Load shared_preferences (Storage) ====
   final prefs = await SharedPreferences.getInstance();
-  final saved = prefs.getString('locale');
-  final locale = saved != null ? Locale(saved.split('_')[0], saved.split('_')[1]) : Get.deviceLocale;
+  // Load User Locale
+  final savedLocale = prefs.getString('locale');
+  final locale = savedLocale != null ? Locale(savedLocale.split('_')[0], savedLocale.split('_')[1]) : Get.deviceLocale;
+  // ThemeMode
+  final savedTheme = prefs.getString('themeMode');
+  final themeMode = switch (savedTheme) {
+    'dark' => ThemeMode.dark,
+    'light' => ThemeMode.light,
+    _ => ThemeMode.system,
+  };
 
+  // ==== 5. Global Dependency Injection ====
   _init();
 
+  // ==== 6. Run Application ====
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
@@ -29,22 +55,30 @@ Future<void> main() async {
           (context) => GetMaterialApp(
             useInheritedMediaQuery: true,
             title: 'Instagram Clone',
+
+            // ==== Routing ====
             initialRoute: AppRoutes.welcome,
             getPages: AppRoutes.routes,
             debugShowCheckedModeBanner: false,
             builder: DevicePreview.appBuilder,
+
+            // ==== Theme ====
             theme: lightTheme,
             darkTheme: darkTheme,
-            themeMode: ThemeMode.system,
+            themeMode: themeMode,
 
+            // ==== Localization ====
             translations: AppTranslations(),
-
             locale: locale,
             fallbackLocale: const Locale('th', 'TH'),
           ),
     ),
   );
 }
+
+// ===============================
+//       GLOBAL SERVICE INIT
+// ===============================
 
 void _init() {
   Get.put<AccountService>(AccountServiceMock(), permanent: true);

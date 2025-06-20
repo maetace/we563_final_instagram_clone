@@ -1,3 +1,5 @@
+// lib/widgets.dart
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,6 +67,48 @@ class LanguageSwitcher extends StatelessWidget {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('locale', '${newLocale.languageCode}_${newLocale.countryCode}');
       },
+    );
+  }
+}
+
+class ThemeSwitcher extends StatelessWidget {
+  const ThemeSwitcher({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // อ่านค่า ThemeMode ปัจจุบัน (Get.isDarkMode, Theme.of(context).brightness, หรือ Get.themeMode)
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return IconButton(
+      icon: Icon(isDark ? Icons.dark_mode : Icons.light_mode),
+      tooltip: 'change_theme'.tr, // เพิ่ม key นี้ใน locales ด้วย
+      onPressed: () async {
+        // Toggle theme: ถ้า dark → light, ถ้า light → dark
+        final newMode = isDark ? ThemeMode.light : ThemeMode.dark;
+        Get.changeThemeMode(newMode);
+
+        // Save to shared_preferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('themeMode', newMode.name); // "light" / "dark" / "system"
+      },
+    );
+  }
+}
+
+class AppPageContainer extends StatelessWidget {
+  final Widget child;
+  const AppPageContainer({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 430),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18), // <== เพิ่ม padding กลับมา
+          child: child,
+        ),
+      ),
     );
   }
 }
