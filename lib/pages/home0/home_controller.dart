@@ -5,47 +5,33 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 import '/routes.dart';
+
 import '/models/account_model.dart';
 import '/services/account_service.dart';
 
 class HomeController extends GetxController {
+  final userRxn = Rxn<CurrentAccount>();
   final Logger _logger = Logger();
 
-  // Scaffold
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  // Tab index
-  final _currentTabIndex = 0.obs;
-  int get currentTabIndex => _currentTabIndex.value;
-
-  void onBottomNavigationBarItemTap(int index) {
-    _currentTabIndex.value = index;
-  }
-
-  // userRxn
-  final userRxn = Rxn<CurrentAccount>();
-
-  // Service
-  late AccountService _account;
-
-  // LogOut loading
   final _isLogOutLoading = false.obs;
   bool get isLogOutLoading => _isLogOutLoading.value;
+
+  late final AccountService _account;
 
   @override
   void onInit() {
     super.onInit();
-    _account = Get.find<AccountService>();
-    loadCurrentAccount();
+    _account = Get.find();
+    loadCurrentUser();
   }
 
-  Future<void> loadCurrentAccount() async {
-    final account = await _account.getCurrentAccount();
-    if (account != null) {
-      userRxn.value = account;
-      _logger.i('🏠 Account loaded: ${account.fullname}');
+  Future<void> loadCurrentUser() async {
+    final currentAccount = await _account.getCurrentAccount();
+    if (currentAccount != null) {
+      userRxn.value = currentAccount;
+      _logger.i('🏠 Account loaded: ${currentAccount.fullname}');
     } else {
-      _logger.w('🏠 No account in session. Redirect to Login.');
+      _logger.w('🏠 No session. Redirect to login.');
       Get.offAllNamed(AppRoutes.login);
     }
   }
@@ -76,31 +62,20 @@ class HomeController extends GetxController {
               title: const Text('Yes'),
               onTap: () async {
                 Get.back();
-                await _logOut();
+                await _account.logOut();
+                _logger.i('🔓 Logged out successfully');
+                Get.snackbar(
+                  'Log Out Successful',
+                  'You\'ve been logged out. See you again soon! 👀',
+                  colorText: Colors.white,
+                  backgroundColor: Colors.green.shade400,
+                );
+                Get.offAllNamed(AppRoutes.welcome);
               },
             ),
           ],
         ),
       ),
     );
-  }
-
-  Future<void> _logOut() async {
-    try {
-      _isLogOutLoading.value = true;
-      await _account.logOut();
-      _logger.i('🔓 Logged out successfully');
-
-      Get.snackbar(
-        'Log Out Successful',
-        'You\'ve been logged out. See you again soon!',
-        colorText: Colors.white,
-        backgroundColor: Colors.green.shade400,
-      );
-
-      Get.offAllNamed(AppRoutes.welcome);
-    } finally {
-      _isLogOutLoading.value = false;
-    }
   }
 }

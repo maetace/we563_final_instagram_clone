@@ -139,7 +139,7 @@ class WelcomePage extends GetView<WelcomeController> {
                               ),
                             ),
                             const SizedBox(height: 24),
-                            Image.asset('assets/images/meta_logo_mono.png', height: 12),
+                            Image.asset('assets/images/meta_logo.png', height: 12),
                           ],
                         ),
                       ),

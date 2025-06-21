@@ -135,7 +135,7 @@ class LoginPage extends GetView<LoginController> {
                                   ),
                                 ),
                                 const SizedBox(height: 24),
-                                Image.asset('assets/images/meta_logo_mono.png', height: 16),
+                                Image.asset('assets/images/meta_logo.png', height: 16),
                               ],
                             ),
                           ),
