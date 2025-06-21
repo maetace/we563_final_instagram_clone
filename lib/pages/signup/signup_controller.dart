@@ -1,3 +1,5 @@
+// lib/pages/signup/signup_controller.dart
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +14,8 @@ import 'dart:io';
 
 import '/configs.dart';
 import '/routes.dart';
-import '/data.dart';
+
+import '/services/account_service.dart';
 
 class SignupController extends GetxController {
   final colorScheme = Theme.of(Get.context!).colorScheme;
@@ -181,11 +184,11 @@ class SignupController extends GetxController {
 
       await _accountService.saveSession(uid: uid, token: 'mock_token');
 
-      final user = await _accountService.getCurrentUser();
+      final account = await _accountService.getCurrentAccount();
 
       Get.snackbar(
         'signup_success'.tr,
-        user != null ? 'welcome_back'.trParams({'user': user.fullname}) : 'welcome'.tr,
+        account != null ? 'welcome_back'.trParams({'user': account.fullname}) : 'welcome'.tr,
         backgroundColor: colorScheme.primaryContainer,
         colorText: colorScheme.onPrimaryContainer,
         snackPosition: SnackPosition.BOTTOM,

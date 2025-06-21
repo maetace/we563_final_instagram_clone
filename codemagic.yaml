@@ -1,3 +1,5 @@
+# codemagic.yaml
+
 workflows:
   build-web-and-deploy:
     name: Build Web & Deploy to Firebase

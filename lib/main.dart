@@ -1,7 +1,7 @@
 // lib/main.dart
 
 // ===============================
-//      MAIN ENTRY POINT
+//     MAIN ENTRY POINT
 // ===============================
 
 import 'package:flutter/foundation.dart';
@@ -12,13 +12,15 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'services/account_service.dart';
+import 'services/account_service_mock.dart';
+
 import 'routes.dart';
 import 'theme.dart';
 import 'locales.dart';
-import 'data.dart';
 
 // ===============================
-//       MAIN()
+//     MAIN()
 // ===============================
 
 Future<void> main() async {
@@ -77,7 +79,7 @@ Future<void> main() async {
 }
 
 // ===============================
-//       GLOBAL SERVICE INIT
+//     GLOBAL SERVICE INIT
 // ===============================
 
 void _init() {

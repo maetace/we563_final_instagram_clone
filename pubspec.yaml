@@ -36,7 +36,7 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/mock_avatars/
+    - assets/avatars_mock/
     - .env.mock
     - .env.dev
     - .env.prod

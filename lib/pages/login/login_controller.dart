@@ -1,9 +1,12 @@
+// lib/pages/login/login_controller.dart
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/configs.dart';
 import '/routes.dart';
-import '/data.dart';
+
+import '/services/account_service.dart';
 
 class LoginController extends GetxController {
   final colorScheme = Theme.of(Get.context!).colorScheme;
@@ -100,12 +103,12 @@ class LoginController extends GetxController {
 
       await _account.logIn(usernameController.text.trim(), passwordController.text);
 
-      final user = await _account.getCurrentUser();
+      final account = await _account.getCurrentAccount();
 
-      if (user != null) {
+      if (account != null) {
         Get.snackbar(
           'login_success'.tr,
-          'welcome_back'.trParams({'user': user.fullname}),
+          'welcome_back'.trParams({'user': account.fullname}),
           colorText: colorScheme.onPrimary,
           backgroundColor: colorScheme.primary,
           snackPosition: SnackPosition.BOTTOM,
@@ -132,7 +135,7 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _account = Get.find();
+    _account = Get.find<AccountService>();
 
     usernameFocusNode.addListener(() {
       isUsernameFocused.value = usernameFocusNode.hasFocus;

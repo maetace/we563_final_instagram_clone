@@ -1,12 +1,16 @@
+// lib/pages/home/home_controller.dart
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 import '/routes.dart';
-import '/data.dart';
+
+import '/models/account_model.dart';
+import '/services/account_service.dart';
 
 class HomeController extends GetxController {
-  final userRxn = Rxn<CurrentUser>();
+  final userRxn = Rxn<CurrentAccount>();
   final Logger _logger = Logger();
 
   final _isLogOutLoading = false.obs;
@@ -22,10 +26,10 @@ class HomeController extends GetxController {
   }
 
   Future<void> loadCurrentUser() async {
-    final currentUser = await _account.getCurrentUser();
-    if (currentUser != null) {
-      userRxn.value = currentUser;
-      _logger.i('🏠 User loaded: ${currentUser.fullname}');
+    final currentAccount = await _account.getCurrentAccount();
+    if (currentAccount != null) {
+      userRxn.value = currentAccount;
+      _logger.i('🏠 Account loaded: ${currentAccount.fullname}');
     } else {
       _logger.w('🏠 No session. Redirect to login.');
       Get.offAllNamed(AppRoutes.login);
@@ -58,7 +62,7 @@ class HomeController extends GetxController {
               title: const Text('Yes'),
               onTap: () async {
                 Get.back();
-                await _account.logOut(); // ✅ ใช้ service โดยตรง
+                await _account.logOut();
                 _logger.i('🔓 Logged out successfully');
                 Get.snackbar(
                   'Log Out Successful',

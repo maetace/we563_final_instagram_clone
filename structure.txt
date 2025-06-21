@@ -1,5 +1,4 @@
 .
-├── analysis_options.yaml
 ├── assets
 │   ├── images
 │   │   ├── avatar.jpg
@@ -20,23 +19,42 @@
 │       ├── usagent.jpg
 │       ├── valentina.jpg
 │       └── yelena.jpg
-├── codemagic.yaml
-├── firebase.json
 ├── lib
 │   ├── configs.dart
 │   ├── data.dart
+│   ├── locales.dart
 │   ├── main.dart
 │   ├── pages
-│   │   ├── forgot_password_page.dart
-│   │   ├── home_page.dart
-│   │   ├── log_in_page.dart
-│   │   ├── sign_up_page.dart
-│   │   └── welcome_page.dart
+│   │   ├── forgot_password
+│   │   │   ├── forgot_password_binding.dart
+│   │   │   ├── forgot_password_controller.dart
+│   │   │   └── forgot_password_page.dart
+│   │   ├── home
+│   │   │   ├── home_binding.dart
+│   │   │   ├── home_controller.dart
+│   │   │   └── home_page.dart
+│   │   ├── login
+│   │   │   ├── login_binding.dart
+│   │   │   ├── login_controller.dart
+│   │   │   └── login_page.dart
+│   │   ├── signup
+│   │   │   ├── signup_binding.dart
+│   │   │   ├── signup_controller.dart
+│   │   │   └── signup_page.dart
+│   │   └── welcome
+│   │       ├── welcome_binding.dart
+│   │       ├── welcome_controller.dart
+│   │       └── welcome_page.dart
+│   ├── routes.dart
+│   ├── theme.dart
 │   └── widgets.dart
+├── analysis_options.yaml
+├── codemagic.yaml
+├── firebase.json
 ├── pubspec.lock
 ├── pubspec.yaml
 ├── README.md
 ├── structure.txt
 └── we563_final_instagram_clone.iml
 
-6 directories, 34 files
+11 directories, 47 files

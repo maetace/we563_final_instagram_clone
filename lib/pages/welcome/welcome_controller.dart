@@ -6,15 +6,17 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 import '/configs.dart';
-import '/data.dart';
 import '/routes.dart';
+
+import '/models/account_model.dart';
+import '/services/account_service.dart';
 
 class WelcomeController extends GetxController {
   final colorScheme = Theme.of(Get.context!).colorScheme;
   final Logger _logger = Logger();
 
   // User data
-  final userRxn = Rxn<CurrentUser>();
+  final userRxn = Rxn<CurrentAccount>();
 
   // Loading states
   final _isLogInLoading = false.obs;
@@ -31,18 +33,18 @@ class WelcomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _account = Get.find();
+    _account = Get.find<AccountService>();
     loadCurrentUser();
   }
 
   Future<void> loadCurrentUser() async {
-    final currentUser = await _account.getCurrentUser();
+    final currentAccount = await _account.getCurrentAccount();
 
-    if (currentUser != null) {
-      userRxn.value = currentUser;
-      _logger.i('👤 Found current user: ${currentUser.username}');
+    if (currentAccount != null) {
+      userRxn.value = currentAccount;
+      _logger.i('👤 Found current account: ${currentAccount.username}');
     } else {
-      _logger.w('⚠️ No user in session. Redirecting to Login...');
+      _logger.w('⚠️ No account in session. Redirecting to Login...');
       Get.offAllNamed(AppRoutes.login);
     }
   }
@@ -55,10 +57,10 @@ class WelcomeController extends GetxController {
       if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
 
       if (userRxn.value != null) {
-        _logger.i('✅ Current user exists → navigating to Home');
+        _logger.i('✅ Current account exists → navigating to Home');
         Get.offAllNamed(AppRoutes.home);
       } else {
-        _logger.w('❌ No user found → navigating to Login');
+        _logger.w('❌ No account found → navigating to Login');
         Get.offAllNamed(AppRoutes.login);
       }
     } finally {

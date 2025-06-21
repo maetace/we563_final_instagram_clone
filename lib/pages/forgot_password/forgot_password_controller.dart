@@ -1,9 +1,11 @@
+// lib/pages/forgot_password/forgot_password_controller.dart
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '/configs.dart';
+import '/services/account_service.dart';
 
-import '/data.dart';
+import '/configs.dart';
 
 class ForgotPasswordController extends GetxController {
   final colorScheme = Theme.of(Get.context!).colorScheme;
@@ -66,9 +68,9 @@ class ForgotPasswordController extends GetxController {
         await Future.delayed(AppConfig.mockDelay);
       }
 
-      final user = await _account.findUserByUsername(usernameController.text.trim());
+      final account = await _account.findAccountByUsername(usernameController.text.trim());
 
-      if (user != null) {
+      if (account != null) {
         Get.snackbar(
           'reset_password_sent'.tr,
           'reset_password_sent_desc'.tr,
