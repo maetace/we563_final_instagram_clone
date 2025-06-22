@@ -61,9 +61,9 @@ class HomeController extends GetxController {
     final account = await _account.getCurrentAccount();
     if (account != null) {
       userRxn.value = account;
-      _logger.i('🏠 Account loaded: ${account.fullname}');
+      _logger.i('\ud83c\udfe0 Account loaded: \${account.fullname}');
     } else {
-      _logger.w('🏠 No account in session. Redirect to login');
+      _logger.w('\ud83c\udfe0 No account in session. Redirect to login');
       Get.offAllNamed('/login');
     }
   }
@@ -100,7 +100,7 @@ class HomeController extends GetxController {
         postItems.addAll(newItems);
       }
     } catch (e) {
-      _logger.e('Error loading posts: $e');
+      _logger.e('Error loading posts: \$e');
     } finally {
       isLoading.value = false;
     }
@@ -133,7 +133,7 @@ class HomeController extends GetxController {
           children: [
             Center(
               child: Text(
-                'Are you sure you want to log out?',
+                'logout_confirm'.tr,
                 style: Theme.of(Get.context!).textTheme.titleMedium?.copyWith(color: Colors.black87),
               ),
             ),
@@ -146,9 +146,15 @@ class HomeController extends GetxController {
                 Get.back();
                 _isLogOutLoading.value = true;
                 await _account.logOut();
-                _logger.i('🔓 Logged out successfully');
+                _logger.i('\ud83d\udd13 Logged out successfully');
                 _isLogOutLoading.value = false;
-                Get.snackbar('Logged out', 'See you again soon!');
+                Get.snackbar(
+                  'logout_success'.tr,
+                  'welcome'.tr,
+                  backgroundColor: Colors.green,
+                  colorText: Colors.white,
+                  snackPosition: SnackPosition.BOTTOM,
+                );
                 Get.offAllNamed('/welcome');
               },
             ),

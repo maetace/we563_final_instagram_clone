@@ -13,6 +13,11 @@ class AccountServiceMock extends GetxService implements AccountService {
   static const _keyUid = 'uid';
   static const _keyToken = 'token';
 
+  Account? _currentUser;
+
+  // ⭐️ getter currentUser
+  Account? get currentUser => _currentUser;
+
   @override
   Future<void> logIn(String username, String password) async {
     await 1.delay();
@@ -21,6 +26,8 @@ class AccountServiceMock extends GetxService implements AccountService {
       (a) => a.username == username && a.password == password && a.status == AccountStatus.active,
     );
     if (account == null) throw 'Invalid username or password';
+
+    _currentUser = account;
 
     await saveSession(uid: account.uid, token: 'mock_token');
   }
@@ -51,6 +58,8 @@ class AccountServiceMock extends GetxService implements AccountService {
 
     mockAccounts.add(newAccount);
 
+    _currentUser = newAccount;
+
     await saveSession(uid: uid, token: 'mock_token');
   }
 
@@ -70,12 +79,14 @@ class AccountServiceMock extends GetxService implements AccountService {
   Future<void> logOut() async {
     await _secure.delete(key: _keyUid);
     await _secure.delete(key: _keyToken);
+    _currentUser = null;
   }
 
   @override
   Future<CurrentAccount?> getCurrentAccount() async {
     final uid = await _secure.read(key: _keyUid);
     final account = mockAccounts.firstWhereOrNull((a) => a.uid == uid);
+    _currentUser = account;
     return account != null ? CurrentAccount.fromAccount(account) : null;
   }
 

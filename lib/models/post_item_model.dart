@@ -5,8 +5,9 @@ class PostItem {
   final String ownerName;
   final String ownerImage;
   final List<String> images;
-  final int likes;
-  final int comments;
+  int likes;
+  int comments;
+  bool isLiked;
   final String description;
   final DateTime createdDate;
 
@@ -17,10 +18,12 @@ class PostItem {
     required this.images,
     required this.likes,
     required this.comments,
+    this.isLiked = false,
     required this.description,
     required this.createdDate,
   });
 
+  // toJson / fromJson เพิ่ม isLiked
   factory PostItem.fromJson(Map<String, dynamic> json) => PostItem(
     id: json['id'],
     ownerName: json['ownerName'],
@@ -28,6 +31,7 @@ class PostItem {
     images: List<String>.from(json['images']),
     likes: json['likes'],
     comments: json['comments'],
+    isLiked: json['isLiked'] ?? false,
     description: json['description'],
     createdDate: DateTime.parse(json['createdDate']),
   );
@@ -39,6 +43,7 @@ class PostItem {
     'images': images,
     'likes': likes,
     'comments': comments,
+    'isLiked': isLiked,
     'description': description,
     'createdDate': createdDate.toIso8601String(),
   };

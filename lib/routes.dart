@@ -12,6 +12,8 @@ import 'pages/forgot_password/forgot_password_page.dart';
 import 'pages/forgot_password/forgot_password_binding.dart';
 import 'pages/home/home_page.dart';
 import 'pages/home/home_binding.dart';
+import 'pages/post_item/post_item_page.dart';
+import 'pages/post_item/post_item_binding.dart';
 
 class AppRoutes {
   static const welcome = '/';
@@ -26,5 +28,6 @@ class AppRoutes {
     GetPage(name: login, page: () => LoginPage(), binding: LoginBinding()),
     GetPage(name: home, page: () => HomePage(), binding: HomeBinding()),
     GetPage(name: forgot, page: () => const ForgotPasswordPage(), binding: ForgotPasswordBinding()),
+    GetPage(name: PostItemPage.route, page: () => const PostItemPage(), binding: PostItemBinding()),
   ];
 }

@@ -20,6 +20,8 @@ import 'services/account_service.dart';
 import 'services/account_service_mock.dart';
 import 'services/post_service.dart';
 import 'services/post_service_mock.dart';
+import 'services/comment_service.dart';
+import 'services/comment_service_mock.dart';
 
 // ===============================
 //     MAIN()
@@ -87,4 +89,5 @@ Future<void> main() async {
 void _init() {
   Get.put<AccountService>(AccountServiceMock(), permanent: true);
   Get.put<PostService>(PostServiceMock(), permanent: true);
+  Get.put<CommentService>(CommentServiceMock(), permanent: true);
 }

@@ -51,6 +51,17 @@ class AppTranslations extends Translations {
       // Labels
       'email_or_username': 'Email or username',
       'error': 'Error',
+      // TimeAgo
+      'day_ago': 'day ago',
+      'days_ago': 'days ago',
+      'hour_ago': 'hour ago',
+      'hours_ago': 'hours ago',
+      'minute_ago': 'minute ago',
+      'minutes_ago': 'minutes ago',
+      'just_now': 'Just now',
+      // Post Item
+      'comment_as': 'Comment as @user',
+      'write_a_comment': 'Write a comment...',
       // ...etc.
     },
     'th_TH': {
@@ -99,6 +110,17 @@ class AppTranslations extends Translations {
       // Labels
       'email_or_username': 'อีเมลหรือชื่อผู้ใช้',
       'error': 'เกิดข้อผิดพลาด',
+      // TimeAgo
+      'day_ago': 'วันที่แล้ว',
+      'days_ago': 'วันที่แล้ว',
+      'hour_ago': 'ชั่วโมงที่แล้ว',
+      'hours_ago': 'ชั่วโมงที่แล้ว',
+      'minute_ago': 'นาทีที่แล้ว',
+      'minutes_ago': 'นาทีที่แล้ว',
+      'just_now': 'เมื่อสักครู่',
+      // Post Item
+      'comment_as': 'แสดงความคิดเห็นในชื่อ @user',
+      'write_a_comment': 'เขียนความคิดเห็น...',
       // ...etc.
     },
   };

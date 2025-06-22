@@ -1,63 +1,43 @@
 // lib/data/comment_data_mock.dart
 
-import '../models/comment_item_model.dart';
+import '/models/comment_item_model.dart';
 import '/utils.dart';
+import '/data/account_data_mock.dart';
+import '/data/post_data_mock.dart';
 
-final List<CommentItem> mockComments = [
-  CommentItem(
+final List<CommentItem> mockComments = List.generate(60, (index) {
+  final user = mockAccounts[index % mockAccounts.length];
+  final post = mockPosts[index % mockPosts.length];
+
+  final messages = [
+    'Wow this is amazing! 😍',
+    'I love this!',
+    'Hahaha, this made my day 🤣',
+    'Great idea 💡',
+    '🔥🔥🔥',
+    'Can’t wait to try this!',
+    'Looks interesting 👀',
+    'This app is awesome!',
+    'So cool 😎',
+    'Totally agree! 👍',
+    '👏👏👏',
+    'LOL 😂',
+    'Yessss!',
+    'Well said 👏',
+    'Where can I get this?',
+    'Just what I needed!',
+    'Amazing work 👏',
+    'Thanks for sharing 🙏',
+    'Nice!',
+    'Wow!',
+  ];
+
+  return CommentItem(
     id: 'comment.${randomString(30)}',
-    postId: 'post.demo',
-    ownerName: 'demouser',
-    ownerImage: 'assets/images/avatar.webp',
-    message: 'I love it',
-    createdDate: DateTime.now().subtract(Duration(days: 7)),
-  ),
-  CommentItem(
-    id: 'comment.${randomString(30)}',
-    postId: 'post.demo',
-    ownerName: 'demouser',
-    ownerImage: 'assets/images/avatar.webp',
-    message: 'It\'s OK',
-    createdDate: DateTime.now().subtract(Duration(days: 6)),
-  ),
-  CommentItem(
-    id: 'comment.${randomString(30)}',
-    postId: 'post.demo',
-    ownerName: 'demouser',
-    ownerImage: 'assets/images/avatar.webp',
-    message: 'Hahaha',
-    createdDate: DateTime.now().subtract(Duration(days: 5)),
-  ),
-  CommentItem(
-    id: 'comment.${randomString(30)}',
-    postId: 'post.demo',
-    ownerName: 'demouser',
-    ownerImage: 'assets/images/avatar.webp',
-    message: 'Wow',
-    createdDate: DateTime.now().subtract(Duration(days: 4)),
-  ),
-  CommentItem(
-    id: 'comment.${randomString(30)}',
-    postId: 'post.demo',
-    ownerName: 'demouser',
-    ownerImage: 'assets/images/avatar.webp',
-    message: 'Hello',
-    createdDate: DateTime.now().subtract(Duration(days: 3)),
-  ),
-  CommentItem(
-    id: 'comment.${randomString(30)}',
-    postId: 'post.demo',
-    ownerName: 'demouser',
-    ownerImage: 'assets/images/avatar.webp',
-    message: 'That\'s right',
-    createdDate: DateTime.now().subtract(Duration(days: 2)),
-  ),
-  CommentItem(
-    id: 'comment.${randomString(30)}',
-    postId: 'post.demo',
-    ownerName: 'demouser',
-    ownerImage: 'assets/images/avatar.webp',
-    message: 'Hehehe',
-    createdDate: DateTime.now().subtract(Duration(days: 1)),
-  ),
-];
+    postId: post.id,
+    ownerName: user.username,
+    ownerImage: user.avatar,
+    message: messages[index % messages.length],
+    createdDate: DateTime.now().subtract(Duration(days: index % 7, hours: index % 12, minutes: index % 60)),
+  );
+});
