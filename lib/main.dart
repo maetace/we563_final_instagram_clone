@@ -12,12 +12,14 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'services/account_service.dart';
-import 'services/account_service_mock.dart';
-
 import 'routes.dart';
 import 'theme.dart';
 import 'locales.dart';
+
+import 'services/account_service.dart';
+import 'services/account_service_mock.dart';
+import 'services/post_service.dart';
+import 'services/post_service_mock.dart';
 
 // ===============================
 //     MAIN()
@@ -84,4 +86,5 @@ Future<void> main() async {
 
 void _init() {
   Get.put<AccountService>(AccountServiceMock(), permanent: true);
+  Get.put<PostService>(PostServiceMock(), permanent: true);
 }

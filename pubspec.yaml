@@ -14,10 +14,11 @@ dependencies:
   get: ^4.7.2 # Updated 2025-02-18
   device_preview: ^1.2.0 # Updated 2025-03-12
   flutter_secure_storage: ^9.2.4 # Updated 2025-01-10
-  carousel_slider: ^4.2.1 # Updated 2025-04-05
+  carousel_slider: ^5.1.1 # Updated 2025-06-07
   shimmer: ^3.0.0 # Updated 2023-05-20
   image_picker: ^1.0.7 # Updated 2025-04-15
   file_picker: ^10.1.9 # Updated 2025-05-13
+  flutter_svg: ^2.2.0 # Updated 2025-06-16
   cupertino_icons: ^1.0.6 # Updated 2025-03-28
   flutter_dotenv: ^5.2.1 # Updated 2024-10-14
   collection: ^1.19.1 # Updated 2024-10-21
@@ -36,6 +37,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/icons/
     - assets/avatars_mock/
     - .env.mock
     - .env.dev

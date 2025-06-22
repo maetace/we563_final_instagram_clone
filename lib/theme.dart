@@ -107,7 +107,7 @@ final darkColorScheme = ColorScheme.fromSeed(seedColor: const Color(0xFF0064E0),
   secondary: const Color(0xFF6389BA),
   onSecondary: const Color(0xFF0055BB),
   surface: const Color(0xFF162127),
-  onSurface: const Color(0xEEEEEEEE),
+  onSurface: const Color(0xFFEEEEEE),
 );
 
 // ===============================
@@ -118,18 +118,28 @@ final ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   colorScheme: lightColorScheme,
   textTheme: appTextTheme,
+  iconTheme: const IconThemeData(color: Colors.black),
   inputDecorationTheme: inputTheme(lightColorScheme),
   elevatedButtonTheme: elevatedButtonTheme(lightColorScheme),
   outlinedButtonTheme: outlinedButtonTheme(lightColorScheme),
   textButtonTheme: textButtonTheme(lightColorScheme),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    selectedItemColor: lightColorScheme.onSurface,
+    unselectedItemColor: lightColorScheme.onSurface,
+  ),
 );
 
 final ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   colorScheme: darkColorScheme,
   textTheme: appTextTheme,
+  iconTheme: const IconThemeData(color: Colors.white),
   inputDecorationTheme: inputTheme(darkColorScheme),
   elevatedButtonTheme: elevatedButtonTheme(darkColorScheme),
   outlinedButtonTheme: outlinedButtonTheme(darkColorScheme),
   textButtonTheme: textButtonTheme(darkColorScheme),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    selectedItemColor: darkColorScheme.onSurface,
+    unselectedItemColor: darkColorScheme.onSurface,
+  ),
 );
