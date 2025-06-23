@@ -53,60 +53,6 @@ class NewPostPage extends GetView<NewPostController> {
                 ),
                 const SizedBox(height: 24),
 
-                // select up to 4 photos (grid)
-                Text('Select up to 4 photos', style: theme.textTheme.titleSmall),
-                const SizedBox(height: 12),
-
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: controller.galleryImages.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 1,
-                  ),
-                  itemBuilder: (context, index) {
-                    final path = controller.galleryImages[index];
-                    final isSelected = controller.selectedIndexes.contains(index);
-
-                    return GestureDetector(
-                      onTap: () => controller.toggleSelectImage(index),
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: isSelected ? theme.colorScheme.primary : theme.colorScheme.outlineVariant,
-                                width: 2,
-                              ),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.asset(path, fit: BoxFit.cover),
-                            ),
-                          ),
-                          if (isSelected)
-                            Positioned(
-                              top: 6,
-                              right: 6,
-                              child: Container(
-                                padding: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(color: theme.colorScheme.primary, shape: BoxShape.circle),
-                                child: const Icon(Icons.check, size: 16, color: Colors.white),
-                              ),
-                            ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-
-                const SizedBox(height: 24),
-
                 // selected photos
                 Obx(() {
                   if (controller.selectedImages.isEmpty) {
@@ -127,8 +73,8 @@ class NewPostPage extends GetView<NewPostController> {
                                 clipBehavior: Clip.none,
                                 children: [
                                   Container(
-                                    width: 100,
-                                    height: 100,
+                                    width: 80,
+                                    height: 80,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),
                                       border: Border.all(color: theme.colorScheme.outlineVariant),
@@ -151,9 +97,65 @@ class NewPostPage extends GetView<NewPostController> {
                               );
                             }).toList(),
                       ),
+                      const SizedBox(height: 24),
                     ],
                   );
                 }),
+
+                // select up to 4 photos
+                Text('Select up to 4 photos', style: theme.textTheme.titleSmall),
+                const SizedBox(height: 12),
+
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: controller.galleryImages.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: 1, // ⭐️ Grid 1:1
+                  ),
+                  itemBuilder: (context, index) {
+                    final path = controller.galleryImages[index];
+                    final isSelected = controller.selectedIndexes.contains(index);
+
+                    return GestureDetector(
+                      onTap: () => controller.toggleSelectImage(index),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1, // ⭐️ 1:1 รูปใน cell
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: isSelected ? theme.colorScheme.primary : theme.colorScheme.outlineVariant,
+                                  width: 2,
+                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.asset(path, fit: BoxFit.cover),
+                              ),
+                            ),
+                          ),
+                          if (isSelected)
+                            Positioned(
+                              top: 6,
+                              right: 6,
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(color: theme.colorScheme.primary, shape: BoxShape.circle),
+                                child: const Icon(Icons.check, size: 16, color: Colors.white),
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
 
                 const SizedBox(height: 24),
               ],

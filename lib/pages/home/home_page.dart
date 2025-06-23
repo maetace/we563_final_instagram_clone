@@ -1,3 +1,5 @@
+// lib/pages/home/home_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,13 +27,7 @@ class HomePage extends GetView<HomeController> {
       body: Obx(
         () => IndexedStack(
           index: controller.currentTabIndex,
-          children: [
-            const HomeTab(),
-            const ExploreTab(),
-            // ไม่มี NewPostTab → เพราะเราจะ push หน้าใหม่แทน
-            const ReelsTab(),
-            const ProfileTab(),
-          ],
+          children: [const HomeTab(), const ExploreTab(), const ReelsTab(), const ProfileTab()],
         ),
       ),
       bottomNavigationBar: HomeBottomNavBar(

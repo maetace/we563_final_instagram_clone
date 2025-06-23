@@ -11,7 +11,7 @@ class HomeBottomNavBar extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final isReelsTab = controller.currentTabIndex == 3;
+    final isReelsTab = controller.currentTabIndex == 2; // ⭐ ใช้ index 2
     final theme = Theme.of(context);
 
     return Theme(
@@ -40,7 +40,8 @@ class HomeBottomNavBar extends GetView<HomeController> {
             // ⭐ ถ้าเป็น NewPost → call callback
             onNewPostTap();
           } else {
-            controller.onBottomNavigationBarItemTap(index);
+            // ⭐ index > 2 ต้อง shift index -1
+            controller.onBottomNavigationBarItemTap(index > 2 ? index - 1 : index);
           }
         },
       ),
