@@ -14,6 +14,8 @@ import 'pages/home/home_page.dart';
 import 'pages/home/home_binding.dart';
 import 'pages/post_item/post_item_page.dart';
 import 'pages/post_item/post_item_binding.dart';
+import 'pages/new_post/new_post_page.dart';
+import 'pages/new_post/new_post_binding.dart';
 
 class AppRoutes {
   static const welcome = '/';
@@ -21,13 +23,16 @@ class AppRoutes {
   static const login = '/login';
   static const home = '/home';
   static const forgot = '/forgot';
+  static const postItem = '/postitem';
+  static const newPost = '/newpost';
 
   static final routes = [
     GetPage(name: welcome, page: () => WelcomePage(), binding: WelcomeBinding()),
     GetPage(name: signup, page: () => SignupPage(), binding: SignupBinding()),
     GetPage(name: login, page: () => LoginPage(), binding: LoginBinding()),
     GetPage(name: home, page: () => HomePage(), binding: HomeBinding()),
-    GetPage(name: forgot, page: () => const ForgotPasswordPage(), binding: ForgotPasswordBinding()),
-    GetPage(name: PostItemPage.route, page: () => const PostItemPage(), binding: PostItemBinding()),
+    GetPage(name: forgot, page: () => ForgotPasswordPage(), binding: ForgotPasswordBinding()),
+    GetPage(name: postItem, page: () => PostItemPage(), binding: PostItemBinding()),
+    GetPage(name: newPost, page: () => NewPostPage(), binding: NewPostBinding()),
   ];
 }

@@ -28,7 +28,8 @@ class PostItemPage extends GetView<PostItemController> {
             Text(controller.postItem.ownerName, style: Theme.of(context).textTheme.titleSmall),
           ],
         ),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))],
+        actions: [IconButton(icon: const Icon(Icons.more_horiz), onPressed: () {})],
+        actionsPadding: const EdgeInsets.only(right: 8),
       ),
       body: Obx(() {
         if (controller.commentItems.isEmpty) {
