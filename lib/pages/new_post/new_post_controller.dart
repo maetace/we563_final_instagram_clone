@@ -1,5 +1,3 @@
-// lib/pages/new_post/new_post_controller.dart
-
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
