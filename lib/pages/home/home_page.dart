@@ -1,5 +1,9 @@
 // lib/pages/home/home_page.dart
 
+// ===============================
+// PAGE: HOME
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -15,7 +19,15 @@ import 'widgets/bottom_nav_bar.dart';
 
 import '/routes.dart';
 
+// ===============================
+// LOGGER
+// ===============================
+
 final Logger _logger = Logger();
+
+// ===============================
+// HOME PAGE
+// ===============================
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -27,22 +39,34 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: controller.scaffoldKey,
+
+      // ===============================
+      // BODY: TABS
+      // ===============================
       body: Obx(
         () => IndexedStack(
           index: controller.currentTabIndex,
           children: [
-            const HomeTab(), //
-            const ExploreTab(), //
-            ReelsTab(currentTabIndex: controller.currentTabIndex), //
+            const HomeTab(),
+            const ExploreTab(),
+            ReelsTab(currentTabIndex: controller.currentTabIndex),
             const ProfileTab(),
           ],
         ),
       ),
+
+      // ===============================
+      // BOTTOM NAV BAR
+      // ===============================
       bottomNavigationBar: Obx(
         () => HomeBottomNavBar(
           currentIndex: controller.currentTabIndex,
           isReelsTab: controller.currentTabIndex == 2,
           avatar: controller.userRxn.value?.avatar ?? '',
+
+          // ===============================
+          // NEW POST
+          // ===============================
           onNewPostTap: () async {
             final result = await Get.toNamed(AppRoutes.postNew);
             _logger.i('result from postNewPage = $result');
@@ -60,6 +84,10 @@ class HomePage extends GetView<HomeController> {
               controller.scrollController.jumpTo(0);
             }
           },
+
+          // ===============================
+          // SWITCH TAB
+          // ===============================
           onTabSelected: (newTabIndex) {
             controller.onBottomNavigationBarItemTap(newTabIndex);
           },

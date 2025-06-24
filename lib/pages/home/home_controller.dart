@@ -1,5 +1,9 @@
 // lib/pages/home/home_controller.dart
 
+// ===============================
+// CONTROLLER: HOME
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
@@ -9,13 +13,23 @@ import '/services/account_service.dart';
 import '/models/post_item_model.dart';
 import '/services/post_service.dart';
 
+// ===============================
+// HOME CONTROLLER
+// ===============================
+
 class HomeController extends GetxController {
   final Logger _logger = Logger();
 
-  // Scaffold
+  // ===============================
+  // SCAFFOLD
+  // ===============================
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Tab index
+  // ===============================
+  // CURRENT TAB INDEX
+  // ===============================
+
   final _currentTabIndex = 0.obs;
   int get currentTabIndex => _currentTabIndex.value;
 
@@ -23,22 +37,38 @@ class HomeController extends GetxController {
     _currentTabIndex.value = index;
   }
 
-  // UserRx
+  // ===============================
+  // USER
+  // ===============================
+
   final userRxn = Rxn<CurrentAccount>();
 
-  // Services
+  // ===============================
+  // SERVICES
+  // ===============================
+
   late AccountService _account;
   late PostService _postService;
 
-  // Feed (PostItems)
+  // ===============================
+  // FEED (POST ITEMS)
+  // ===============================
+
   final postItems = <PostItem?>[].obs;
   final scrollController = ScrollController();
 
-  // Paging
+  // ===============================
+  // PAGING
+  // ===============================
+
   var pageIndex = 1;
   final pageSize = 3;
   final isLoading = false.obs;
   final hasMore = true.obs;
+
+  // ===============================
+  // INIT
+  // ===============================
 
   @override
   void onInit() {
@@ -56,42 +86,52 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  // Load current user
+  // ===============================
+  // LOAD CURRENT USER
+  // ===============================
+
   Future<void> loadCurrentAccount() async {
     final account = await _account.getCurrentAccount();
     if (account != null) {
       userRxn.value = account;
-      _logger.i('\ud83c\udfe0 Account loaded: \${account.fullname}');
+      _logger.i('🏠 Account loaded: ${account.fullname}');
     } else {
-      _logger.w('\ud83c\udfe0 No account in session. Redirect to login');
+      _logger.w('🏠 No account in session. Redirect to login');
       Get.offAllNamed('/login');
     }
   }
 
-  // Load posts (initial)
+  // ===============================
+  // LOAD POSTS (INITIAL)
+  // ===============================
+
   Future<void> loadInitialPosts() async {
     pageIndex = 1;
     postItems.clear();
     await _loadPosts();
   }
 
-  // Load more posts
+  // ===============================
+  // LOAD MORE POSTS
+  // ===============================
+
   Future<void> loadMorePosts() async {
     if (isLoading.value || !hasMore.value) return;
     pageIndex++;
     await _loadPosts();
   }
 
-  // Core load
+  // ===============================
+  // CORE LOAD
+  // ===============================
+
   Future<void> _loadPosts() async {
     isLoading.value = true;
     try {
-      // Append placeholder
       postItems.addAll(List.generate(pageSize, (_) => null));
 
       final newItems = await _postService.getPostItems(pageIndex: pageIndex, pageSize: pageSize);
 
-      // Remove placeholder
       postItems.removeWhere((item) => item == null);
 
       if (newItems.isEmpty) {
@@ -100,25 +140,34 @@ class HomeController extends GetxController {
         postItems.addAll(newItems);
       }
     } catch (e) {
-      _logger.e('Error loading posts: \$e');
+      _logger.e('Error loading posts: $e');
     } finally {
       isLoading.value = false;
     }
   }
 
-  // Refresh
+  // ===============================
+  // REFRESH POSTS
+  // ===============================
+
   Future<void> onRefreshPosts() async {
     await loadInitialPosts();
   }
 
-  // Scroll detect
+  // ===============================
+  // SCROLL DETECT
+  // ===============================
+
   void _onScroll() {
     if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
       loadMorePosts();
     }
   }
 
-  // Logout
+  // ===============================
+  // LOGOUT
+  // ===============================
+
   bool get isLogOutLoading => _isLogOutLoading.value;
   final _isLogOutLoading = false.obs;
 
@@ -146,7 +195,7 @@ class HomeController extends GetxController {
                 Get.back();
                 _isLogOutLoading.value = true;
                 await _account.logOut();
-                _logger.i('\ud83d\udd13 Logged out successfully');
+                _logger.i('🔓 Logged out successfully');
                 _isLogOutLoading.value = false;
                 Get.snackbar(
                   'logout_success'.tr,
@@ -163,6 +212,10 @@ class HomeController extends GetxController {
       ),
     );
   }
+
+  // ===============================
+  // GO TO WELCOME
+  // ===============================
 
   void onWelcomePressed() {
     Get.offAllNamed('/welcome');

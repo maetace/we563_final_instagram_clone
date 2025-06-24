@@ -1,7 +1,21 @@
+// lib/pages/home/widgets/bottom_nav_bar.dart
+
+// ===============================
+// WIDGET: HOME BOTTOM NAV BAR
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
+// ===============================
+// LOGGER
+// ===============================
+
 final Logger _logger = Logger();
+
+// ===============================
+// HOME BOTTOM NAV BAR
+// ===============================
 
 class HomeBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -40,6 +54,10 @@ class HomeBottomNavBar extends StatelessWidget {
         showUnselectedLabels: false,
         elevation: 0,
         currentIndex: navBarIndex,
+
+        // ===============================
+        // ON TAP
+        // ===============================
         onTap: (index) {
           _logger.i('[BottomNavBar] tapped index = $index');
           if (index == 2) {
@@ -50,6 +68,10 @@ class HomeBottomNavBar extends StatelessWidget {
             onTabSelected(newTabIndex);
           }
         },
+
+        // ===============================
+        // ITEMS
+        // ===============================
         items: [
           _createBottomNavigationBarItem(
             normalIcon: Icons.home_outlined,
@@ -77,6 +99,10 @@ class HomeBottomNavBar extends StatelessWidget {
     );
   }
 
+  // ===============================
+  // NAV ITEM (ICON)
+  // ===============================
+
   BottomNavigationBarItem _createBottomNavigationBarItem({
     required IconData normalIcon,
     required IconData selectedIcon,
@@ -84,6 +110,10 @@ class HomeBottomNavBar extends StatelessWidget {
   }) {
     return BottomNavigationBarItem(icon: Icon(isSelected ? selectedIcon : normalIcon, size: 28), label: '');
   }
+
+  // ===============================
+  // NAV ITEM (PROFILE)
+  // ===============================
 
   BottomNavigationBarItem _createProfileNavigationBarItem({required bool isSelected}) {
     final hasAvatar = avatar.isNotEmpty;

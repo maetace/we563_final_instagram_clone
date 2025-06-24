@@ -1,10 +1,17 @@
 // lib/pages/new_post/widgets/photos_selected.dart
 
+// ===============================
+// WIDGET: SELECTED PHOTOS
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../post_new_controller.dart';
 
-// Widget for displaying selected photos
+// ===============================
+// SELECTED PHOTOS
+// ===============================
+
 class PhotosSelected extends GetView<PostNewController> {
   const PhotosSelected({super.key});
 
@@ -20,11 +27,11 @@ class PhotosSelected extends GetView<PostNewController> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title
+          // TITLE
           Text('Selected Photos', style: theme.textTheme.titleSmall),
           const SizedBox(height: 12),
 
-          // Wrap selected images
+          // WRAP SELECTED IMAGES
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -33,7 +40,7 @@ class PhotosSelected extends GetView<PostNewController> {
                   return Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      // Image box
+                      // IMAGE BOX
                       Container(
                         width: 80,
                         height: 80,
@@ -47,7 +54,7 @@ class PhotosSelected extends GetView<PostNewController> {
                         ),
                       ),
 
-                      // Remove button (top-right corner)
+                      // REMOVE BUTTON
                       Positioned(
                         top: -6,
                         right: -6,

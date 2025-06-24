@@ -1,7 +1,7 @@
 // lib/main.dart
 
 // ===============================
-//     MAIN ENTRY POINT
+// MAIN ENTRY POINT
 // ===============================
 
 import 'package:flutter/foundation.dart';
@@ -24,7 +24,7 @@ import 'services/comment_service.dart';
 import 'services/comment_service_mock.dart';
 
 // ===============================
-//     MAIN()
+// MAIN()
 // ===============================
 
 Future<void> main() async {
@@ -37,11 +37,13 @@ Future<void> main() async {
   // ==== 3. Load .env (ENVIRONMENT) ====
   await dotenv.load(fileName: ".env.mock");
 
-  // ==== 4.  Load shared_preferences (Storage) ====
+  // ==== 4. Load shared_preferences (Storage) ====
   final prefs = await SharedPreferences.getInstance();
+
   // Load User Locale
   final savedLocale = prefs.getString('locale');
   final locale = savedLocale != null ? Locale(savedLocale.split('_')[0], savedLocale.split('_')[1]) : Get.deviceLocale;
+
   // ThemeMode
   final savedTheme = prefs.getString('themeMode');
   final themeMode = switch (savedTheme) {
@@ -83,7 +85,7 @@ Future<void> main() async {
 }
 
 // ===============================
-//     GLOBAL SERVICE INIT
+// GLOBAL SERVICE INIT
 // ===============================
 
 void _init() {

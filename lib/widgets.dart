@@ -1,9 +1,21 @@
 // lib/widgets.dart
 
+// ===============================
+// COMMON WIDGETS
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ===============================
+// LOADING BUTTON
+// ===============================
+
+/// LoadingButton
+/// - Supports Elevated / Outlined / Text Button
+/// - Show loading spinner when [isLoading] = true
+/// - Used for form submit, async actions
 class LoadingButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;
@@ -49,6 +61,13 @@ class LoadingButton extends StatelessWidget {
 
 enum ButtonType { elevated, outlined, text }
 
+// ===============================
+// LANGUAGE SWITCHER
+// ===============================
+
+/// LanguageSwitcher
+/// - Toggle between 'th_TH' and 'en_US'
+/// - Save language to SharedPreferences
 class LanguageSwitcher extends StatelessWidget {
   const LanguageSwitcher({super.key});
 
@@ -57,7 +76,7 @@ class LanguageSwitcher extends StatelessWidget {
     final isThai = (Get.locale?.languageCode ?? 'th') == 'th';
 
     return IconButton(
-      icon: Icon(Icons.language),
+      icon: const Icon(Icons.language),
       tooltip: 'change_language'.tr,
       onPressed: () async {
         final newLocale = isThai ? const Locale('en', 'US') : const Locale('th', 'TH');
@@ -71,19 +90,24 @@ class LanguageSwitcher extends StatelessWidget {
   }
 }
 
+// ===============================
+// THEME SWITCHER
+// ===============================
+
+/// ThemeSwitcher
+/// - Toggle between light / dark theme
+/// - Save themeMode to SharedPreferences
 class ThemeSwitcher extends StatelessWidget {
   const ThemeSwitcher({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // อ่านค่า ThemeMode ปัจจุบัน (Get.isDarkMode, Theme.of(context).brightness, หรือ Get.themeMode)
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return IconButton(
       icon: Icon(isDark ? Icons.dark_mode : Icons.light_mode),
-      tooltip: 'change_theme'.tr, // เพิ่ม key นี้ใน locales ด้วย
+      tooltip: 'change_theme'.tr,
       onPressed: () async {
-        // Toggle theme: ถ้า dark → light, ถ้า light → dark
         final newMode = isDark ? ThemeMode.light : ThemeMode.dark;
         Get.changeThemeMode(newMode);
 
@@ -95,19 +119,25 @@ class ThemeSwitcher extends StatelessWidget {
   }
 }
 
+// ===============================
+// PAGE CONTAINER (MAX WIDTH)
+// ===============================
+
+/// AppPageContainer
+/// - Center content with maxWidth constraint
+/// - Default maxWidth: 430px (Mobile-friendly)
+/// - Adds horizontal padding
 class AppPageContainer extends StatelessWidget {
   final Widget child;
+
   const AppPageContainer({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 430),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18), // <== เพิ่ม padding กลับมา
-          child: child,
-        ),
+        constraints: const BoxConstraints(maxWidth: 430),
+        child: Padding(padding: const EdgeInsets.symmetric(horizontal: 18), child: child),
       ),
     );
   }

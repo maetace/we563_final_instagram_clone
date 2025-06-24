@@ -1,5 +1,9 @@
 // lib/pages/new_post/post_new_page.dart
 
+// ===============================
+// PAGE: POST NEW PAGE
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,7 +14,10 @@ import 'widgets/photos_selected.dart';
 import 'widgets/photos_selector.dart';
 import 'widgets/post_button.dart';
 
-// Page for creating a new post
+// ===============================
+// POST NEW PAGE
+// ===============================
+
 class PostNewPage extends GetView<PostNewController> {
   static const title = 'post_new_title';
   static const route = '/postnew';
@@ -20,42 +27,38 @@ class PostNewPage extends GetView<PostNewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // AppBar with close button
+      // ===============================
+      // APP BAR
+      // ===============================
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close), // close icon
-          onPressed: () => Get.back(), // close action
-        ),
-        title: Text(title.tr), // localized title
+        leading: IconButton(icon: const Icon(Icons.close), onPressed: () => Get.back()),
+        title: Text(title.tr),
         centerTitle: true,
       ),
 
-      // Main body with SafeArea
+      // ===============================
+      // BODY
+      // ===============================
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(), // dismiss keyboard on tap outside
+        onTap: () => FocusScope.of(context).unfocus(),
         child: SafeArea(
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 430), // max width constraint
+              constraints: const BoxConstraints(maxWidth: 430),
               child: Column(
                 children: [
-                  // Main scrollable content
+                  // MAIN CONTENT
                   Expanded(
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          CaptionBox(), // caption text input
-                          SizedBox(height: 24),
-                          PhotosSelected(), // selected photos list
-                          PhotosSelector(), // photo selection grid
-                        ],
+                        children: const [CaptionBox(), SizedBox(height: 24), PhotosSelected(), PhotosSelector()],
                       ),
                     ),
                   ),
 
-                  // Bottom post button
+                  // POST BUTTON
                   const PostButton(),
                 ],
               ),

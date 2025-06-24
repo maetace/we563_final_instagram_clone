@@ -1,3 +1,9 @@
+// lib/pages/home/widgets/post_item_widget.dart
+
+// ===============================
+// WIDGET: POST ITEM
+// ===============================
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,6 +12,10 @@ import 'package:get/get.dart';
 import '/models/post_item_model.dart';
 import '/pages/post_item/post_item_page.dart';
 import '/utils.dart';
+
+// ===============================
+// POST ITEM WIDGET
+// ===============================
 
 class PostItemWidget extends StatefulWidget {
   const PostItemWidget({super.key, required this.item});
@@ -24,7 +34,6 @@ class _PostItemWidgetState extends State<PostItemWidget> {
   @override
   void initState() {
     super.initState();
-    // ✅ sync ค่าเริ่มต้นจาก model
     isLiked = widget.item.isLiked;
     likeCount = widget.item.likes;
   }
@@ -33,7 +42,6 @@ class _PostItemWidgetState extends State<PostItemWidget> {
     setState(() {
       isLiked = !isLiked;
       likeCount += isLiked ? 1 : -1;
-      // ✅ update model ด้วย (เพื่อส่งเข้า PostItemPage แล้วค่าจะตรง)
       widget.item.isLiked = isLiked;
       widget.item.likes = likeCount;
     });
@@ -52,7 +60,9 @@ class _PostItemWidgetState extends State<PostItemWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // === Header ===
+            // ===============================
+            // HEADER
+            // ===============================
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Row(
@@ -65,7 +75,9 @@ class _PostItemWidgetState extends State<PostItemWidget> {
               ),
             ),
 
-            // === Carousel ===
+            // ===============================
+            // CAROUSEL
+            // ===============================
             CarouselSlider.builder(
               itemCount: widget.item.images.length,
               itemBuilder: (context, index, realIndex) {
@@ -86,7 +98,9 @@ class _PostItemWidgetState extends State<PostItemWidget> {
               ),
             ),
 
-            // === Indicator (dots) ===
+            // ===============================
+            // INDICATOR DOTS
+            // ===============================
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children:
@@ -106,7 +120,9 @@ class _PostItemWidgetState extends State<PostItemWidget> {
                   }).toList(),
             ),
 
-            // === Actions ===
+            // ===============================
+            // ACTIONS
+            // ===============================
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Row(
@@ -140,7 +156,9 @@ class _PostItemWidgetState extends State<PostItemWidget> {
               ),
             ),
 
-            // === Caption ===
+            // ===============================
+            // CAPTION
+            // ===============================
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               child: RichText(
@@ -157,7 +175,9 @@ class _PostItemWidgetState extends State<PostItemWidget> {
               ),
             ),
 
-            // === Created date ===
+            // ===============================
+            // CREATED DATE
+            // ===============================
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               child: Text(

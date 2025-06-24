@@ -1,12 +1,27 @@
 // lib/locales.dart
 
+// ===============================
+// APP LOCALIZATION (EN, TH)
+// ===============================
+
 import 'package:get/get.dart';
 
+// ===============================
+// TRANSLATIONS CLASS
+// ===============================
+
+/// AppTranslations
+/// - Provide multi-language support
+/// - Supported locales: en_US, th_TH
+/// - Usage: 'key'.tr
 class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
+    // ===============================
+    // ENGLISH (en_US)
+    // ===============================
     'en_US': {
-      // Auth
+      // ===== Auth =====
       'login': 'Log In',
       'logout': 'Log Out',
       'signup': 'Sign Up',
@@ -16,13 +31,13 @@ class AppTranslations extends Translations {
       'forgot_password': 'Forgot password?',
       'find_account': 'Find my account',
       'create_new_account': 'Create new account',
-      // Home/Welcome
+      // ===== Home/Welcome =====
       'welcome': 'Welcome',
       'welcome_back': 'Welcome back, @user! 🎉',
       'continue': 'Continue',
       'use_another_profile': 'Use another profile',
       'new_notifications': 'New notifications',
-      // Validation
+      // ===== Validation =====
       'please_enter_username': 'Please enter your username.',
       'username_min': 'Username must be at least 3 characters long.',
       'username_invalid': 'Username can only contain letters and numbers (no spaces or special characters).',
@@ -35,23 +50,23 @@ class AppTranslations extends Translations {
       'password_letter': 'Password must contain at least one letter (A–Z or a–z).',
       'password_digit': 'Password must contain at least one digit (0–9).',
       'password_requirements': 'Password must contain a letter, a digit, and a special character.',
-      // Snackbar/Message
+      // ===== Snackbar/Message =====
       'login_success': 'Log In Successful',
       'login_failed': 'Log In Failed',
       'signup_success': 'Sign Up Successful',
       'signup_failed': 'Sign Up Failed',
       'logout_success': 'Log Out Successful',
       'logout_confirm': 'Are you sure you want to log out?',
-      // Forgot
+      // ===== Forgot =====
       'forgot_password_hint': 'Enter your username to reset your password.',
       'reset_password_sent': 'Reset password link sent',
       'reset_password_sent_desc': 'A reset password link has been sent to your email.',
       'user_not_found': 'User not found',
       'loading_profile': 'Loading profile...',
-      // Labels
+      // ===== Labels =====
       'email_or_username': 'Email or username',
       'error': 'Error',
-      // TimeAgo
+      // ===== TimeAgo =====
       'day_ago': 'day ago',
       'days_ago': 'days ago',
       'hour_ago': 'hour ago',
@@ -59,19 +74,22 @@ class AppTranslations extends Translations {
       'minute_ago': 'minute ago',
       'minutes_ago': 'minutes ago',
       'just_now': 'Just now',
-      // Post Item
+      // ===== Post Item =====
       'comment_as': 'Comment as @user',
       'write_a_comment': 'Write a comment...',
-      // === Post New ===
+      // ===== Post New =====
       'post_new_title': 'New Post',
       'post_new_caption_box_hint': 'What\'s happening?',
       'post_new_photos_selected': 'Selected Photos',
       'post_new_photos_select_hint': 'Select up to 4 photos',
       'post_new_post_button': 'Post Now',
-      // ...etc.
     },
+
+    // ===============================
+    // THAI (th_TH)
+    // ===============================
     'th_TH': {
-      // Auth
+      // ===== Auth =====
       'login': 'เข้าสู่ระบบ',
       'logout': 'ออกจากระบบ',
       'signup': 'สมัครสมาชิก',
@@ -81,13 +99,13 @@ class AppTranslations extends Translations {
       'forgot_password': 'ลืมรหัสผ่าน?',
       'find_account': 'ค้นหาบัญชีของฉัน',
       'create_new_account': 'สร้างบัญชีใหม่',
-      // Home/Welcome
+      // ===== Home/Welcome =====
       'welcome': 'ยินดีต้อนรับ',
       'welcome_back': 'ยินดีต้อนรับกลับ, @user! 🎉',
       'continue': 'ดำเนินการต่อ',
       'use_another_profile': 'ใช้บัญชีอื่น',
       'new_notifications': 'แจ้งเตือนใหม่',
-      // Validation
+      // ===== Validation =====
       'please_enter_username': 'กรุณากรอกชื่อผู้ใช้',
       'username_min': 'ชื่อผู้ใช้ต้องมีอย่างน้อย 3 ตัวอักษร',
       'username_invalid': 'ชื่อผู้ใช้ต้องเป็นภาษาอังกฤษหรือตัวเลขเท่านั้น (ไม่เว้นวรรคหรืออักขระพิเศษ)',
@@ -100,23 +118,23 @@ class AppTranslations extends Translations {
       'password_letter': 'รหัสผ่านต้องมีตัวอักษรภาษาอังกฤษอย่างน้อย 1 ตัว',
       'password_digit': 'รหัสผ่านต้องมีตัวเลขอย่างน้อย 1 ตัว',
       'password_requirements': 'รหัสผ่านต้องมีตัวอักษร ตัวเลข และอักขระพิเศษ',
-      // Snackbar/Message
+      // ===== Snackbar/Message =====
       'login_success': 'เข้าสู่ระบบสำเร็จ',
       'login_failed': 'เข้าสู่ระบบล้มเหลว',
       'signup_success': 'สมัครสมาชิกสำเร็จ',
       'signup_failed': 'สมัครสมาชิกล้มเหลว',
       'logout_success': 'ออกจากระบบสำเร็จ',
       'logout_confirm': 'คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบ?',
-      // Forgot
+      // ===== Forgot =====
       'forgot_password_hint': 'กรอกชื่อผู้ใช้เพื่อขอรีเซ็ตรหัสผ่าน',
       'reset_password_sent': 'ส่งลิงก์รีเซ็ตรหัสผ่านแล้ว',
       'reset_password_sent_desc': 'ระบบได้ส่งลิงก์รีเซ็ตรหัสผ่านไปที่อีเมลของคุณแล้ว',
       'user_not_found': 'ไม่พบบัญชีผู้ใช้',
       'loading_profile': 'กำลังโหลดโปรไฟล์...',
-      // Labels
+      // ===== Labels =====
       'email_or_username': 'อีเมลหรือชื่อผู้ใช้',
       'error': 'เกิดข้อผิดพลาด',
-      // TimeAgo
+      // ===== TimeAgo =====
       'day_ago': 'วันที่แล้ว',
       'days_ago': 'วันที่แล้ว',
       'hour_ago': 'ชั่วโมงที่แล้ว',
@@ -124,16 +142,15 @@ class AppTranslations extends Translations {
       'minute_ago': 'นาทีที่แล้ว',
       'minutes_ago': 'นาทีที่แล้ว',
       'just_now': 'เมื่อสักครู่',
-      // Post Item
+      // ===== Post Item =====
       'comment_as': 'แสดงความคิดเห็นในชื่อ @user',
       'write_a_comment': 'เขียนความคิดเห็น...',
-      // === Post New ===
+      // ===== Post New =====
       'post_new_title': 'โพสต์ใหม่',
       'post_new_caption_box_hint': 'คุณกำลังคิดอะไรอยู่?',
       'post_new_photos_selected': 'รูปที่เลือก',
       'post_new_photos_select_hint': 'เลือกรูปได้สูงสุด 4 รูป',
       'post_new_post_button': 'โพสต์เลย',
-      // ...etc.
     },
   };
 }

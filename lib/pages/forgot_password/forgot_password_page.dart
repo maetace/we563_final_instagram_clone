@@ -1,11 +1,18 @@
 // lib/pages/forgot_password/forgot_password_page.dart
 
+// ===============================
+// PAGE: FORGOT PASSWORD
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/widgets.dart';
-
 import 'forgot_password_controller.dart';
+
+// ===============================
+// FORGOT PASSWORD PAGE
+// ===============================
 
 class ForgotPasswordPage extends GetView<ForgotPasswordController> {
   const ForgotPasswordPage({super.key});
@@ -15,6 +22,7 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
     return Obx(
       () => Stack(
         children: [
+          // Block touch when loading
           AbsorbPointer(
             absorbing: controller.isLoading,
             child: Scaffold(
@@ -36,12 +44,19 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 48),
+
+                        // ===============================
+                        // TITLE + DESCRIPTION
+                        // ===============================
                         Text('find_account'.tr, style: Theme.of(context).textTheme.headlineMedium),
                         const SizedBox(height: 12),
                         Text('forgot_password_hint'.tr, style: Theme.of(context).textTheme.bodyMedium),
+
                         const SizedBox(height: 24),
 
-                        // Username Input
+                        // ===============================
+                        // USERNAME INPUT
+                        // ===============================
                         Obx(
                           () => TextFormField(
                             key: controller.usernameKey,
@@ -53,7 +68,7 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
                             decoration: InputDecoration(
                               labelText: 'email_or_username'.tr,
                               suffixIcon:
-                                  controller.isUsernameFocused.value && controller.usernameText.value.isNotEmpty
+                                  (controller.isUsernameFocused.value && controller.usernameText.value.isNotEmpty)
                                       ? IconButton(
                                         icon: const Icon(Icons.clear),
                                         onPressed: () {
@@ -68,7 +83,9 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
 
                         const SizedBox(height: 32),
 
-                        // Continue Button
+                        // ===============================
+                        // CONTINUE BUTTON
+                        // ===============================
                         Obx(
                           () => LoadingButton(
                             onPressed: controller.onForgotPasswordPressed,

@@ -1,8 +1,17 @@
 // lib/data/account_data_mock.dart
 
+// ===============================
+// MOCK DATA: ACCOUNTS
+// ===============================
+
 import '/models/account_model.dart';
 
+// ===============================
+// LIST OF MOCK ACCOUNTS
+// ===============================
+
 final List<Account> mockAccounts = [
+  // ===== Yelena Belova =====
   Account(
     uid: 'U001',
     username: 'yelena',
@@ -17,6 +26,8 @@ final List<Account> mockAccounts = [
     created: DateTime(2025, 5, 25),
     updated: DateTime(2025, 5, 25),
   ),
+
+  // ===== Bucky Barnes =====
   Account(
     uid: 'U002',
     username: 'buckybarnes',
@@ -31,6 +42,8 @@ final List<Account> mockAccounts = [
     created: DateTime(2025, 5, 25),
     updated: DateTime(2025, 5, 25),
   ),
+
+  // ===== Red Guardian =====
   Account(
     uid: 'U003',
     username: 'redguardian',
@@ -45,6 +58,8 @@ final List<Account> mockAccounts = [
     created: DateTime(2025, 5, 25),
     updated: DateTime(2025, 5, 25),
   ),
+
+  // ===== US Agent =====
   Account(
     uid: 'U004',
     username: 'usagent',
@@ -59,6 +74,8 @@ final List<Account> mockAccounts = [
     created: DateTime(2025, 5, 25),
     updated: DateTime(2025, 5, 25),
   ),
+
+  // ===== Ghost =====
   Account(
     uid: 'U005',
     username: 'ghost',
@@ -73,6 +90,8 @@ final List<Account> mockAccounts = [
     created: DateTime(2025, 5, 25),
     updated: DateTime(2025, 5, 25),
   ),
+
+  // ===== Taskmaster =====
   Account(
     uid: 'U006',
     username: 'taskmaster',
@@ -87,6 +106,8 @@ final List<Account> mockAccounts = [
     created: DateTime(2025, 5, 25),
     updated: DateTime(2025, 5, 25),
   ),
+
+  // ===== Just Bob =====
   Account(
     uid: 'U007',
     username: 'justbob',
@@ -101,6 +122,8 @@ final List<Account> mockAccounts = [
     created: DateTime(2025, 5, 25),
     updated: DateTime(2025, 5, 25),
   ),
+
+  // ===== Valentina =====
   Account(
     uid: 'U008',
     username: 'valentina',
@@ -115,6 +138,8 @@ final List<Account> mockAccounts = [
     created: DateTime(2025, 5, 25),
     updated: DateTime(2025, 5, 25),
   ),
+
+  // ===== Melissa Gold =====
   Account(
     uid: 'U009',
     username: 'melgold',
@@ -129,6 +154,8 @@ final List<Account> mockAccounts = [
     created: DateTime(2025, 5, 25),
     updated: DateTime(2025, 5, 25),
   ),
+
+  // ===== Baron Zemo =====
   Account(
     uid: 'U010',
     username: 'baronzemo',

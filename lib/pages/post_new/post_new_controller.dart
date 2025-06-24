@@ -1,10 +1,26 @@
 // lib/pages/post_new/post_new_controller.dart
 
+// ===============================
+// CONTROLLER: POST NEW PAGE
+// ===============================
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
+// ===============================
+// POST NEW CONTROLLER
+// ===============================
+
 class PostNewController extends GetxController {
+  // ===============================
+  // STATE: TEXT CONTROLLER
+  // ===============================
+
   final descTextEditingController = TextEditingController();
+
+  // ===============================
+  // STATE: GALLERY IMAGES
+  // ===============================
 
   final galleryImages = List<String>.generate(
     12,
@@ -15,14 +31,32 @@ class PostNewController extends GetxController {
 
   List<String> get selectedImages => selectedIndexes.map((index) => galleryImages[index]).toList();
 
+  // ===============================
+  // STATE: CAN POST
+  // ===============================
+
   final _canPost = false.obs;
   bool get canPost => _canPost.value;
+
+  // ===============================
+  // INIT / CLOSE
+  // ===============================
 
   @override
   void onInit() {
     super.onInit();
     descTextEditingController.addListener(_validate);
   }
+
+  @override
+  void onClose() {
+    descTextEditingController.dispose();
+    super.onClose();
+  }
+
+  // ===============================
+  // SELECT IMAGE
+  // ===============================
 
   void toggleSelectImage(int index) {
     if (selectedIndexes.contains(index)) {
@@ -43,17 +77,19 @@ class PostNewController extends GetxController {
     }
   }
 
+  // ===============================
+  // VALIDATE
+  // ===============================
+
   void _validate() {
     _canPost.value = descTextEditingController.text.trim().isNotEmpty && selectedIndexes.isNotEmpty;
   }
 
+  // ===============================
+  // POST BUTTON
+  // ===============================
+
   void onPostButtonPressed() {
     Get.back(result: {'description': descTextEditingController.text.trim(), 'images': selectedImages});
-  }
-
-  @override
-  void onClose() {
-    descTextEditingController.dispose();
-    super.onClose();
   }
 }

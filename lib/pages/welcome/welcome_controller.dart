@@ -1,8 +1,11 @@
 // lib/pages/welcome/welcome_controller.dart
 
+// ===============================
+// CONTROLLER: WELCOME
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:logger/logger.dart';
 
 import '/configs.dart';
@@ -11,14 +14,24 @@ import '/routes.dart';
 import '/models/account_model.dart';
 import '/services/account_service.dart';
 
+// ===============================
+// WELCOME CONTROLLER
+// ===============================
+
 class WelcomeController extends GetxController {
   final colorScheme = Theme.of(Get.context!).colorScheme;
   final Logger _logger = Logger();
 
-  // User data
+  // ===============================
+  // USER DATA
+  // ===============================
+
   final userRxn = Rxn<CurrentAccount>();
 
-  // Loading states
+  // ===============================
+  // LOADING STATES
+  // ===============================
+
   final _isLogInLoading = false.obs;
   final _isSignUpLoading = false.obs;
   final _isSwitchAccountLoading = false.obs;
@@ -28,7 +41,15 @@ class WelcomeController extends GetxController {
   bool get isSwitchAccountLoading => _isSwitchAccountLoading.value;
   bool get isLoading => isLogInLoading || isSignUpLoading || isSwitchAccountLoading;
 
+  // ===============================
+  // SERVICE
+  // ===============================
+
   late final AccountService _account;
+
+  // ===============================
+  // INIT
+  // ===============================
 
   @override
   void onInit() {
@@ -36,6 +57,10 @@ class WelcomeController extends GetxController {
     _account = Get.find<AccountService>();
     loadCurrentUser();
   }
+
+  // ===============================
+  // LOAD CURRENT USER
+  // ===============================
 
   Future<void> loadCurrentUser() async {
     final currentAccount = await _account.getCurrentAccount();
@@ -49,12 +74,19 @@ class WelcomeController extends GetxController {
     }
   }
 
+  // ===============================
+  // ACTION: LOGIN
+  // ===============================
+
   Future<void> onLogInPressed() async {
     if (_isLogInLoading.value) return;
+
     try {
       _isLogInLoading.value = true;
 
-      if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
+      if (AppConfig.useMockDelay) {
+        await Future.delayed(AppConfig.mockDelay);
+      }
 
       if (userRxn.value != null) {
         _logger.i('✅ Current account exists → navigating to Home');
@@ -68,22 +100,40 @@ class WelcomeController extends GetxController {
     }
   }
 
+  // ===============================
+  // ACTION: SIGN UP
+  // ===============================
+
   Future<void> onSignUpPressed() async {
     if (_isSignUpLoading.value) return;
+
     try {
       _isSignUpLoading.value = true;
-      if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
+
+      if (AppConfig.useMockDelay) {
+        await Future.delayed(AppConfig.mockDelay);
+      }
+
       Get.toNamed(AppRoutes.signup);
     } finally {
       _isSignUpLoading.value = false;
     }
   }
 
+  // ===============================
+  // ACTION: SWITCH ACCOUNT
+  // ===============================
+
   Future<void> onSwitchAccountPressed() async {
     if (_isSwitchAccountLoading.value) return;
+
     try {
       _isSwitchAccountLoading.value = true;
-      if (AppConfig.useMockDelay) await Future.delayed(AppConfig.mockDelay);
+
+      if (AppConfig.useMockDelay) {
+        await Future.delayed(AppConfig.mockDelay);
+      }
+
       Get.toNamed(AppRoutes.login);
     } finally {
       _isSwitchAccountLoading.value = false;

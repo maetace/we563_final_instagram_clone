@@ -1,11 +1,18 @@
 // lib/pages/new_post/widgets/post_button.dart
 
+// ===============================
+// WIDGET: POST BUTTON (BOTTOM)
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../post_new_controller.dart';
 
-// Bottom post button widget
+// ===============================
+// POST BUTTON
+// ===============================
+
 class PostButton extends GetView<PostNewController> {
   const PostButton({super.key});
 
@@ -15,10 +22,10 @@ class PostButton extends GetView<PostNewController> {
       padding: const EdgeInsets.all(16),
       child: Obx(
         () => ElevatedButton.icon(
-          onPressed: controller.canPost ? controller.onPostButtonPressed : null, // button action
-          icon: const Icon(Icons.send), // send icon
-          label: Text('post_new_post_button'.tr), // localized button label
-          style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(48)), // min height
+          onPressed: controller.canPost ? controller.onPostButtonPressed : null,
+          icon: const Icon(Icons.send),
+          label: Text('post_new_post_button'.tr),
+          style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
         ),
       ),
     );

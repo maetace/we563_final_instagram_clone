@@ -1,12 +1,22 @@
 // lib/data/post_data_mock.dart
 
+// ===============================
+// MOCK DATA: POSTS
+// ===============================
+
 import '/models/post_item_model.dart';
 import '/utils.dart';
 import '/data/account_data_mock.dart';
 
+// ===============================
+// LIST OF MOCK POSTS
+// ===============================
+
 final List<PostItem> mockPosts = List.generate(12, (index) {
+  // Select user round-robin
   final user = mockAccounts[index % mockAccounts.length];
 
+  // Post descriptions
   final descriptions = [
     'What is your fav app? 🤔',
     'My 2 fav apps from META 🚀',
@@ -22,6 +32,7 @@ final List<PostItem> mockPosts = List.generate(12, (index) {
     'Feeling good today ✨',
   ];
 
+  // Post images (single or multiple)
   final images = [
     ['assets/images/001.webp', 'assets/images/002.webp', 'assets/images/003.webp', 'assets/images/004.webp'],
     ['assets/images/005.webp', 'assets/images/006.webp'],

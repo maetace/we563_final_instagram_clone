@@ -1,48 +1,68 @@
 // lib/pages/signup/signup_controller.dart
 
+// ===============================
+// CONTROLLER: SIGN UP
+// ===============================
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as p;
-
 import 'dart:io';
 
 import '/configs.dart';
 import '/routes.dart';
-
 import '/services/account_service.dart';
+
+// ===============================
+// SIGNUP CONTROLLER
+// ===============================
 
 class SignupController extends GetxController {
   final colorScheme = Theme.of(Get.context!).colorScheme;
   final Logger _logger = Logger();
 
-  // Form Keys
+  // ===============================
+  // FORM KEYS
+  // ===============================
+
   final formKey = GlobalKey<FormState>();
   final usernameKey = GlobalKey<FormFieldState>();
   final passwordKey = GlobalKey<FormFieldState>();
   final passwordConfirmKey = GlobalKey<FormFieldState>();
 
-  // Controllers
+  // ===============================
+  // TEXT CONTROLLERS
+  // ===============================
+
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
 
-  // Focus Nodes
+  // ===============================
+  // FOCUS NODES
+  // ===============================
+
   final usernameFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
   final passwordConfirmFocusNode = FocusNode();
 
-  // Focused
+  // ===============================
+  // FOCUS OBSERVABLES
+  // ===============================
+
   final isUsernameFocused = false.obs;
   final isPasswordFocused = false.obs;
   final isPasswordConfirmFocused = false.obs;
 
-  // onChange callback
+  // ===============================
+  // TEXT OBSERVABLES
+  // ===============================
+
   final usernameText = ''.obs;
   final passwordText = ''.obs;
   final passwordConfirmText = ''.obs;
@@ -51,14 +71,20 @@ class SignupController extends GetxController {
   void onPasswordChanged(String value) => passwordText.value = value;
   void onPasswordConfirmChanged(String value) => passwordConfirmText.value = value;
 
-  // Visibility Toggle
+  // ===============================
+  // PASSWORD VISIBILITY
+  // ===============================
+
   final isPasswordVisible = false.obs;
   final isPasswordConfirmVisible = false.obs;
 
   void togglePasswordVisibility() => isPasswordVisible.value = !isPasswordVisible.value;
   void togglePasswordConfirmVisibility() => isPasswordConfirmVisible.value = !isPasswordConfirmVisible.value;
 
-  // Avatar Selection (preset from assets)
+  // ===============================
+  // AVATAR SELECTION (PRESET)
+  // ===============================
+
   final availableAvatars = [
     'assets/mock_avatars/default.jpg',
     'assets/mock_avatars/yelena.jpg',
@@ -79,7 +105,10 @@ class SignupController extends GetxController {
     selectedAvatar.value = path;
   }
 
-  // Avatar Upload (optional – unused here but kept for future use)
+  // ===============================
+  // AVATAR UPLOAD (WEB/MOBILE)
+  // ===============================
+
   final avatarFile = Rxn<File>();
   final avatarBytes = Rxn<Uint8List>();
 
@@ -90,7 +119,6 @@ class SignupController extends GetxController {
         avatarBytes.value = result.files.single.bytes!;
         final fileName = result.files.single.name;
         selectedAvatar.value = 'assets/mock_avatars/$fileName';
-
         _logger.i('📷 Avatar picked (Web) – $fileName');
       } else {
         _logger.w('❌ Avatar pick canceled (Web)');
@@ -102,7 +130,6 @@ class SignupController extends GetxController {
         avatarFile.value = File(image.path);
         final fileName = p.basename(image.path);
         selectedAvatar.value = 'assets/mock_avatars/$fileName';
-
         _logger.i('📷 Avatar picked (Mobile) – $fileName');
       } else {
         _logger.w('❌ Avatar pick canceled (Mobile)');
@@ -110,14 +137,15 @@ class SignupController extends GetxController {
     }
   }
 
-  // Validators
+  // ===============================
+  // VALIDATORS
+  // ===============================
+
   String? usernameValidator(String? value) {
     if (value == null || value.isEmpty) return 'please_enter_username'.tr;
     final errors = <String>[];
     if (value.length < 3) errors.add('username_min'.tr);
-    if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
-      errors.add('username_invalid'.tr);
-    }
+    if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) errors.add('username_invalid'.tr);
     return errors.isEmpty ? null : errors.join('\n');
   }
 
@@ -126,15 +154,9 @@ class SignupController extends GetxController {
     final errors = <String>[];
     if (value.length < 8) errors.add('password_min'.tr);
     if (value.contains(RegExp(r'\s'))) errors.add('password_no_space'.tr);
-    if (!RegExp(r'[^\w\s]').hasMatch(value)) {
-      errors.add('password_special_char'.tr);
-    }
-    if (!RegExp(r'[A-Za-z]').hasMatch(value)) {
-      errors.add('password_letter'.tr);
-    }
-    if (!RegExp(r'\d').hasMatch(value)) {
-      errors.add('password_digit'.tr);
-    }
+    if (!RegExp(r'[^\w\s]').hasMatch(value)) errors.add('password_special_char'.tr);
+    if (!RegExp(r'[A-Za-z]').hasMatch(value)) errors.add('password_letter'.tr);
+    if (!RegExp(r'\d').hasMatch(value)) errors.add('password_digit'.tr);
     return errors.isEmpty ? null : errors.join('\n');
   }
 
@@ -144,10 +166,16 @@ class SignupController extends GetxController {
     return null;
   }
 
-  // Navigation
+  // ===============================
+  // NAVIGATION
+  // ===============================
+
   void onBackPressed() => Get.back();
 
-  // Log In Loading
+  // ===============================
+  // LOG IN BUTTON
+  // ===============================
+
   final _isLogInLoading = false.obs;
   bool get isLogInLoading => _isLogInLoading.value;
 
@@ -162,7 +190,10 @@ class SignupController extends GetxController {
     }
   }
 
-  // Sign Up Loading
+  // ===============================
+  // SIGN UP BUTTON
+  // ===============================
+
   final _isSignUpLoading = false.obs;
   bool get isSignUpLoading => _isSignUpLoading.value;
 
@@ -208,7 +239,15 @@ class SignupController extends GetxController {
     }
   }
 
+  // ===============================
+  // IS LOADING
+  // ===============================
+
   bool get isLoading => isSignUpLoading || isLogInLoading;
+
+  // ===============================
+  // INIT
+  // ===============================
 
   late AccountService _accountService;
 
@@ -216,6 +255,7 @@ class SignupController extends GetxController {
   void onInit() {
     _accountService = Get.find<AccountService>();
     super.onInit();
+
     usernameFocusNode.addListener(() {
       isUsernameFocused.value = usernameFocusNode.hasFocus;
     });
@@ -226,6 +266,10 @@ class SignupController extends GetxController {
       isPasswordConfirmFocused.value = passwordConfirmFocusNode.hasFocus;
     });
   }
+
+  // ===============================
+  // CLEANUP
+  // ===============================
 
   @override
   void onClose() {

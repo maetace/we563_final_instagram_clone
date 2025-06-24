@@ -1,9 +1,25 @@
 // lib/models/account_model.dart
 
+// ===============================
+// ACCOUNT MODEL
+// ===============================
+
+// ===============================
+// ENUMS
+// ===============================
+
+/// Gender enum
 enum Gender { male, female, other }
 
+/// Account status enum
 enum AccountStatus { active, inactive, pending, deleted, banned }
 
+// ===============================
+// ACCOUNT MODEL CLASS
+// ===============================
+
+/// Account model
+/// - Used for user profile, auth, display in app
 class Account {
   final String uid;
   final String username;
@@ -33,6 +49,7 @@ class Account {
     required this.updated,
   });
 
+  /// From JSON
   factory Account.fromJson(Map<String, dynamic> json) => Account(
     uid: json['uid'],
     username: json['username'],
@@ -48,6 +65,7 @@ class Account {
     updated: DateTime.parse(json['updated']),
   );
 
+  /// To JSON
   Map<String, dynamic> toJson() => {
     'uid': uid,
     'username': username,
@@ -64,6 +82,12 @@ class Account {
   };
 }
 
+// ===============================
+// CURRENT ACCOUNT CLASS
+// ===============================
+
+/// CurrentAccount (session profile)
+/// - Used for logged-in user (lightweight)
 class CurrentAccount {
   final String uid;
   final String username;
@@ -72,8 +96,10 @@ class CurrentAccount {
 
   const CurrentAccount({required this.uid, required this.username, required this.fullname, required this.avatar});
 
+  /// Create from Account
   factory CurrentAccount.fromAccount(Account account) =>
       CurrentAccount(uid: account.uid, username: account.username, fullname: account.fullname, avatar: account.avatar);
 
+  /// To JSON
   Map<String, dynamic> toJson() => {'uid': uid, 'username': username, 'fullname': fullname, 'avatar': avatar};
 }

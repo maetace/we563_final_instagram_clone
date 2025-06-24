@@ -1,5 +1,11 @@
 // lib/models/post_item_model.dart
 
+// ===============================
+// POST ITEM MODEL
+// ===============================
+
+/// PostItem model
+/// - Used in feed / post detail
 class PostItem {
   final String id;
   final String ownerName;
@@ -23,7 +29,7 @@ class PostItem {
     required this.createdDate,
   });
 
-  // toJson / fromJson เพิ่ม isLiked
+  /// From JSON
   factory PostItem.fromJson(Map<String, dynamic> json) => PostItem(
     id: json['id'],
     ownerName: json['ownerName'],
@@ -36,6 +42,7 @@ class PostItem {
     createdDate: DateTime.parse(json['createdDate']),
   );
 
+  /// To JSON
   Map<String, dynamic> toJson() => {
     'id': id,
     'ownerName': ownerName,

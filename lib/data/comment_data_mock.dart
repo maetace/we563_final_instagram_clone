@@ -1,14 +1,24 @@
 // lib/data/comment_data_mock.dart
 
+// ===============================
+// MOCK DATA: COMMENTS
+// ===============================
+
 import '/models/comment_item_model.dart';
 import '/utils.dart';
 import '/data/account_data_mock.dart';
 import '/data/post_data_mock.dart';
 
+// ===============================
+// LIST OF MOCK COMMENTS
+// ===============================
+
 final List<CommentItem> mockComments = List.generate(60, (index) {
+  // Assign user and post in round-robin fashion
   final user = mockAccounts[index % mockAccounts.length];
   final post = mockPosts[index % mockPosts.length];
 
+  // Comment message pool
   final messages = [
     'Wow this is amazing! 😍',
     'I love this!',

@@ -1,7 +1,15 @@
 // lib/pages/home/widgets/reels_tab.dart
 
+// ===============================
+// WIDGET: REELS TAB
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+
+// ===============================
+// REELS TAB
+// ===============================
 
 class ReelsTab extends StatefulWidget {
   final int currentTabIndex;
@@ -71,8 +79,6 @@ class _ReelsTabState extends State<ReelsTab> {
   @override
   void didUpdateWidget(covariant ReelsTab oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    // ถ้าเปลี่ยนจาก tab 2 (Reels) → ไป tab อื่น → pause video
     if (oldWidget.currentTabIndex == 2 && widget.currentTabIndex != 2) {
       _ytController.pauseVideo();
     }
@@ -86,6 +92,10 @@ class _ReelsTabState extends State<ReelsTab> {
       data: ThemeData.dark(),
       child: Scaffold(
         backgroundColor: Colors.black,
+
+        // ===============================
+        // APP BAR
+        // ===============================
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(48),
           child: SafeArea(
@@ -127,6 +137,10 @@ class _ReelsTabState extends State<ReelsTab> {
             ),
           ),
         ),
+
+        // ===============================
+        // PAGE VIEW
+        // ===============================
         body: PageView.builder(
           controller: _pageController,
           scrollDirection: Axis.vertical,
@@ -135,7 +149,7 @@ class _ReelsTabState extends State<ReelsTab> {
             setState(() {
               _currentIndex = index;
               isLiked = false;
-              likeCount = 123; // mock number
+              likeCount = 123;
               _ytController.close();
               _loadVideo(_videos[index]['id']!);
             });
@@ -144,10 +158,10 @@ class _ReelsTabState extends State<ReelsTab> {
             final video = _videos[index];
             return Stack(
               children: [
-                // YouTube Player
+                // YOUTUBE PLAYER
                 Positioned.fill(child: YoutubePlayer(controller: _ytController, aspectRatio: 9 / 16)),
 
-                // Overlay to enable swipe
+                // SWIPE OVERLAY
                 Positioned.fill(
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,
@@ -170,7 +184,7 @@ class _ReelsTabState extends State<ReelsTab> {
                   ),
                 ),
 
-                // Right-side buttons
+                // RIGHT ACTIONS
                 Positioned(
                   right: 16,
                   bottom: 120,
@@ -204,7 +218,7 @@ class _ReelsTabState extends State<ReelsTab> {
                   ),
                 ),
 
-                // Bottom user + caption
+                // BOTTOM USER + CAPTION
                 Positioned(
                   left: 16,
                   bottom: 32,

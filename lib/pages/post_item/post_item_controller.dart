@@ -1,5 +1,9 @@
 // lib/pages/post_item/post_item_controller.dart
 
+// ===============================
+// CONTROLLER: POST ITEM PAGE
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,10 +13,18 @@ import '/services/comment_service.dart';
 import '/services/account_service.dart';
 import '/services/account_service_mock.dart'; // ⭐️ ใช้ currentUser
 
+// ===============================
+// POST ITEM CONTROLLER
+// ===============================
+
 class PostItemController extends GetxController {
   PostItemController({required PostItem postItem}) {
     _postItem = postItem;
   }
+
+  // ===============================
+  // STATE: POST ITEM
+  // ===============================
 
   late final PostItem _postItem;
   PostItem get postItem => _postItem;
@@ -20,9 +32,16 @@ class PostItemController extends GetxController {
   final _currentPage = 0.obs;
   int get currentPage => _currentPage.value;
 
-  // late final AccountServiceMock _account;
+  // ===============================
+  // SERVICE
+  // ===============================
+
   late final AccountService _account;
   late final CommentService _commentService;
+
+  // ===============================
+  // STATE: COMMENTS
+  // ===============================
 
   final _commentItems = <CommentItem>[].obs;
   List<CommentItem> get commentItems => _commentItems;
@@ -36,15 +55,22 @@ class PostItemController extends GetxController {
 
   final scrollController = ScrollController();
 
+  // ===============================
+  // STATE: COMMENT BOX
+  // ===============================
+
   final _canComment = false.obs;
   bool get canComment => _canComment.value;
   final commentTextEditingController = TextEditingController();
 
   var _isCommentCreating = false;
 
+  // ===============================
+  // INIT / CLOSE
+  // ===============================
+
   @override
   void onInit() {
-    // _account = Get.find<AccountServiceMock>();
     _account = Get.find<AccountService>();
     _commentService = Get.find<CommentService>();
 
@@ -66,12 +92,18 @@ class PostItemController extends GetxController {
     super.onClose();
   }
 
-  // === Carousel ===
+  // ===============================
+  // CAROUSEL
+  // ===============================
+
   void onPageChanged(int index) {
     _currentPage.value = index;
   }
 
-  // === Load comments ===
+  // ===============================
+  // LOAD COMMENTS
+  // ===============================
+
   Future<void> _loadCommentItems() async {
     if (_loading.value) return;
 
@@ -106,7 +138,10 @@ class PostItemController extends GetxController {
     }
   }
 
-  // === Comment box ===
+  // ===============================
+  // COMMENT BOX
+  // ===============================
+
   void onCommentTextChanged(String text) {
     _validateComment();
   }
@@ -127,7 +162,6 @@ class PostItemController extends GetxController {
     _validateComment();
 
     try {
-      // final currentUser = _account.currentUser!;
       final currentUser = (_account as AccountServiceMock).currentUser!;
 
       final newComment = CommentItem(
@@ -139,12 +173,10 @@ class PostItemController extends GetxController {
         createdDate: DateTime.now(),
       );
 
-      // Insert new comment at top
       _commentItems.insert(0, newComment);
 
-      // ✅ เพิ่มเลข local
       _postItem.comments++;
-      update(); // ถ้ามี widget ใช้ GetBuilder() จะ trigger
+      update(); // ถ้ามี GetBuilder() จะ trigger
     } finally {
       _isCommentCreating = false;
       _validateComment();

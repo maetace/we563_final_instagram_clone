@@ -1,6 +1,14 @@
 // lib/routes.dart
 
+// ===============================
+// APP ROUTES (Named + GetPage)
+// ===============================
+
 import 'package:get/get.dart';
+
+// ===============================
+// PAGE IMPORTS
+// ===============================
 
 // Welcome
 import 'pages/welcome/welcome_page.dart';
@@ -30,9 +38,16 @@ import 'pages/post_item/post_item_binding.dart';
 import 'pages/post_new/post_new_page.dart';
 import 'pages/post_new/post_new_binding.dart';
 
-// AppRoutes
+// ===============================
+// APP ROUTES CLASS
+// ===============================
+
+/// AppRoutes - Define named routes + GetPages
+/// - Use with GetMaterialApp (initialRoute + getPages)
 class AppRoutes {
-  // Named routes
+  // ===============================
+  // NAMED ROUTES (String constants)
+  // ===============================
   static const welcome = '/';
   static const signup = '/signup';
   static const login = '/login';
@@ -41,7 +56,9 @@ class AppRoutes {
   static const postItem = '/postitem';
   static const postNew = '/postnew';
 
-  // GetPage routes
+  // ===============================
+  // GET PAGE ROUTES (Binding + Page)
+  // ===============================
   static final routes = [
     GetPage(name: welcome, page: () => WelcomePage(), binding: WelcomeBinding()),
     GetPage(name: signup, page: () => SignupPage(), binding: SignupBinding()),

@@ -1,7 +1,15 @@
 // lib/pages/explore/widgets/explore_tab.dart
 
+// ===============================
+// WIDGET: EXPLORE TAB
+// ===============================
+
 import 'dart:math';
 import 'package:flutter/material.dart';
+
+// ===============================
+// EXPLORE TAB
+// ===============================
 
 class ExploreTab extends StatelessWidget {
   const ExploreTab({super.key});
@@ -9,6 +17,11 @@ class ExploreTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final r = Random();
+
+    // ===============================
+    // GENERATE IMAGES (MOCK)
+    // ===============================
+
     final imagePaths = List.generate(100, (_) {
       final num = (r.nextInt(12) + 1).toString().padLeft(3, '0');
       return 'assets/images/$num.webp';
@@ -17,7 +30,9 @@ class ExploreTab extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          // Search bar (custom height)
+          // ===============================
+          // SEARCH BAR
+          // ===============================
           PreferredSize(
             preferredSize: const Size.fromHeight(48),
             child: Container(
@@ -39,7 +54,9 @@ class ExploreTab extends StatelessWidget {
             ),
           ),
 
-          // GridView inside Center + ConstrainedBox(maxWidth 430)
+          // ===============================
+          // GRID VIEW
+          // ===============================
           Expanded(
             child: Center(
               child: ConstrainedBox(

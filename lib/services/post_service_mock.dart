@@ -1,5 +1,9 @@
 // lib/services/post_service_mock.dart
 
+// ===============================
+// MOCK SERVICE: POST
+// ===============================
+
 import 'package:get/get.dart';
 import '/utils.dart';
 import '/models/post_item_model.dart';
@@ -7,16 +11,31 @@ import '/data/post_data_mock.dart';
 import 'post_service.dart';
 import '/services/account_service_mock.dart'; // ⭐️ ใช้ currentUser
 
+// ===============================
+// POST SERVICE (MOCK)
+// ===============================
+
+/// PostServiceMock
+/// - Implements PostService
+/// - Provides mock post list and create post
+/// - Uses RxList for reactive update
+/// - Uses Get.find\<AccountServiceMock>() to get current user
 class PostServiceMock extends GetxService implements PostService {
-  // late List<PostItem> _items;
   late RxList<PostItem> _items;
+
+  // ===============================
+  // INIT (LOAD MOCK POSTS)
+  // ===============================
 
   @override
   void onInit() {
-    // _items = List<PostItem>.from(mockPosts);
     _items = RxList<PostItem>.from(mockPosts);
     super.onInit();
   }
+
+  // ===============================
+  // GET POST ITEMS (PAGED)
+  // ===============================
 
   @override
   Future<List<PostItem>> getPostItems({int pageIndex = 1, int pageSize = 3}) async {
@@ -35,6 +54,10 @@ class PostServiceMock extends GetxService implements PostService {
 
     return items;
   }
+
+  // ===============================
+  // CREATE POST ITEM
+  // ===============================
 
   @override
   Future<PostItem> createPostItem({required String description, required List<String> images}) async {
@@ -56,6 +79,7 @@ class PostServiceMock extends GetxService implements PostService {
 
     _items.insert(0, item);
     _items.refresh();
+
     return item;
   }
 }

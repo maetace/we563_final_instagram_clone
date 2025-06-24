@@ -1,10 +1,18 @@
 // lib/pages/home/widgets/profile_tab.dart
 
+// ===============================
+// WIDGET: PROFILE TAB
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/pages/home/home_controller.dart';
 import '/widgets.dart';
+
+// ===============================
+// PROFILE TAB
+// ===============================
 
 class ProfileTab extends GetView<HomeController> {
   const ProfileTab({super.key});
@@ -13,6 +21,9 @@ class ProfileTab extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // ===============================
+        // APP BAR
+        // ===============================
         AppBar(
           backgroundColor: Theme.of(context).colorScheme.surface,
           elevation: 0,
@@ -21,6 +32,10 @@ class ProfileTab extends GetView<HomeController> {
           actions: const [LanguageSwitcher(), ThemeSwitcher()],
           actionsPadding: const EdgeInsets.only(right: 8),
         ),
+
+        // ===============================
+        // PROFILE INFO
+        // ===============================
         Expanded(
           child: AppPageContainer(
             child: Obx(() {
@@ -54,6 +69,10 @@ class ProfileTab extends GetView<HomeController> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 48),
+
+                  // ===============================
+                  // ACTION BUTTONS
+                  // ===============================
                   Row(
                     children: [
                       Expanded(

@@ -1,5 +1,11 @@
 // lib/models/comment_item_model.dart
 
+// ===============================
+// COMMENT ITEM MODEL
+// ===============================
+
+/// CommentItem model
+/// - Used in post detail / comment list
 class CommentItem {
   final String id;
   final String postId;
@@ -17,6 +23,7 @@ class CommentItem {
     required this.createdDate,
   });
 
+  /// From JSON
   factory CommentItem.fromJson(Map<String, dynamic> json) => CommentItem(
     id: json['id'],
     postId: json['postId'],
@@ -26,6 +33,7 @@ class CommentItem {
     createdDate: DateTime.parse(json['createdDate']),
   );
 
+  /// To JSON
   Map<String, dynamic> toJson() => {
     'id': id,
     'postId': postId,

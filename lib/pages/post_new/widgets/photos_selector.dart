@@ -1,11 +1,18 @@
 // lib/pages/new_post/widgets/photos_selector.dart
 
+// ===============================
+// WIDGET: PHOTOS SELECTOR (GRID)
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../post_new_controller.dart';
 
-// Widget for selecting photos from gallery
+// ===============================
+// PHOTOS SELECTOR
+// ===============================
+
 class PhotosSelector extends GetView<PostNewController> {
   const PhotosSelector({super.key});
 
@@ -16,59 +23,51 @@ class PhotosSelector extends GetView<PostNewController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section title: show hint text for photo selection
+        // SECTION TITLE
         Text('post_new_photos_select_hint'.tr, style: theme.textTheme.titleSmall),
         const SizedBox(height: 12),
 
-        // Grid view of gallery images (3 columns)
+        // GRID VIEW
         GridView.builder(
           shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(), // prevent inner scroll (use outer scroll)
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: controller.galleryImages.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, // 3 columns in grid
-            crossAxisSpacing: 8, // spacing between columns
-            mainAxisSpacing: 8, // spacing between rows
-            childAspectRatio: 1, // square image
+            crossAxisCount: 3,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
+            childAspectRatio: 1,
           ),
-
-          // Use Obx inside itemBuilder to make each grid item reactive
           itemBuilder: (context, index) {
             final path = controller.galleryImages[index];
 
             return Obx(() {
-              // Each item observes selectedIndexes → will update checkmark when selection changes
               final isSelected = controller.selectedIndexes.contains(index);
 
               return GestureDetector(
-                onTap: () => controller.toggleSelectImage(index), // handle image select/deselect
+                onTap: () => controller.toggleSelectImage(index),
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    // Image box with border (selected or unselected)
+                    // IMAGE BOX
                     AspectRatio(
                       aspectRatio: 1,
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color:
-                                isSelected
-                                    ? theme
-                                        .colorScheme
-                                        .primary // border color when selected
-                                    : theme.colorScheme.outlineVariant, // border color when unselected
+                            color: isSelected ? theme.colorScheme.primary : theme.colorScheme.outlineVariant,
                             width: 2,
                           ),
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: Image.asset(path, fit: BoxFit.cover), // display image
+                          child: Image.asset(path, fit: BoxFit.cover),
                         ),
                       ),
                     ),
 
-                    // Show checkmark overlay if selected
+                    // CHECKMARK
                     if (isSelected)
                       Positioned(
                         top: 6,

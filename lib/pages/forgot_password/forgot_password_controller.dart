@@ -1,29 +1,55 @@
 // lib/pages/forgot_password/forgot_password_controller.dart
 
+// ===============================
+// CONTROLLER: FORGOT PASSWORD
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/services/account_service.dart';
-
 import '/configs.dart';
+
+// ===============================
+// FORGOT PASSWORD CONTROLLER
+// ===============================
 
 class ForgotPasswordController extends GetxController {
   final colorScheme = Theme.of(Get.context!).colorScheme;
 
-  // Form Keys
+  // ===============================
+  // FORM KEYS
+  // ===============================
+
   final formKey = GlobalKey<FormState>();
   final usernameKey = GlobalKey<FormFieldState>();
+
+  // ===============================
+  // TEXT CONTROLLER / FOCUS
+  // ===============================
+
   final usernameController = TextEditingController();
   final usernameFocusNode = FocusNode();
   final isUsernameFocused = false.obs;
   final usernameText = ''.obs;
 
+  // ===============================
+  // LOADING STATE
+  // ===============================
+
   final _isForgotPasswordLoading = false.obs;
   bool get isForgotPasswordLoading => _isForgotPasswordLoading.value;
   bool get isLoading => isForgotPasswordLoading;
 
-  // Service
+  // ===============================
+  // SERVICE
+  // ===============================
+
   late final AccountService _account;
+
+  // ===============================
+  // INIT
+  // ===============================
 
   @override
   void onInit() {
@@ -35,6 +61,10 @@ class ForgotPasswordController extends GetxController {
     });
   }
 
+  // ===============================
+  // CLEANUP
+  // ===============================
+
   @override
   void onClose() {
     usernameController.dispose();
@@ -42,22 +72,34 @@ class ForgotPasswordController extends GetxController {
     super.onClose();
   }
 
-  // Input Callback
+  // ===============================
+  // INPUT CALLBACK
+  // ===============================
+
   void onUsernameChanged(String value) {
     usernameText.value = value;
   }
 
-  // Validator
+  // ===============================
+  // VALIDATOR
+  // ===============================
+
   String? usernameValidator(String? value) {
     if (value == null || value.isEmpty) return 'please_enter_username'.tr;
     if (value.length < 3) return 'username_min'.tr;
     return null;
   }
 
-  // Navigation
+  // ===============================
+  // NAVIGATION
+  // ===============================
+
   void onBackPressed() => Get.back();
 
-  // Action
+  // ===============================
+  // ACTION: FORGOT PASSWORD
+  // ===============================
+
   Future<void> onForgotPasswordPressed() async {
     if (!formKey.currentState!.validate() || isForgotPasswordLoading) return;
 

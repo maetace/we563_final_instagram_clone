@@ -1,5 +1,9 @@
 // lib/services/account_service_mock.dart
 
+// ===============================
+// MOCK SERVICE: ACCOUNT
+// ===============================
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +11,14 @@ import '/models/account_model.dart';
 import '/data/account_data_mock.dart';
 import 'account_service.dart';
 
+// ===============================
+// ACCOUNT SERVICE (MOCK)
+// ===============================
+
+/// AccountServiceMock
+/// - Implements AccountService
+/// - Mock login, signup, logout
+/// - Uses FlutterSecureStorage for session (uid, token)
 class AccountServiceMock extends GetxService implements AccountService {
   final _secure = const FlutterSecureStorage();
 
@@ -15,8 +27,15 @@ class AccountServiceMock extends GetxService implements AccountService {
 
   Account? _currentUser;
 
-  // ⭐️ getter currentUser
+  // ===============================
+  // GETTER: CURRENT USER
+  // ===============================
+
   Account? get currentUser => _currentUser;
+
+  // ===============================
+  // LOGIN
+  // ===============================
 
   @override
   Future<void> logIn(String username, String password) async {
@@ -25,12 +44,17 @@ class AccountServiceMock extends GetxService implements AccountService {
     final account = mockAccounts.firstWhereOrNull(
       (a) => a.username == username && a.password == password && a.status == AccountStatus.active,
     );
+
     if (account == null) throw 'Invalid username or password';
 
     _currentUser = account;
 
     await saveSession(uid: account.uid, token: 'mock_token');
   }
+
+  // ===============================
+  // SIGN UP
+  // ===============================
 
   @override
   Future<void> signUp(String uid, String username, String password, String? avatar) async {
@@ -63,17 +87,29 @@ class AccountServiceMock extends GetxService implements AccountService {
     await saveSession(uid: uid, token: 'mock_token');
   }
 
+  // ===============================
+  // SAVE SESSION
+  // ===============================
+
   @override
   Future<void> saveSession({required String uid, required String token}) async {
     await _secure.write(key: _keyUid, value: uid);
     await _secure.write(key: _keyToken, value: token);
   }
 
+  // ===============================
+  // CHECK LOGIN STATUS
+  // ===============================
+
   @override
   Future<bool> isLoggedIn() async {
     final token = await _secure.read(key: _keyToken);
     return token != null;
   }
+
+  // ===============================
+  // LOGOUT
+  // ===============================
 
   @override
   Future<void> logOut() async {
@@ -82,6 +118,10 @@ class AccountServiceMock extends GetxService implements AccountService {
     _currentUser = null;
   }
 
+  // ===============================
+  // GET CURRENT ACCOUNT
+  // ===============================
+
   @override
   Future<CurrentAccount?> getCurrentAccount() async {
     final uid = await _secure.read(key: _keyUid);
@@ -89,6 +129,10 @@ class AccountServiceMock extends GetxService implements AccountService {
     _currentUser = account;
     return account != null ? CurrentAccount.fromAccount(account) : null;
   }
+
+  // ===============================
+  // FIND ACCOUNT BY USERNAME
+  // ===============================
 
   @override
   Future<Account?> findAccountByUsername(String username) async {

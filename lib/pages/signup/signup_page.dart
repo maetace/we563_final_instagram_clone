@@ -1,11 +1,19 @@
 // lib/pages/signup/signup_page.dart
 
+// ===============================
+// PAGE: SIGN UP
+// ===============================
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/widgets.dart';
 import 'signup_controller.dart';
+
+// ===============================
+// SIGNUP PAGE
+// ===============================
 
 class SignupPage extends GetView<SignupController> {
   const SignupPage({super.key});
@@ -15,6 +23,7 @@ class SignupPage extends GetView<SignupController> {
     return Obx(
       () => Stack(
         children: [
+          // Block touch when loading
           AbsorbPointer(
             absorbing: controller.isLoading,
             child: Scaffold(
@@ -40,7 +49,10 @@ class SignupPage extends GetView<SignupController> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     const SizedBox(height: 0),
-                                    // ✅ Avatar Picker
+
+                                    // ===============================
+                                    // AVATAR PICKER
+                                    // ===============================
                                     GestureDetector(
                                       onTap: controller.pickAvatar,
                                       child: Obx(
@@ -67,8 +79,12 @@ class SignupPage extends GetView<SignupController> {
                                         ),
                                       ),
                                     ),
+
                                     const SizedBox(height: 24),
-                                    // Username
+
+                                    // ===============================
+                                    // USERNAME
+                                    // ===============================
                                     Obx(
                                       () => TextFormField(
                                         key: controller.usernameKey,
@@ -94,8 +110,12 @@ class SignupPage extends GetView<SignupController> {
                                         ),
                                       ),
                                     ),
+
                                     const SizedBox(height: 16),
-                                    // Password
+
+                                    // ===============================
+                                    // PASSWORD
+                                    // ===============================
                                     Obx(
                                       () => TextFormField(
                                         key: controller.passwordKey,
@@ -123,8 +143,12 @@ class SignupPage extends GetView<SignupController> {
                                         ),
                                       ),
                                     ),
+
                                     const SizedBox(height: 16),
-                                    // Confirm Password
+
+                                    // ===============================
+                                    // CONFIRM PASSWORD
+                                    // ===============================
                                     Obx(
                                       () => TextFormField(
                                         key: controller.passwordConfirmKey,
@@ -152,8 +176,12 @@ class SignupPage extends GetView<SignupController> {
                                         ),
                                       ),
                                     ),
+
                                     const SizedBox(height: 24),
-                                    // Sign Up Button
+
+                                    // ===============================
+                                    // SIGN UP BUTTON
+                                    // ===============================
                                     Obx(
                                       () => LoadingButton(
                                         onPressed: controller.onSignUpPressed,
@@ -167,7 +195,10 @@ class SignupPage extends GetView<SignupController> {
                               ),
                             ),
                           ),
-                          // Bottom Section
+
+                          // ===============================
+                          // BOTTOM SECTION
+                          // ===============================
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 24),
                             child: Column(
@@ -180,8 +211,6 @@ class SignupPage extends GetView<SignupController> {
                                     type: ButtonType.text,
                                   ),
                                 ),
-                                // const SizedBox(height: 24),
-                                // Image.asset('assets/images/meta_logo.png', height: 16),
                               ],
                             ),
                           ),

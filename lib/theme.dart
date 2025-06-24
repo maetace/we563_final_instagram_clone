@@ -1,11 +1,16 @@
 // lib/theme.dart
 
+// ===============================
+// APP THEME (Light / Dark)
+// ===============================
+
 import 'package:flutter/material.dart';
 
 // ===============================
-//     TEXT THEME
+// TEXT THEME
 // ===============================
 
+/// Default Text Theme (Roboto font)
 const String fontFamily = 'roboto';
 
 final TextTheme appTextTheme = TextTheme(
@@ -27,9 +32,10 @@ final TextTheme appTextTheme = TextTheme(
 );
 
 // ===============================
-//     INPUT DECORATION THEME
+// INPUT DECORATION THEME
 // ===============================
 
+/// Input field style (TextField, Form)
 InputDecorationTheme inputTheme(ColorScheme colorScheme) {
   return InputDecorationTheme(
     filled: true,
@@ -53,9 +59,10 @@ InputDecorationTheme inputTheme(ColorScheme colorScheme) {
 }
 
 // ===============================
-//     BUTTON THEME
+// BUTTON THEME
 // ===============================
 
+/// Elevated Button style
 ElevatedButtonThemeData elevatedButtonTheme(ColorScheme colorScheme) => ElevatedButtonThemeData(
   style: ElevatedButton.styleFrom(
     backgroundColor: colorScheme.primary,
@@ -67,6 +74,7 @@ ElevatedButtonThemeData elevatedButtonTheme(ColorScheme colorScheme) => Elevated
   ),
 );
 
+/// Outlined Button style
 OutlinedButtonThemeData outlinedButtonTheme(ColorScheme colorScheme) => OutlinedButtonThemeData(
   style: OutlinedButton.styleFrom(
     foregroundColor: colorScheme.onSecondary,
@@ -77,6 +85,7 @@ OutlinedButtonThemeData outlinedButtonTheme(ColorScheme colorScheme) => Outlined
   ),
 );
 
+/// Text Button style
 TextButtonThemeData textButtonTheme(ColorScheme colorScheme) => TextButtonThemeData(
   style: TextButton.styleFrom(
     foregroundColor: colorScheme.onSurface,
@@ -86,9 +95,10 @@ TextButtonThemeData textButtonTheme(ColorScheme colorScheme) => TextButtonThemeD
 );
 
 // ===============================
-//     COLOR SCHEMES
+// COLOR SCHEMES
 // ===============================
 
+/// Light mode ColorScheme
 final lightColorScheme = ColorScheme.fromSeed(
   seedColor: const Color(0xFF0064E0),
   brightness: Brightness.light,
@@ -101,6 +111,7 @@ final lightColorScheme = ColorScheme.fromSeed(
   onSurface: const Color(0xFF000000),
 );
 
+/// Dark mode ColorScheme
 final darkColorScheme = ColorScheme.fromSeed(seedColor: const Color(0xFF0064E0), brightness: Brightness.dark).copyWith(
   primary: const Color(0xFF0064E0),
   onPrimary: const Color(0xFFDDDDDD),
@@ -111,9 +122,10 @@ final darkColorScheme = ColorScheme.fromSeed(seedColor: const Color(0xFF0064E0),
 );
 
 // ===============================
-//     THEME DATA
+// THEME DATA
 // ===============================
 
+/// ThemeData for Light mode
 final ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   colorScheme: lightColorScheme,
@@ -125,10 +137,11 @@ final ThemeData lightTheme = ThemeData(
   textButtonTheme: textButtonTheme(lightColorScheme),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     selectedItemColor: lightColorScheme.onSurface,
-    unselectedItemColor: lightColorScheme.onSurface,
+    unselectedItemColor: lightColorScheme.onSurface.withValues(alpha: 0.6),
   ),
 );
 
+/// ThemeData for Dark mode
 final ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   colorScheme: darkColorScheme,
@@ -140,6 +153,6 @@ final ThemeData darkTheme = ThemeData(
   textButtonTheme: textButtonTheme(darkColorScheme),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     selectedItemColor: darkColorScheme.onSurface,
-    unselectedItemColor: darkColorScheme.onSurface,
+    unselectedItemColor: darkColorScheme.onSurface.withValues(alpha: 0.6),
   ),
 );

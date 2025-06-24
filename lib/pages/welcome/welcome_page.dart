@@ -1,11 +1,18 @@
 // lib/pages/welcome_page.dart
 
+// ===============================
+// PAGE: WELCOME
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/widgets.dart';
-
 import 'welcome_controller.dart';
+
+// ===============================
+// WELCOME PAGE
+// ===============================
 
 class WelcomePage extends GetView<WelcomeController> {
   const WelcomePage({super.key});
@@ -17,6 +24,7 @@ class WelcomePage extends GetView<WelcomeController> {
     return Obx(
       () => Stack(
         children: [
+          // Block touch when loading
           AbsorbPointer(
             absorbing: controller.isLoading,
             child: Scaffold(
@@ -29,17 +37,25 @@ class WelcomePage extends GetView<WelcomeController> {
                 child: AppPageContainer(
                   child: Column(
                     children: [
-                      // Upper scrollable section
+                      // ===============================
+                      // UPPER SECTION
+                      // ===============================
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const SizedBox(height: 24),
-                              // Instagram logo
+
+                              // ===============================
+                              // LOGO
+                              // ===============================
                               Image.asset('assets/images/instagram_icon.png', height: 48),
                               const SizedBox(height: 48),
-                              // Avatar & Username block
+
+                              // ===============================
+                              // AVATAR & USERNAME BLOCK
+                              // ===============================
                               Obx(() {
                                 final user = controller.userRxn.value;
 
@@ -103,17 +119,24 @@ class WelcomePage extends GetView<WelcomeController> {
                                   ],
                                 );
                               }),
+
                               const SizedBox(height: 24),
 
-                              // Continue button
+                              // ===============================
+                              // CONTINUE BUTTON
+                              // ===============================
                               LoadingButton(
                                 onPressed: controller.onLogInPressed,
                                 isLoading: controller.isLogInLoading,
                                 label: 'continue'.tr,
                                 type: ButtonType.elevated,
                               ),
+
                               const SizedBox(height: 8),
-                              // Switch account
+
+                              // ===============================
+                              // SWITCH ACCOUNT BUTTON
+                              // ===============================
                               LoadingButton(
                                 onPressed: controller.onSwitchAccountPressed,
                                 isLoading: controller.isSwitchAccountLoading,
@@ -125,7 +148,9 @@ class WelcomePage extends GetView<WelcomeController> {
                         ),
                       ),
 
-                      // Bottom section
+                      // ===============================
+                      // BOTTOM SECTION
+                      // ===============================
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 24),
                         child: Column(

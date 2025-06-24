@@ -1,5 +1,9 @@
 // lib/pages/home/widgets/home_tab.dart
 
+// ===============================
+// WIDGET: HOME TAB
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -8,6 +12,10 @@ import '/pages/home/home_controller.dart';
 import '/pages/home/widgets/post_item_widget.dart';
 import '/pages/home/widgets/post_item_placeholder_widget.dart';
 
+// ===============================
+// HOME TAB
+// ===============================
+
 class HomeTab extends GetView<HomeController> {
   const HomeTab({super.key});
 
@@ -15,7 +23,9 @@ class HomeTab extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // AppBar
+        // ===============================
+        // APP BAR
+        // ===============================
         AppBar(
           backgroundColor: Theme.of(context).colorScheme.surface,
           elevation: 0,
@@ -36,7 +46,9 @@ class HomeTab extends GetView<HomeController> {
           ],
         ),
 
-        // Feed List
+        // ===============================
+        // FEED LIST
+        // ===============================
         Expanded(
           child: Center(
             child: ConstrainedBox(

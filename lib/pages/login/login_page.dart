@@ -1,11 +1,18 @@
 // lib/pages/login/login_page.dart
 
+// ===============================
+// PAGE: LOGIN
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/widgets.dart';
-
 import 'login_controller.dart';
+
+// ===============================
+// LOGIN PAGE
+// ===============================
 
 class LoginPage extends GetView<LoginController> {
   const LoginPage({super.key});
@@ -15,6 +22,7 @@ class LoginPage extends GetView<LoginController> {
     return Obx(
       () => Stack(
         children: [
+          // Block touch when loading
           AbsorbPointer(
             absorbing: controller.isLoading,
             child: Scaffold(
@@ -39,7 +47,10 @@ class LoginPage extends GetView<LoginController> {
                                     const SizedBox(height: 48),
                                     Image.asset('assets/images/instagram_icon.png', height: 72),
                                     const SizedBox(height: 96),
-                                    // Username
+
+                                    // ===============================
+                                    // USERNAME
+                                    // ===============================
                                     Obx(
                                       () => TextFormField(
                                         key: controller.usernameKey,
@@ -67,8 +78,12 @@ class LoginPage extends GetView<LoginController> {
                                         ),
                                       ),
                                     ),
+
                                     const SizedBox(height: 16),
-                                    // Password
+
+                                    // ===============================
+                                    // PASSWORD
+                                    // ===============================
                                     Obx(
                                       () => TextFormField(
                                         key: controller.passwordKey,
@@ -98,16 +113,24 @@ class LoginPage extends GetView<LoginController> {
                                         ),
                                       ),
                                     ),
+
                                     const SizedBox(height: 16),
-                                    // Log In Button
+
+                                    // ===============================
+                                    // LOG IN BUTTON
+                                    // ===============================
                                     LoadingButton(
                                       onPressed: controller.onLogInPressed,
                                       isLoading: controller.isLogInLoading,
                                       label: 'login'.tr,
                                       type: ButtonType.elevated,
                                     ),
+
                                     const SizedBox(height: 8),
-                                    // Forgot Password Button
+
+                                    // ===============================
+                                    // FORGOT PASSWORD BUTTON
+                                    // ===============================
                                     Obx(
                                       () => LoadingButton(
                                         onPressed: controller.onForgotPassword,
@@ -121,7 +144,10 @@ class LoginPage extends GetView<LoginController> {
                               ),
                             ),
                           ),
-                          // Bottom Section
+
+                          // ===============================
+                          // BOTTOM SECTION
+                          // ===============================
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 24),
                             child: Column(

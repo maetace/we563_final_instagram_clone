@@ -1,7 +1,15 @@
 // lib/pages/home/widgets/post_item_placeholder_widget.dart
 
+// ===============================
+// WIDGET: POST ITEM PLACEHOLDER
+// ===============================
+
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+
+// ===============================
+// POST ITEM PLACEHOLDER WIDGET
+// ===============================
 
 class PostItemPlaceholderWidget extends StatelessWidget {
   const PostItemPlaceholderWidget({super.key});
@@ -21,7 +29,9 @@ class PostItemPlaceholderWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // === Header: owner image + name ===
+            // ===============================
+            // HEADER: AVATAR + NAME + MENU
+            // ===============================
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Row(
@@ -35,10 +45,14 @@ class PostItemPlaceholderWidget extends StatelessWidget {
               ),
             ),
 
-            // === Carousel ===
+            // ===============================
+            // IMAGE / CAROUSEL
+            // ===============================
             Container(height: 380, color: baseColor),
 
-            // === Indicator (dots) ===
+            // ===============================
+            // INDICATOR DOTS
+            // ===============================
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
@@ -52,7 +66,9 @@ class PostItemPlaceholderWidget extends StatelessWidget {
               ),
             ),
 
-            // === Actions (like, comment, send, bookmark) ===
+            // ===============================
+            // ACTIONS (LIKE, COMMENT, SEND, BOOKMARK)
+            // ===============================
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Row(
@@ -68,14 +84,18 @@ class PostItemPlaceholderWidget extends StatelessWidget {
               ),
             ),
 
-            // === Likes ===
+            // ===============================
+            // LIKES
+            // ===============================
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Container(height: 14, width: 80, color: baseColor),
             ),
             const SizedBox(height: 8),
 
-            // === Caption ===
+            // ===============================
+            // CAPTION
+            // ===============================
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Container(height: 14, width: double.infinity, color: baseColor),

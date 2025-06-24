@@ -1,5 +1,9 @@
 // lib/pages/post_item/post_item_page.dart
 
+// ===============================
+// PAGE: POST ITEM PAGE
+// ===============================
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +14,10 @@ import '/pages/home/home_controller.dart';
 import '/models/comment_item_model.dart';
 import '/utils.dart';
 
+// ===============================
+// POST ITEM PAGE
+// ===============================
+
 class PostItemPage extends GetView<PostItemController> {
   const PostItemPage({super.key});
 
@@ -19,6 +27,9 @@ class PostItemPage extends GetView<PostItemController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ===============================
+      // APP BAR
+      // ===============================
       appBar: AppBar(
         titleSpacing: 16,
         title: Row(
@@ -31,6 +42,10 @@ class PostItemPage extends GetView<PostItemController> {
         actions: [IconButton(icon: const Icon(Icons.more_horiz), onPressed: () {})],
         actionsPadding: const EdgeInsets.only(right: 8),
       ),
+
+      // ===============================
+      // BODY
+      // ===============================
       body: Obx(() {
         if (controller.commentItems.isEmpty) {
           return const Center(child: CircularProgressIndicator());
@@ -51,9 +66,17 @@ class PostItemPage extends GetView<PostItemController> {
           },
         );
       }),
+
+      // ===============================
+      // COMMENT BOX
+      // ===============================
       bottomNavigationBar: SafeArea(child: _buildCommentBox(context)),
     );
   }
+
+  // ===============================
+  // POST HEADER (CAROUSEL + ACTIONS)
+  // ===============================
 
   Widget _buildPostHeader(BuildContext context) {
     int currentPage = 0;
@@ -63,7 +86,7 @@ class PostItemPage extends GetView<PostItemController> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // === Carousel ===
+            // CAROUSEL
             CarouselSlider.builder(
               itemCount: controller.postItem.images.length,
               itemBuilder: (context, index, realIndex) {
@@ -84,7 +107,7 @@ class PostItemPage extends GetView<PostItemController> {
               ),
             ),
 
-            // === Indicator ===
+            // INDICATOR
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children:
@@ -104,7 +127,7 @@ class PostItemPage extends GetView<PostItemController> {
                   }).toList(),
             ),
 
-            // === Actions ===
+            // ACTIONS
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
@@ -137,15 +160,13 @@ class PostItemPage extends GetView<PostItemController> {
                     width: 28,
                     colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
                   ),
-
                   const Spacer(),
-
                   Icon(Icons.bookmark_border, size: 28),
                 ],
               ),
             ),
 
-            // === Caption ===
+            // CAPTION
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: RichText(
@@ -160,7 +181,7 @@ class PostItemPage extends GetView<PostItemController> {
               ),
             ),
 
-            // === Created date ===
+            // CREATED DATE
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               child: Text(
@@ -176,6 +197,10 @@ class PostItemPage extends GetView<PostItemController> {
     );
   }
 
+  // ===============================
+  // COMMENT ITEM
+  // ===============================
+
   Widget _buildCommentItem(BuildContext context, CommentItem comment) {
     return ListTile(
       leading: CircleAvatar(radius: 18, foregroundImage: AssetImage(comment.ownerImage)),
@@ -183,6 +208,10 @@ class PostItemPage extends GetView<PostItemController> {
       subtitle: Text(comment.message),
     );
   }
+
+  // ===============================
+  // COMMENT BOX
+  // ===============================
 
   Widget _buildCommentBox(BuildContext context) {
     final homeController = Get.find<HomeController>();
