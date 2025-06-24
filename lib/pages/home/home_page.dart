@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 import '/services/post_service.dart';
 import 'home_controller.dart';
@@ -13,6 +14,8 @@ import 'widgets/profile_tab.dart';
 import 'widgets/bottom_nav_bar.dart';
 
 import '/routes.dart';
+
+final Logger _logger = Logger();
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -27,27 +30,40 @@ class HomePage extends GetView<HomeController> {
       body: Obx(
         () => IndexedStack(
           index: controller.currentTabIndex,
-          children: [const HomeTab(), const ExploreTab(), const ReelsTab(), const ProfileTab()],
+          children: [
+            const HomeTab(), //
+            const ExploreTab(), //
+            ReelsTab(currentTabIndex: controller.currentTabIndex), //
+            const ProfileTab(),
+          ],
         ),
       ),
-      bottomNavigationBar: HomeBottomNavBar(
-        onNewPostTap: () async {
-          // ไปหน้า new post → รอ result
-          final result = await Get.toNamed(AppRoutes.newPost);
+      bottomNavigationBar: Obx(
+        () => HomeBottomNavBar(
+          currentIndex: controller.currentTabIndex,
+          isReelsTab: controller.currentTabIndex == 2,
+          avatar: controller.userRxn.value?.avatar ?? '',
+          onNewPostTap: () async {
+            final result = await Get.toNamed(AppRoutes.postNew);
+            _logger.i('result from postNewPage = $result');
 
-          if (result != null && result is Map) {
-            final description = result['description'] as String;
-            final imagePaths = List<String>.from(result['images']);
+            if (result != null && result is Map) {
+              final description = result['description'] as String;
+              final imagePaths = List<String>.from(result['images']);
+              _logger.i('createPostItem(description: $description, images: $imagePaths)');
 
-            // Create Post
-            final postService = Get.find<PostService>();
-            await postService.createPostItem(description: description, images: imagePaths);
+              final postService = Get.find<PostService>();
+              await postService.createPostItem(description: description, images: imagePaths);
 
-            // กลับมา → refresh feed
-            controller.onRefreshPosts();
-            controller.onBottomNavigationBarItemTap(0); // กลับไป feed tab
-          }
-        },
+              controller.onBottomNavigationBarItemTap(0);
+              await controller.onRefreshPosts();
+              controller.scrollController.jumpTo(0);
+            }
+          },
+          onTabSelected: (newTabIndex) {
+            controller.onBottomNavigationBarItemTap(newTabIndex);
+          },
+        ),
       ),
     );
   }

@@ -1,18 +1,30 @@
-// lib/pages/home/widgets/bottom_nav_bar.dart
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '/pages/home/home_controller.dart';
+import 'package:logger/logger.dart';
 
-class HomeBottomNavBar extends GetView<HomeController> {
+final Logger _logger = Logger();
+
+class HomeBottomNavBar extends StatelessWidget {
+  final int currentIndex;
+  final bool isReelsTab;
+  final String avatar;
   final VoidCallback onNewPostTap;
+  final Function(int newTabIndex) onTabSelected;
 
-  const HomeBottomNavBar({super.key, required this.onNewPostTap});
+  const HomeBottomNavBar({
+    super.key,
+    required this.currentIndex,
+    required this.isReelsTab,
+    required this.avatar,
+    required this.onNewPostTap,
+    required this.onTabSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final isReelsTab = controller.currentTabIndex == 2; // ⭐ ใช้ index 2
     final theme = Theme.of(context);
+
+    // ⭐ Map currentIndex → navBarIndex
+    final navBarIndex = currentIndex >= 2 ? currentIndex + 1 : currentIndex;
 
     return Theme(
       data: theme.copyWith(
@@ -27,50 +39,60 @@ class HomeBottomNavBar extends GetView<HomeController> {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         elevation: 0,
-        items: [
-          _createBottomNavigationBarItem(Icons.home_outlined, Icons.home),
-          _createBottomNavigationBarItem(Icons.search_outlined, Icons.search),
-          _createBottomNavigationBarItem(Icons.add_box_outlined, Icons.add_box),
-          _createBottomNavigationBarItem(Icons.video_library_outlined, Icons.video_library),
-          _createProfileNavigationBarItem(context),
-        ],
-        currentIndex: controller.currentTabIndex,
+        currentIndex: navBarIndex,
         onTap: (index) {
+          _logger.i('[BottomNavBar] tapped index = $index');
           if (index == 2) {
-            // ⭐ ถ้าเป็น NewPost → call callback
             onNewPostTap();
           } else {
-            // ⭐ index > 2 ต้อง shift index -1
-            controller.onBottomNavigationBarItemTap(index > 2 ? index - 1 : index);
+            final newTabIndex = index > 2 ? index - 1 : index;
+            _logger.i('[BottomNavBar] will switch to tab index = $newTabIndex');
+            onTabSelected(newTabIndex);
           }
         },
+        items: [
+          _createBottomNavigationBarItem(
+            normalIcon: Icons.home_outlined,
+            selectedIcon: Icons.home,
+            isSelected: currentIndex == 0,
+          ),
+          _createBottomNavigationBarItem(
+            normalIcon: Icons.search_outlined,
+            selectedIcon: Icons.zoom_in,
+            isSelected: currentIndex == 1,
+          ),
+          _createBottomNavigationBarItem(
+            normalIcon: Icons.add_box_outlined,
+            selectedIcon: Icons.add_box,
+            isSelected: false,
+          ),
+          _createBottomNavigationBarItem(
+            normalIcon: Icons.video_library_outlined,
+            selectedIcon: Icons.video_library,
+            isSelected: currentIndex == 2,
+          ),
+          _createProfileNavigationBarItem(isSelected: currentIndex == 3),
+        ],
       ),
     );
   }
 
-  BottomNavigationBarItem _createBottomNavigationBarItem(IconData normalIcon, IconData selectedIcon) {
-    return BottomNavigationBarItem(
-      icon: Icon(normalIcon, size: 28),
-      activeIcon: Icon(selectedIcon, size: 28),
-      label: '',
-    );
+  BottomNavigationBarItem _createBottomNavigationBarItem({
+    required IconData normalIcon,
+    required IconData selectedIcon,
+    required bool isSelected,
+  }) {
+    return BottomNavigationBarItem(icon: Icon(isSelected ? selectedIcon : normalIcon, size: 28), label: '');
   }
 
-  BottomNavigationBarItem _createProfileNavigationBarItem(BuildContext context) {
-    final user = controller.userRxn.value;
-    final avatar = user?.avatar ?? '';
+  BottomNavigationBarItem _createProfileNavigationBarItem({required bool isSelected}) {
     final hasAvatar = avatar.isNotEmpty;
 
     return BottomNavigationBarItem(
       icon: CircleAvatar(
         radius: 14,
         backgroundImage: hasAvatar ? AssetImage(avatar) : null,
-        child: hasAvatar ? null : const Icon(Icons.person_outline, size: 20),
-      ),
-      activeIcon: CircleAvatar(
-        radius: 14,
-        backgroundImage: hasAvatar ? AssetImage(avatar) : null,
-        child: hasAvatar ? null : const Icon(Icons.person, size: 20),
+        child: hasAvatar ? null : Icon(isSelected ? Icons.person : Icons.person_outline, size: 20),
       ),
       label: '',
     );

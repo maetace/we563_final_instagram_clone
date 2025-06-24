@@ -87,7 +87,9 @@ Future<void> main() async {
 // ===============================
 
 void _init() {
-  Get.put<AccountService>(AccountServiceMock(), permanent: true);
+  final accountService = AccountServiceMock();
+  Get.put<AccountService>(accountService, permanent: true);
+  Get.put<AccountServiceMock>(accountService, permanent: true);
   Get.put<PostService>(PostServiceMock(), permanent: true);
   Get.put<CommentService>(CommentServiceMock(), permanent: true);
 }

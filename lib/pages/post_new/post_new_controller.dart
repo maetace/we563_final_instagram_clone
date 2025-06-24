@@ -1,7 +1,9 @@
+// lib/pages/post_new/post_new_controller.dart
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
-class NewPostController extends GetxController {
+class PostNewController extends GetxController {
   final descTextEditingController = TextEditingController();
 
   final galleryImages = List<String>.generate(
@@ -9,7 +11,7 @@ class NewPostController extends GetxController {
     (index) => 'assets/images/${(index + 1).toString().padLeft(3, '0')}.webp',
   );
 
-  final selectedIndexes = <int>[].obs;
+  final selectedIndexes = <int>{}.obs;
 
   List<String> get selectedImages => selectedIndexes.map((index) => galleryImages[index]).toList();
 

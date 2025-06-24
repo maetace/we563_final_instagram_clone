@@ -16,7 +16,7 @@ class NewPostTab extends GetView<HomeController> {
         icon: const Icon(Icons.add_box),
         label: const Text('Create New Post'),
         onPressed: () async {
-          final result = await Get.toNamed(AppRoutes.newPost);
+          final result = await Get.toNamed(AppRoutes.postNew);
 
           if (result != null && result is Map) {
             final description = result['description'] as String;

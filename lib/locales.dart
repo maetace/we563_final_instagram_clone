@@ -62,6 +62,12 @@ class AppTranslations extends Translations {
       // Post Item
       'comment_as': 'Comment as @user',
       'write_a_comment': 'Write a comment...',
+      // === Post New ===
+      'post_new_title': 'New Post',
+      'post_new_caption_box_hint': 'What\'s happening?',
+      'post_new_photos_selected': 'Selected Photos',
+      'post_new_photos_select_hint': 'Select up to 4 photos',
+      'post_new_post_button': 'Post Now',
       // ...etc.
     },
     'th_TH': {
@@ -121,6 +127,12 @@ class AppTranslations extends Translations {
       // Post Item
       'comment_as': 'แสดงความคิดเห็นในชื่อ @user',
       'write_a_comment': 'เขียนความคิดเห็น...',
+      // === Post New ===
+      'post_new_title': 'โพสต์ใหม่',
+      'post_new_caption_box_hint': 'คุณกำลังคิดอะไรอยู่?',
+      'post_new_photos_selected': 'รูปที่เลือก',
+      'post_new_photos_select_hint': 'เลือกรูปได้สูงสุด 4 รูป',
+      'post_new_post_button': 'โพสต์เลย',
       // ...etc.
     },
   };

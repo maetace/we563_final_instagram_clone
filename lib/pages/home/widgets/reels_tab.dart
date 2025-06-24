@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class ReelsTab extends StatefulWidget {
-  const ReelsTab({super.key});
+  final int currentTabIndex;
+  const ReelsTab({super.key, required this.currentTabIndex});
 
   @override
   State<ReelsTab> createState() => _ReelsTabState();
@@ -65,6 +66,16 @@ class _ReelsTabState extends State<ReelsTab> {
     _pageController.dispose();
     _ytController.close();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant ReelsTab oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // ถ้าเปลี่ยนจาก tab 2 (Reels) → ไป tab อื่น → pause video
+    if (oldWidget.currentTabIndex == 2 && widget.currentTabIndex != 2) {
+      _ytController.pauseVideo();
+    }
   }
 
   @override
