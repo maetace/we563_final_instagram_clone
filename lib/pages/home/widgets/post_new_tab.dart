@@ -15,8 +15,8 @@ import '/pages/home/home_controller.dart';
 // NEW POST TAB
 // ===============================
 
-class NewPostTab extends GetView<HomeController> {
-  const NewPostTab({super.key});
+class PostNewTab extends GetView<HomeController> {
+  const PostNewTab({super.key});
 
   @override
   Widget build(BuildContext context) {

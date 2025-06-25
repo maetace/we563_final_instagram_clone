@@ -21,7 +21,7 @@ class HomeBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final bool isReelsTab;
   final String avatar;
-  final VoidCallback onNewPostTap;
+  final VoidCallback onPostNewTap;
   final Function(int newTabIndex) onTabSelected;
 
   const HomeBottomNavBar({
@@ -29,7 +29,7 @@ class HomeBottomNavBar extends StatelessWidget {
     required this.currentIndex,
     required this.isReelsTab,
     required this.avatar,
-    required this.onNewPostTap,
+    required this.onPostNewTap,
     required this.onTabSelected,
   });
 
@@ -61,7 +61,7 @@ class HomeBottomNavBar extends StatelessWidget {
         onTap: (index) {
           _logger.i('[BottomNavBar] tapped index = $index');
           if (index == 2) {
-            onNewPostTap();
+            onPostNewTap();
           } else {
             final newTabIndex = index > 2 ? index - 1 : index;
             _logger.i('[BottomNavBar] will switch to tab index = $newTabIndex');

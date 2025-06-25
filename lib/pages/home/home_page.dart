@@ -17,7 +17,8 @@ import 'widgets/reels_tab.dart';
 import 'widgets/profile_tab.dart';
 import 'widgets/bottom_nav_bar.dart';
 
-import '/routes.dart';
+import '/pages/post_new/post_new_binding.dart';
+import '/pages/post_new/post_new_page.dart';
 
 // ===============================
 // LOGGER
@@ -67,8 +68,9 @@ class HomePage extends GetView<HomeController> {
           // ===============================
           // NEW POST
           // ===============================
-          onNewPostTap: () async {
-            final result = await Get.toNamed(AppRoutes.postNew);
+          onPostNewTap: () async {
+            // final result = await Get.toNamed(AppRoutes.postNew);
+            final result = await Get.to(() => PostNewPage(), binding: PostNewBinding(), fullscreenDialog: true);
             _logger.i('result from postNewPage = $result');
 
             if (result != null && result is Map) {
