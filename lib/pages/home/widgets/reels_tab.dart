@@ -139,117 +139,128 @@ class _ReelsTabState extends State<ReelsTab> {
         ),
 
         // ===============================
-        // PAGE VIEW
+        // PAGE VIEW (with maxWidth 430)
         // ===============================
-        body: PageView.builder(
-          controller: _pageController,
-          scrollDirection: Axis.vertical,
-          itemCount: _videos.length,
-          onPageChanged: (index) {
-            setState(() {
-              _currentIndex = index;
-              isLiked = false;
-              likeCount = 123;
-              _ytController.close();
-              _loadVideo(_videos[index]['id']!);
-            });
-          },
-          itemBuilder: (context, index) {
-            final video = _videos[index];
-            return Stack(
-              children: [
-                // YOUTUBE PLAYER
-                Positioned.fill(child: YoutubePlayer(controller: _ytController, aspectRatio: 9 / 16)),
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 430),
+            child: PageView.builder(
+              controller: _pageController,
+              scrollDirection: Axis.vertical,
+              itemCount: _videos.length,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentIndex = index;
+                  isLiked = false;
+                  likeCount = 123;
+                  _ytController.close();
+                  _loadVideo(_videos[index]['id']!);
+                });
+              },
+              itemBuilder: (context, index) {
+                final video = _videos[index];
+                return Stack(
+                  children: [
+                    // YOUTUBE PLAYER
+                    Positioned.fill(child: YoutubePlayer(controller: _ytController, aspectRatio: 9 / 16)),
 
-                // SWIPE OVERLAY
-                Positioned.fill(
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onVerticalDragUpdate: (details) {
-                      if (details.primaryDelta! < -20 && _currentIndex < _videos.length - 1) {
-                        _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
-                      } else if (details.primaryDelta! > 20 && _currentIndex > 0) {
-                        _pageController.previousPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                      }
-                    },
-                    onDoubleTap: () {
-                      setState(() {
-                        isLiked = !isLiked;
-                        likeCount += isLiked ? 1 : -1;
-                      });
-                    },
-                  ),
-                ),
-
-                // RIGHT ACTIONS
-                Positioned(
-                  right: 16,
-                  bottom: 120,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          isLiked ? Icons.favorite : Icons.favorite_border,
-                          size: 28,
-                          color: isLiked ? Colors.red : Colors.white,
-                        ),
-                        onPressed: () {
+                    // SWIPE OVERLAY
+                    Positioned.fill(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onVerticalDragUpdate: (details) {
+                          if (details.primaryDelta! < -20 && _currentIndex < _videos.length - 1) {
+                            _pageController.nextPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
+                          } else if (details.primaryDelta! > 20 && _currentIndex > 0) {
+                            _pageController.previousPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        },
+                        onDoubleTap: () {
                           setState(() {
                             isLiked = !isLiked;
                             likeCount += isLiked ? 1 : -1;
                           });
                         },
                       ),
-                      const SizedBox(height: 8),
-                      Text('$likeCount', style: const TextStyle(color: Colors.white)),
-                      const SizedBox(height: 24),
-                      const Icon(Icons.mode_comment_outlined, size: 28, color: Colors.white),
-                      const SizedBox(height: 8),
-                      const Text('56', style: TextStyle(color: Colors.white)),
-                      const SizedBox(height: 24),
-                      const Icon(Icons.send, size: 28, color: Colors.white),
-                      const SizedBox(height: 8),
-                      const Text('12', style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                ),
+                    ),
 
-                // BOTTOM USER + CAPTION
-                Positioned(
-                  left: 16,
-                  bottom: 32,
-                  right: 16,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleAvatar(radius: 18, backgroundImage: AssetImage(video['avatar']!)),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '@${video['user']}',
-                              style: theme.textTheme.titleSmall?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                              ),
+                    // RIGHT ACTIONS
+                    Positioned(
+                      right: 16,
+                      bottom: 120,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              isLiked ? Icons.favorite : Icons.favorite_border,
+                              size: 28,
+                              color: isLiked ? Colors.red : Colors.white,
                             ),
-                            const SizedBox(height: 4),
-                            Text(video['caption']!, style: theme.textTheme.bodySmall?.copyWith(color: Colors.white)),
-                          ],
-                        ),
+                            onPressed: () {
+                              setState(() {
+                                isLiked = !isLiked;
+                                likeCount += isLiked ? 1 : -1;
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 8),
+                          Text('$likeCount', style: const TextStyle(color: Colors.white)),
+                          const SizedBox(height: 24),
+                          const Icon(Icons.mode_comment_outlined, size: 28, color: Colors.white),
+                          const SizedBox(height: 8),
+                          const Text('56', style: TextStyle(color: Colors.white)),
+                          const SizedBox(height: 24),
+                          const Icon(Icons.send, size: 28, color: Colors.white),
+                          const SizedBox(height: 8),
+                          const Text('12', style: TextStyle(color: Colors.white)),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          },
+                    ),
+
+                    // BOTTOM USER + CAPTION
+                    Positioned(
+                      left: 16,
+                      bottom: 32,
+                      right: 16,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(radius: 18, backgroundImage: AssetImage(video['avatar']!)),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '@${video['user']}',
+                                  style: theme.textTheme.titleSmall?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  video['caption']!,
+                                  style: theme.textTheme.bodySmall?.copyWith(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
         ),
       ),
     );
