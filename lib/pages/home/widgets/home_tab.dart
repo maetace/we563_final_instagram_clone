@@ -12,6 +12,7 @@ import '/routes.dart';
 import '/pages/home/home_controller.dart';
 import '/pages/home/widgets/post_item_widget.dart';
 import '/pages/home/widgets/post_item_placeholder_widget.dart';
+import '/pages/home/widgets/story_bar_widget.dart';
 
 // ===============================
 // HOME TAB
@@ -36,7 +37,8 @@ class HomeTab extends GetView<HomeController> {
             IconButton(icon: const Icon(Icons.favorite_border, size: 28), onPressed: () {}),
             IconButton(
               icon: SvgPicture.asset(
-                'assets/icons/messenger_icon.svg',
+                // 'assets/icons/messenger_icon.svg',
+                'assets/icons/send_message_icon.svg',
                 height: 28,
                 width: 28,
                 colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
@@ -64,10 +66,14 @@ class HomeTab extends GetView<HomeController> {
                   child: ListView.separated(
                     controller: controller.scrollController,
                     padding: EdgeInsets.zero,
-                    separatorBuilder: (_, __) => const Divider(height: 0),
-                    itemCount: controller.postItems.length,
+                    separatorBuilder: (_, __) => const SizedBox.shrink(),
+                    itemCount: controller.postItems.length + 1,
+
                     itemBuilder: (context, index) {
-                      final item = controller.postItems[index];
+                      if (index == 0) {
+                        return const StoryBarWidget();
+                      }
+                      final item = controller.postItems[index - 1];
                       if (item == null) {
                         return const PostItemPlaceholderWidget();
                       } else {

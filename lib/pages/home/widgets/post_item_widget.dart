@@ -57,6 +57,7 @@ class _PostItemWidgetState extends State<PostItemWidget> {
       margin: EdgeInsets.zero,
       elevation: 0,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      color: Theme.of(context).colorScheme.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -69,7 +70,7 @@ class _PostItemWidgetState extends State<PostItemWidget> {
               children: [
                 CircleAvatar(radius: 18, foregroundImage: AssetImage(widget.item.ownerImage)),
                 const SizedBox(width: 8),
-                Expanded(child: Text(widget.item.ownerName, style: Theme.of(context).textTheme.titleSmall)),
+                Expanded(child: Text(widget.item.ownerName, style: Theme.of(context).textTheme.titleMedium)),
                 IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
               ],
             ),
@@ -154,6 +155,8 @@ class _PostItemWidgetState extends State<PostItemWidget> {
                   width: 28,
                   colorFilter: ColorFilter.mode(Theme.of(context).iconTheme.color!, BlendMode.srcIn),
                 ),
+                const SizedBox(width: 4),
+                Text('${(widget.item.comments / 2).ceil()}'),
 
                 const Spacer(),
 
