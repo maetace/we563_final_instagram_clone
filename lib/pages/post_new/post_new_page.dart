@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '/widgets.dart';
 import 'post_new_controller.dart';
 
 import 'widgets/caption_box.dart';
@@ -26,14 +27,21 @@ class PostNewPage extends GetView<PostNewController> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       // ===============================
       // APP BAR
       // ===============================
       appBar: AppBar(
-        leading: IconButton(icon: const Icon(Icons.close), onPressed: () => Get.back()),
-        title: Text(title.tr),
-        centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        elevation: 0,
+        titleSpacing: 0,
+        centerTitle: false,
+        title: Text(title.tr, style: theme.textTheme.titleLarge),
+        leading: null,
+        actions: const [LanguageSwitcher(), ThemeSwitcher()],
+        actionsPadding: const EdgeInsets.only(right: 8),
       ),
 
       // ===============================

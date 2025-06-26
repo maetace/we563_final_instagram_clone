@@ -19,6 +19,8 @@ class ProfileTab extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       children: [
         // ===============================
@@ -28,7 +30,7 @@ class ProfileTab extends GetView<HomeController> {
           backgroundColor: Theme.of(context).colorScheme.surface,
           elevation: 0,
           titleSpacing: 16,
-          title: const Text('Profile'),
+          title: Text('profile'.tr, style: theme.textTheme.titleLarge),
           actions: const [LanguageSwitcher(), ThemeSwitcher()],
           actionsPadding: const EdgeInsets.only(right: 8),
         ),

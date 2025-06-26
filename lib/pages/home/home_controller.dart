@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 import '/models/account_model.dart';
+import '/data/account_data_mock.dart';
 import '/services/account_service.dart';
 import '/models/post_item_model.dart';
 import '/services/post_service.dart';
@@ -219,5 +220,26 @@ class HomeController extends GetxController {
 
   void onWelcomePressed() {
     Get.offAllNamed('/welcome');
+  }
+
+  // ===============================
+  // EXPLORE TAB: SEARCH USER
+  // ===============================
+  final searchKeyword = ''.obs;
+  final filteredUsers = <Account>[].obs;
+
+  void onSearchUserChanged(String value) {
+    searchKeyword.value = value.trim();
+
+    if (searchKeyword.value.isEmpty) {
+      filteredUsers.assignAll(mockAccounts.where((a) => a.status == AccountStatus.active));
+    } else {
+      filteredUsers.assignAll(
+        mockAccounts.where(
+          (a) =>
+              a.username.toLowerCase().contains(searchKeyword.value.toLowerCase()) && a.status == AccountStatus.active,
+        ),
+      );
+    }
   }
 }

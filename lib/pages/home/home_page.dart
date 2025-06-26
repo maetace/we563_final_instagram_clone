@@ -50,7 +50,7 @@ class HomePage extends GetView<HomeController> {
           children: [
             const HomeTab(),
             const ExploreTab(),
-            ReelsTab(currentTabIndex: controller.currentTabIndex),
+            Obx(() => ReelsTab(currentTabIndex: controller.currentTabIndex)),
             const ProfileTab(),
           ],
         ),

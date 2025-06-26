@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '/routes.dart';
 import '/pages/home/home_controller.dart';
 import '/pages/home/widgets/post_item_widget.dart';
 import '/pages/home/widgets/post_item_placeholder_widget.dart';
@@ -70,7 +71,12 @@ class HomeTab extends GetView<HomeController> {
                       if (item == null) {
                         return const PostItemPlaceholderWidget();
                       } else {
-                        return PostItemWidget(item: item);
+                        return PostItemWidget(
+                          item: item,
+                          onCommentPressed: () {
+                            Get.toNamed(AppRoutes.postItem, arguments: {'postItem': item});
+                          },
+                        );
                       }
                     },
                   ),

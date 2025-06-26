@@ -83,6 +83,16 @@ class AppTranslations extends Translations {
       'post_new_photos_selected': 'Selected Photos',
       'post_new_photos_select_hint': 'Select up to 4 photos',
       'post_new_post_button': 'Post Now',
+      // ===== Explore =====
+      'explore': 'Explore',
+      'search': 'Search',
+      'search_hint': 'Search anything...',
+      'explore_users': 'Users',
+      'explore_trending': 'Trending',
+      // ===== Profile =====
+      'profile': 'Profile',
+      // ===== Reels =====
+      'reels': 'Reels',
     },
 
     // ===============================
@@ -151,6 +161,16 @@ class AppTranslations extends Translations {
       'post_new_photos_selected': 'รูปที่เลือก',
       'post_new_photos_select_hint': 'เลือกรูปได้สูงสุด 4 รูป',
       'post_new_post_button': 'โพสต์เลย',
+      // ===== Explore =====
+      'explore': 'สำรวจ',
+      'search': 'ค้นหา',
+      'search_hint': 'ค้นหาอะไรก็ได้...',
+      'explore_users': 'ผู้ใช้',
+      'explore_trending': 'เทรนด์ล่าสุด',
+      // ===== Profile =====
+      'profile': 'โปรไฟล์',
+      // ===== Reels =====
+      'reels': 'Reels',
     },
   };
 }

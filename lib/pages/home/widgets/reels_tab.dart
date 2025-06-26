@@ -5,6 +5,7 @@
 // ===============================
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 // ===============================
@@ -96,46 +97,31 @@ class _ReelsTabState extends State<ReelsTab> {
         // ===============================
         // APP BAR
         // ===============================
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(48),
-          child: SafeArea(
-            bottom: false,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Text(
-                    'Reels',
-                    style: theme.textTheme.titleMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_upward, size: 28, color: Colors.white),
-                    onPressed: () {
-                      if (_currentIndex > 0) {
-                        _pageController.previousPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                      }
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_downward, size: 28, color: Colors.white),
-                    onPressed: () {
-                      if (_currentIndex < _videos.length - 1) {
-                        _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
-                      }
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.camera_alt_outlined, size: 28, color: Colors.white),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          elevation: 0,
+          titleSpacing: 16,
+          title: Text('reels'.tr, style: theme.textTheme.titleLarge?.copyWith(color: Colors.white)),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.arrow_upward, size: 28, color: Colors.white),
+              onPressed: () {
+                if (_currentIndex > 0) {
+                  _pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+                }
+              },
             ),
-          ),
+            IconButton(
+              icon: const Icon(Icons.arrow_downward, size: 28, color: Colors.white),
+              onPressed: () {
+                if (_currentIndex < _videos.length - 1) {
+                  _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+                }
+              },
+            ),
+            IconButton(icon: const Icon(Icons.camera_alt_outlined, size: 28, color: Colors.white), onPressed: () {}),
+          ],
+          actionsPadding: const EdgeInsets.only(right: 8),
         ),
 
         // ===============================
