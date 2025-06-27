@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '/pages/home/home_controller.dart';
-// import '/widgets.dart';
+import '/widgets.dart';
 
 class ExploreTab extends GetView<HomeController> {
   const ExploreTab({super.key});
@@ -23,14 +23,14 @@ class ExploreTab extends GetView<HomeController> {
     return Column(
       children: [
         // APP BAR
-        // AppBar(
-        //   backgroundColor: theme.colorScheme.surface,
-        //   elevation: 0,
-        //   titleSpacing: 16,
-        //   title: Text('explore'.tr, style: theme.textTheme.titleLarge),
-        //   actions: const [LanguageSwitcher(), ThemeSwitcher()],
-        //   actionsPadding: const EdgeInsets.only(right: 8),
-        // ),
+        AppBar(
+          backgroundColor: theme.colorScheme.surface,
+          elevation: 0,
+          titleSpacing: 16,
+          title: Text('explore'.tr, style: theme.textTheme.titleLarge),
+          actions: const [LanguageSwitcher(), ThemeSwitcher()],
+          actionsPadding: const EdgeInsets.only(right: 8),
+        ),
 
         // BODY: Scrollable ส่วนที่เหลือทั้งหมด
         Expanded(

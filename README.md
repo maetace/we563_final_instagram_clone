@@ -21,6 +21,7 @@ This project follows a clean MVC architecture using GetX for state and route man
 ## 📄 Project Structure (Files & Folders)
 
 ```plaintext
+.
 ├── assets
 │   ├── avatars_mock
 │   │   ├── baronzemo.jpg
@@ -57,10 +58,13 @@ This project follows a clean MVC architecture using GetX for state and route man
 │       ├── instagram_logo.svg
 │       └── meta_logo.png
 ├── lib
+│   ├── configs.dart
 │   ├── data
 │   │   ├── account_data_mock.dart
 │   │   ├── comment_data_mock.dart
 │   │   └── post_data_mock.dart
+│   ├── locales.dart
+│   ├── main.dart
 │   ├── models
 │   │   ├── account_model.dart
 │   │   ├── comment_item_model.dart
@@ -78,11 +82,12 @@ This project follows a clean MVC architecture using GetX for state and route man
 │   │   │       ├── bottom_nav_bar.dart
 │   │   │       ├── explore_tab.dart
 │   │   │       ├── home_tab.dart
-│   │   │       ├── new_post_tab.dart
 │   │   │       ├── post_item_placeholder_widget.dart
 │   │   │       ├── post_item_widget.dart
+│   │   │       ├── post_new_tab.dart
 │   │   │       ├── profile_tab.dart
-│   │   │       └── reels_tab.dart
+│   │   │       ├── reels_tab.dart
+│   │   │       └── story_bar_widget.dart
 │   │   ├── login
 │   │   │   ├── login_binding.dart
 │   │   │   ├── login_controller.dart
@@ -108,18 +113,14 @@ This project follows a clean MVC architecture using GetX for state and route man
 │   │       ├── welcome_binding.dart
 │   │       ├── welcome_controller.dart
 │   │       └── welcome_page.dart
+│   ├── routes.dart
 │   ├── services
 │   │   ├── account_service_mock.dart
 │   │   ├── account_service.dart
 │   │   ├── comment_service_mock.dart
-│   │   ├── comment_service_mock.md
 │   │   ├── comment_service.dart
 │   │   ├── post_service_mock.dart
 │   │   └── post_service.dart
-│   ├── configs.dart
-│   ├── locales.dart
-│   ├── main.dart
-│   ├── routes.dart
 │   ├── theme.dart
 │   ├── utils.dart
 │   └── widgets.dart
@@ -132,6 +133,5 @@ This project follows a clean MVC architecture using GetX for state and route man
 ├── structure.txt
 └── we563_final_instagram_clone.iml
 ```
-
 ---
 

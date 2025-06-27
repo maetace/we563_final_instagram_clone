@@ -1,9 +1,9 @@
 # codemagic.yaml
 
 workflows:
-  build-web-and-deploy:
-    name: Build Web & Deploy to Firebase
-    max_build_duration: 20
+  build-web-and-android:
+    name: Build Web, Deploy to Firebase & Build Android APK
+    max_build_duration: 30
     instance_type: mac_mini_m2
 
     triggering:
@@ -25,6 +25,7 @@ workflows:
       - name: Get dependencies
         script: flutter pub get
 
+      # ---------- Build Flutter Web ----------
       - name: Build web release
         script: flutter build web --release
 
@@ -44,5 +45,10 @@ workflows:
             --project we563-final-instagram-clone \
             --token $FIREBASE_TOKEN
 
+      # ---------- Build Android APK ----------
+      - name: Build Android APK
+        script: flutter build apk --release
+
     artifacts:
-      - build/web
+      - build/web/** # สำหรับตรวจสอบไฟล์ web หลัง build
+      - build/app/outputs/flutter-apk/app-release.apk # APK สำหรับติดตั้งบน Android

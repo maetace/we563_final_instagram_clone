@@ -87,8 +87,8 @@ class AppTranslations extends Translations {
       'explore': 'Explore',
       'search': 'Search',
       'search_hint': 'Search anything...',
-      'explore_users': 'Users',
-      'explore_trending': 'Trending',
+      'explore_users': 'Accoounts',
+      'explore_trending': 'Posts',
       // ===== Profile =====
       'profile': 'Profile',
       // ===== Reels =====
@@ -166,7 +166,7 @@ class AppTranslations extends Translations {
       'search': 'ค้นหา',
       'search_hint': 'ค้นหาอะไรก็ได้...',
       'explore_users': 'ผู้ใช้',
-      'explore_trending': 'เทรนด์ล่าสุด',
+      'explore_trending': 'โพส',
       // ===== Profile =====
       'profile': 'โปรไฟล์',
       // ===== Reels =====
