@@ -22,7 +22,7 @@ class CaptionBox extends GetView<PostNewController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // USER AVATAR
-        const CircleAvatar(radius: 20, backgroundImage: AssetImage('assets/images/avatar.webp')),
+        const CircleAvatar(radius: 20, backgroundImage: AssetImage('assets/avatars_mock/yelena.jpg')),
         const SizedBox(width: 12),
 
         // CAPTION TEXTFIELD

@@ -48,7 +48,7 @@ class SignupPage extends GetView<SignupController> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const SizedBox(height: 0),
+                                    const SizedBox(height: 32),
 
                                     // ===============================
                                     // AVATAR PICKER

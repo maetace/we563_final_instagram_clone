@@ -86,17 +86,17 @@ class SignupController extends GetxController {
   // ===============================
 
   final availableAvatars = [
-    'assets/mock_avatars/default.jpg',
-    'assets/mock_avatars/yelena.jpg',
-    'assets/mock_avatars/usagent.jpg',
-    'assets/mock_avatars/valentina.jpg',
-    'assets/mock_avatars/melgold.jpg',
-    'assets/mock_avatars/redgadian.jpg',
-    'assets/mock_avatars/taskmaster.jpg',
-    'assets/mock_avatars/justbob.jpg',
-    'assets/mock_avatars/ghost.jpg',
-    'assets/mock_avatars/buckybarnes.jpg',
-    'assets/mock_avatars/baronzemo.jpg',
+    'assets/avatars_mock/default.jpg',
+    'assets/avatars_mock/yelena.jpg',
+    'assets/avatars_mock/usagent.jpg',
+    'assets/avatars_mock/valentina.jpg',
+    'assets/avatars_mock/melgold.jpg',
+    'assets/avatars_mock/redgadian.jpg',
+    'assets/avatars_mock/taskmaster.jpg',
+    'assets/avatars_mock/justbob.jpg',
+    'assets/avatars_mock/ghost.jpg',
+    'assets/avatars_mock/buckybarnes.jpg',
+    'assets/avatars_mock/baronzemo.jpg',
   ];
 
   final selectedAvatar = ''.obs;
@@ -118,7 +118,7 @@ class SignupController extends GetxController {
       if (result != null && result.files.single.bytes != null) {
         avatarBytes.value = result.files.single.bytes!;
         final fileName = result.files.single.name;
-        selectedAvatar.value = 'assets/mock_avatars/$fileName';
+        selectedAvatar.value = 'assets/avatars_mock/$fileName';
         _logger.i('📷 Avatar picked (Web) – $fileName');
       } else {
         _logger.w('❌ Avatar pick canceled (Web)');
@@ -129,7 +129,7 @@ class SignupController extends GetxController {
       if (image != null) {
         avatarFile.value = File(image.path);
         final fileName = p.basename(image.path);
-        selectedAvatar.value = 'assets/mock_avatars/$fileName';
+        selectedAvatar.value = 'assets/avatars_mock/$fileName';
         _logger.i('📷 Avatar picked (Mobile) – $fileName');
       } else {
         _logger.w('❌ Avatar pick canceled (Mobile)');
@@ -210,7 +210,7 @@ class SignupController extends GetxController {
         uid,
         usernameController.text,
         passwordController.text,
-        selectedAvatar.value.isNotEmpty ? selectedAvatar.value : 'assets/mock_avatars/default.jpg',
+        selectedAvatar.value.isNotEmpty ? selectedAvatar.value : 'assets/avatars_mock/default.jpg',
       );
 
       await _accountService.saveSession(uid: uid, token: 'mock_token');
